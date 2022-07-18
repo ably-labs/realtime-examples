@@ -15,7 +15,7 @@ const Layout = () => {
   }, [])
 
   return (
-    <main className="h-screen flex items-center justify-center font-sans">
+    <main className="h-screen flex mt-6 md:items-center justify-center font-sans">
       <Outlet context={{ channelName: searchParams.get('id') }} />
       <div className="fixed bottom-0 md:absolute md:left-12 md:bottom-12">
         <InfoCard />
