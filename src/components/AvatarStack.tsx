@@ -14,10 +14,6 @@ const fakeNames = [
   'Arslan Samuels',
 ]
 
-/**
- * ! We can possibly get these to infinitely loop by taking the last digit off the index.
- * ! i.e. 117 -> 7, 53 -> 3, etc.
- */
 const colours = [
   'from-orange-400 to-orange-500',
   'from-pink-400 to-pink-500',
@@ -25,7 +21,6 @@ const colours = [
   'from-violet-400 to-violet-500',
   'from-rose-400 to-rose-500',
   'from-lime-400 to-lime-500',
-  'from-yellow-400 to-yellow-500',
 ]
 
 const AvatarStack = () => {
@@ -33,7 +28,47 @@ const AvatarStack = () => {
   const { channelName } = useOutletContext<{ channelName: string }>()
 
   const [presenceUsers] = usePresence(channelName)
-  const [yourUser, ...otherUsers] = presenceUsers
+  const [yourUser] = presenceUsers
+
+  const otherUsers = [
+    {
+      clientId: '05XKvEP1nMxCFJPtpHshi',
+      action: 1,
+      data: '',
+    },
+    {
+      clientId: '05XKvEP1nMxCFJPtpHsh2',
+      action: 1,
+      data: '',
+    },
+    {
+      clientId: '05XKvEP1nMxCFJPtpHsh3',
+      action: 1,
+      data: '',
+    },
+    {
+      clientId: '05XKvEP1nMxCFJPtpHsh4',
+      action: 1,
+      data: '',
+    },
+    {
+      clientId: '05XKvEP1nMxCFJPtpHsh5',
+      action: 1,
+      data: '',
+    },
+    {
+      clientId: '05XKvEP1nMxCFJPtpHsh6',
+      action: 1,
+      data: '',
+    },
+    {
+      clientId: '05XKvEP1nMxCFJPtpHsh7',
+      action: 1,
+      data: '',
+    },
+  ]
+
+  const MAX_USERS_BEFORE_LIST = 5
 
   return (
     <div className="w-screen flex justify-between px-6">
@@ -47,13 +82,21 @@ const AvatarStack = () => {
         </div>
       </div>
       <div className="relative">
-        {otherUsers.map((user, index) => {
+        {otherUsers.slice(0, MAX_USERS_BEFORE_LIST).map((user, index) => {
           const usersName = fakeNames[index]
+          const HORIZONTAL_SPACING_OFFSET = 40
+          const rightOffset =
+            otherUsers.length > MAX_USERS_BEFORE_LIST
+              ? (index + 1) * HORIZONTAL_SPACING_OFFSET
+              : index * HORIZONTAL_SPACING_OFFSET
           return (
             <div
               className="group absolute right-0 flex flex-col items-center group"
               key={user.clientId}
-              style={{ right: index * 40, zIndex: otherUsers.length - index }}
+              style={{
+                right: rightOffset,
+                zIndex: otherUsers.length - index,
+              }}
             >
               <div
                 className={`bg-gradient-to-l ${colours[index]} 
@@ -65,6 +108,16 @@ const AvatarStack = () => {
             </div>
           )
         })}
+        {otherUsers.length > 5 ? (
+          <div className="absolute right-0 z-50">
+            <div
+              className="flex justify-center items-center text-white bg-gradient-to-r from-gray-500 to-slate-500 
+                    h-12 w-12 rounded-full mb-2 outline outline-4 outline-white"
+            >
+              +{otherUsers.slice(5).length}
+            </div>
+          </div>
+        ) : null}
       </div>
     </div>
   )
