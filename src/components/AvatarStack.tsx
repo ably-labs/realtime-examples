@@ -109,16 +109,16 @@ const AvatarStack = () => {
           )
         })}
         {otherUsers.length > 5 ? (
-          <div className="absolute right-0 z-50 group">
+          <div className="absolute right-0 z-50">
             <div
-              className="flex justify-center items-center text-white bg-gradient-to-r from-gray-500 to-slate-500 
+              className="flex peer justify-center items-center absolute right-0 text-white bg-gradient-to-r from-gray-500 to-slate-500 
                     h-12 w-12 rounded-full mb-2 outline outline-4 outline-white"
             >
               +{otherUsers.slice(5).length}
             </div>
-            <div className="invisible group-hover:visible px-4 py-2 bg-slate-800 rounded-lg text-white text-center">
+            <div className="hidden peer-hover:inline-block px-4 py-2 relative top-14 bg-slate-800 rounded-lg text-white text-center">
               {otherUsers.slice(5).map((user) => (
-                <div className="p-1 hover:bg-slate-700 hover:rounded-lg">
+                <div className="p-1 hover:bg-slate-700 hover:rounded-lg ">
                   <p>{user.clientId}</p>
                   <div className="bg-green-500 w-2 h-2 rounded-full"></div>
                   <p>Online now</p>
