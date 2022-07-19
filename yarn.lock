@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ably-labs/react-hooks@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@ably-labs/react-hooks/-/react-hooks-2.0.4.tgz#3cc24fbc9ad88b83ab52ba9dce7b7fa4c6fde9e3"
-  integrity sha512-RVOBsqUwRML8snaOibd7laoG2DJym4zMBzEoeeqiQvpQ2ZcEShapfWtnq23sXUxSc/1rJ6ReCiw7XuDg7rF06g==
+"@ably-labs/react-hooks@^2.0.6":
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/@ably-labs/react-hooks/-/react-hooks-2.0.6.tgz#e851da2c18ecb2ac1c04b06537a3d053027fca2d"
+  integrity sha512-V7942aXx+XJuQpMEUebvanr72sxn/obgDpSL/y9K3lP/Xiyhs3jWd+53Q8PZJ03hVumhJ6TfgkJKEjhtAyrZww==
   dependencies:
     ably "^1.2.22"
 
