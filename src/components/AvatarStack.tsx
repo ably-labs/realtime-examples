@@ -87,12 +87,14 @@ const AvatarStack = () => {
             >
               +{otherUsers.slice(5).length}
             </div>
-            <div className="hidden peer-hover:inline-block px-4 py-2 relative top-14 bg-slate-800 rounded-lg text-white text-center">
-              {otherUsers.slice(5).map((user) => (
-                <div className="p-1 hover:bg-slate-700 hover:rounded-lg ">
-                  <p>{user.clientId}</p>
-                  <div className="bg-green-500 w-2 h-2 rounded-full"></div>
-                  <p>Online now</p>
+            <div className="peer-hover:inline-block px-7 py-2 relative top-14 bg-slate-800 rounded-lg text-white text-center">
+              {users.slice(1).map((user) => (
+                <div className="hover:bg-slate-700 hover:rounded-lg px-7 py-2">
+                  <p className="font-semibold">{user.clientId}</p>
+                  <div className="flex items-center justify-start">
+                    <div className="bg-green-500 w-2 h-2 rounded-full mr-2" />
+                    <p className="font-medium text-sm">Online now</p>
+                  </div>
                 </div>
               ))}
             </div>
