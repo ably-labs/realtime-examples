@@ -27,46 +27,17 @@ const AvatarStack = () => {
   // TODO Explain why the user shouldn't care about this
   const { channelName } = useOutletContext<{ channelName: string }>()
 
-  const [presenceUsers] = usePresence(channelName)
-  const [yourUser] = presenceUsers
+  // @ts-ignore
+  const [presenceUsers] = usePresence(channelName, {}, (update: any) => {
+    if (update.action == 'leave') {
+      console.log('Someone left!', update)
+    }
+    console.log('Presence message', update)
+  })
 
-  const otherUsers = [
-    {
-      clientId: '05XKvEP1nMxCFJPtpHshi',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh2',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh3',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh4',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh5',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh6',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh7',
-      action: 1,
-      data: '',
-    },
-  ]
+  const [yourUser, ...otherUsers] = presenceUsers
+
+  console.log({ yourUser, otherUsers })
 
   const MAX_USERS_BEFORE_LIST = 5
 
