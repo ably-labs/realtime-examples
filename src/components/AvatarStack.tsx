@@ -110,7 +110,7 @@ const AvatarStack = () => {
             </div>
             {showList ? (
               <div
-                className="min-w-[225px] max-h-[250px] overflow-scroll p-2 relative top-14 bg-slate-800 rounded-lg text-white"
+                className="min-w-[225px] max-h-[250px] overflow-y-auto p-2 relative top-14 bg-slate-800 rounded-lg text-white"
                 ref={listRef}
               >
                 {otherUsers.slice(MAX_USERS_BEFORE_LIST).map((user) => (
