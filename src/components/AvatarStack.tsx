@@ -1,18 +1,8 @@
+import { useState, useEffect, useRef } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { usePresence } from '@ably-labs/react-hooks'
 
-const fakeNames = [
-  'Anum Reeve',
-  'Tiernan Stubbs',
-  'Hakim Hernandez',
-  'Madihah Maynard',
-  'Mac Beard',
-  'Gracie-Mae Dunne',
-  'Oliver Leigh',
-  'Jose Tapia',
-  'Lyle Beasley',
-  'Arslan Samuels',
-]
+import { fakeNames } from './fakeData'
 
 const colours = [
   'from-orange-400 to-orange-500',
@@ -24,54 +14,53 @@ const colours = [
 ]
 
 const AvatarStack = () => {
-  // TODO Explain why the user shouldn't care about this
-  const { channelName } = useOutletContext<{ channelName: string }>()
+  const { channelName, clientId } = useOutletContext<{
+    channelName: string
+    clientId: string
+  }>()
 
-  const [presenceUsers] = usePresence(channelName)
-  const [yourUser] = presenceUsers
+  const listRef = useRef<HTMLDivElement>(null)
+  const plusButtonRef = useRef<HTMLDivElement>(null)
 
-  const otherUsers = [
-    {
-      clientId: '05XKvEP1nMxCFJPtpHshi',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh2',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh3',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh4',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh5',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh6',
-      action: 1,
-      data: '',
-    },
-    {
-      clientId: '05XKvEP1nMxCFJPtpHsh7',
-      action: 1,
-      data: '',
-    },
-  ]
+  // Click outside handler
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (
+        !listRef.current ||
+        listRef.current.contains(event.target as Node) ||
+        !plusButtonRef.current ||
+        plusButtonRef.current.contains(event.target as Node)
+      ) {
+        return
+      }
+
+      setShowList(false)
+    }
+
+    document.addEventListener('mousedown', listener)
+    document.addEventListener('touchstart', listener)
+    return () => {
+      document.removeEventListener('mousedown', listener)
+      document.removeEventListener('touchstart', listener)
+    }
+  }, [listRef, plusButtonRef])
+
+  const [showList, setShowList] = useState(false)
+
+  const [presenceUsers] = usePresence(channelName, {
+    name: fakeNames[Math.floor(Math.random() * fakeNames.length)],
+  })
+
+  const [yourUser, ...currentUsers] = presenceUsers
 
   const MAX_USERS_BEFORE_LIST = 5
 
+  const otherUsers = presenceUsers.filter(
+    (presenceUser) => presenceUser.clientId !== clientId
+  )
+
   return (
-    <div className="w-screen flex justify-between px-6">
+    <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
       <div className="group relative flex flex-col items-center group">
         <div
           className="bg-gradient-to-r from-cyan-500 to-blue-500 
@@ -83,7 +72,6 @@ const AvatarStack = () => {
       </div>
       <div className="relative">
         {otherUsers.slice(0, MAX_USERS_BEFORE_LIST).map((user, index) => {
-          const usersName = fakeNames[index]
           const HORIZONTAL_SPACING_OFFSET = 40
           const rightOffset =
             otherUsers.length > MAX_USERS_BEFORE_LIST
@@ -103,19 +91,42 @@ const AvatarStack = () => {
                 h-12 w-12 rounded-full mb-2 outline outline-4 outline-white`}
               ></div>
               <div className="absolute top-14 invisible group-hover:visible px-4 py-2 bg-black rounded-lg text-white text-center">
-                {usersName}
+                {user.data.name}
               </div>
             </div>
           )
         })}
-        {otherUsers.length > 5 ? (
+        {otherUsers.length > MAX_USERS_BEFORE_LIST ? (
           <div className="absolute right-0 z-50">
             <div
-              className="flex justify-center items-center text-white bg-gradient-to-r from-gray-500 to-slate-500 
+              className="flex justify-center items-center absolute right-0 text-white bg-gradient-to-r from-gray-500 to-slate-500 
                     h-12 w-12 rounded-full mb-2 outline outline-4 outline-white"
+              ref={plusButtonRef}
+              onClick={() => {
+                setShowList(!showList)
+              }}
             >
-              +{otherUsers.slice(5).length}
+              +{otherUsers.slice(MAX_USERS_BEFORE_LIST).length}
             </div>
+            {showList ? (
+              <div
+                className="min-w-[225px] max-h-[250px] overflow-scroll p-2 relative top-14 bg-slate-800 rounded-lg text-white"
+                ref={listRef}
+              >
+                {otherUsers.slice(MAX_USERS_BEFORE_LIST).map((user) => (
+                  <div
+                    className="hover:bg-slate-700 hover:rounded-lg px-7 py-2"
+                    key={user.clientId}
+                  >
+                    <p className="font-semibold">{user.data.name}</p>
+                    <div className="flex items-center justify-start">
+                      <div className="bg-green-500 w-2 h-2 rounded-full mr-2" />
+                      <p className="font-medium text-sm">Online now</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>
