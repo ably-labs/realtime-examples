@@ -8,19 +8,17 @@ const defaultMessages = [
 ]
 
 const publishInterval = 10000
-let count = 0
 
 const MessageReactions = () => {
   let { channelName } = useOutletContext<{ channelName: string }>()
-  channelName = 'reactions:' + channelName
+  channelName = `reactions:${channelName}`
+  console.log(channelName)
   const [channel, ably] = useChannel(channelName, (msg) => {})
 
-  for (let index in defaultMessages) {
-    setTimeout(() => {
-      channel.publish('send', defaultMessages[index])
-    }, publishInterval * count)
-    count += 1
-  }
+  let index = 0
+  setInterval(() => {
+    channel.publish('send', defaultMessages[index++ % defaultMessages.length])
+  }, publishInterval)
   return (
     <div>
       <h1>Message reactions</h1>
