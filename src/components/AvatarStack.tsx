@@ -100,7 +100,7 @@ const AvatarStack = () => {
           <div className="absolute right-0 z-50">
             <div
               className="flex justify-center items-center absolute right-0 text-white bg-gradient-to-r from-gray-500 to-slate-500 
-                    h-12 w-12 rounded-full mb-2 shadow-[0_0_0_4px_rgba(255,255,255,1)]`"
+                    h-12 w-12 rounded-full mb-2 select-none shadow-[0_0_0_4px_rgba(255,255,255,1)]"
               ref={plusButtonRef}
               onClick={() => {
                 setShowList(!showList)
