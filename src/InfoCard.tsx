@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import AblyLogo from './AblyLogo'
-import { ExternalLinkIcon, ArrowRightIcon, ChevronUpIcon } from '@heroicons/react/solid'
+import {
+  ExternalLinkIcon,
+  ArrowRightIcon,
+  ChevronUpIcon,
+} from '@heroicons/react/solid'
 
 const InfoCard = () => {
   const [expanded, setExpanded] = useState(true)
@@ -12,15 +16,19 @@ const InfoCard = () => {
             <h2>Avatar Stack</h2>
             <button className="text-sm" onClick={() => setExpanded(!expanded)}>
               {expanded ? 'Less' : 'More'} info
-              <ChevronUpIcon className={`inline-block ml-2 h-5 w-5 text-slate-500 ${expanded ? 'rotate-180' : ''}`} />
+              <ChevronUpIcon
+                className={`inline-block ml-2 h-5 w-5 text-slate-500 ${
+                  expanded ? 'rotate-180' : ''
+                }`}
+              />
             </button>
           </div>
         </div>
         {expanded ? (
           <div className="space-y-4">
             <p className="text-slate-300 text-sm">
-              Open in multiple windows or share the URL with your team to see more
-              avatars.
+              Open in multiple windows or share the URL with your team to see
+              more avatars.
             </p>
             <div className="flex flex-col text-center space-y-4 text-sm">
               <a
