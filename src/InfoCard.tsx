@@ -23,11 +23,18 @@ const InfoCard = () => {
               avatars.
             </p>
             <div className="flex flex-col text-center space-y-4 text-sm">
-              <a className="flex justify-center bg-white rounded py-3" href="https://www.google.com/">
+              <a
+                className="flex justify-center bg-white rounded py-3"
+                href={window.location.href}
+                target="_blank"
+              >
                 Open in another window
                 <ExternalLinkIcon className="h-5 w-5 ml-2 text-orange-600" />
               </a>
-              <a className="flex justify-center bg-slate-700 text-white rounded py-3" href="https://">
+              <a
+                className="flex justify-center bg-slate-700 text-white rounded py-3"
+                href="https://github.com/ably/atomic-examples"
+              >
                 View source on Github
                 <ExternalLinkIcon className="h-5 w-5 ml-2 text-slate-300" />
               </a>
