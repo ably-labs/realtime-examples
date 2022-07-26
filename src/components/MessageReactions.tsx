@@ -25,7 +25,6 @@ const MessageReactions = () => {
     <div>
       <h1>Message reactions</h1>
       <p>
-        {' '}
         Hello to you and welcome to Ably. You can react to any of these
         messages.
       </p>
@@ -35,8 +34,7 @@ const MessageReactions = () => {
         className="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
         onClick={sendMessage}
       >
-        {' '}
-        New message{' '}
+        New message
       </button>
     </div>
   )
