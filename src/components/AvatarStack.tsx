@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import { usePresence } from '@ably-labs/react-hooks'
+import { usePresence, useChannel } from '@ably-labs/react-hooks'
 
 import { fakeNames } from './fakeData'
 
@@ -14,6 +14,7 @@ const colours = [
 ]
 
 const AvatarStack = () => {
+  const [pastUsers, setPastUsers] = useState<any[]>([])
   const { channelName, clientId } = useOutletContext<{
     channelName: string
     clientId: string
@@ -51,13 +52,27 @@ const AvatarStack = () => {
     name: fakeNames[Math.floor(Math.random() * fakeNames.length)],
   })
 
-  const [yourUser, ...currentUsers] = presenceUsers
+  const [channel] = useChannel(channelName, () => {})
+
+  useEffect(() => {
+    if (presenceUsers.length >= 1) {
+      channel.presence.history((err, result) => {
+        const pastUsers = result?.items.filter(
+          (resultItem) => resultItem.action === 'leave'
+        )
+        setPastUsers(pastUsers as any[])
+      })
+    }
+  }, [presenceUsers])
 
   const MAX_USERS_BEFORE_LIST = 5
 
-  const otherUsers = presenceUsers.filter(
-    (presenceUser) => presenceUser.clientId !== clientId
-  )
+  const otherUsers = [
+    ...presenceUsers.filter(
+      (presenceUser) => presenceUser.clientId !== clientId
+    ),
+    ...pastUsers,
+  ]
 
   return (
     <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
@@ -71,31 +86,48 @@ const AvatarStack = () => {
         </div>
       </div>
       <div className="relative">
-        {otherUsers.slice(0, MAX_USERS_BEFORE_LIST).map((user, index) => {
-          const HORIZONTAL_SPACING_OFFSET = 40
-          const rightOffset =
-            otherUsers.length > MAX_USERS_BEFORE_LIST
-              ? (index + 1) * HORIZONTAL_SPACING_OFFSET
-              : index * HORIZONTAL_SPACING_OFFSET
-          return (
-            <div
-              className="group absolute right-0 flex flex-col items-center group"
-              key={user.clientId}
-              style={{
-                right: rightOffset,
-                zIndex: otherUsers.length - index,
-              }}
-            >
+        {otherUsers
+          .slice(0, MAX_USERS_BEFORE_LIST)
+          .reverse()
+          .map((user, index) => {
+            const HORIZONTAL_SPACING_OFFSET = 40
+            const rightOffset =
+              otherUsers.length > MAX_USERS_BEFORE_LIST
+                ? (index + 1) * HORIZONTAL_SPACING_OFFSET
+                : index * HORIZONTAL_SPACING_OFFSET
+            return (
               <div
-                className={`bg-gradient-to-l ${colours[index]} 
-                h-12 w-12 rounded-full mb-2 shadow-[0_0_0_4px_rgba(255,255,255,1)]`}
-              ></div>
-              <div className="absolute top-14 invisible group-hover:visible px-4 py-2 bg-black rounded-lg text-white text-center">
-                {user.data.name}
+                className="group absolute right-0 flex flex-col items-center group"
+                key={user.clientId}
+                style={{
+                  right: rightOffset,
+                  zIndex: otherUsers.length - index,
+                }}
+              >
+                <div
+                  className={`bg-gradient-to-l ${colours[index]} h-12 w-12 rounded-full mb-2 shadow-[0_0_0_4px_rgba(255,255,255,1)]`}
+                ></div>
+                {user.action === 'leave' ? (
+                  <div className="absolute top-0 h-12 w-12 rounded-full mb-2 bg-white opacity-80" />
+                ) : null}
+                <div className="absolute top-14 invisible group-hover:visible min-w-[175px] px-4 py-2 bg-black rounded-lg text-white">
+                  {user.data.name}
+                  <div className="flex items-center justify-start">
+                    <div
+                      className={`${
+                        user.action === 'leave'
+                          ? 'bg-slate-500'
+                          : 'bg-green-500'
+                      } w-2 h-2 rounded-full mr-2`}
+                    />
+                    <p className="font-medium text-sm">
+                      {user.action === 'leave' ? 'Offline' : 'Online'} now
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
         {otherUsers.length > MAX_USERS_BEFORE_LIST ? (
           <div className="absolute right-0 z-50">
             <div
@@ -120,8 +152,16 @@ const AvatarStack = () => {
                   >
                     <p className="font-semibold">{user.data.name}</p>
                     <div className="flex items-center justify-start">
-                      <div className="bg-green-500 w-2 h-2 rounded-full mr-2" />
-                      <p className="font-medium text-sm">Online now</p>
+                      <div
+                        className={`${
+                          user.action === 'leave'
+                            ? 'bg-slate-500'
+                            : 'bg-green-500'
+                        } w-2 h-2 rounded-full mr-2`}
+                      />
+                      <p className="font-medium text-sm">
+                        {user.action === 'leave' ? 'Offline' : 'Online'} now
+                      </p>
                     </div>
                   </div>
                 ))}
