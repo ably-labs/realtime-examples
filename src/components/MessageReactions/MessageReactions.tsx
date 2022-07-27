@@ -1,7 +1,7 @@
 import { useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import defaultMessages, { Message } from './utils/messages'
+import defaultMessages, { Message } from './messageData'
 
 const MessageReactions = () => {
   let { channelName } = useOutletContext<{ channelName: string }>()

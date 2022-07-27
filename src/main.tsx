@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Layout from './Layout'
 import AvatarStack from './components/AvatarStack'
 import Home from './home'
-import MessageReactions from './components/MessageReactions'
+import MessageReactions from './components/MessageReactions/MessageReactions'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>

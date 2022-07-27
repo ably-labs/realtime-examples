@@ -25,7 +25,7 @@ const defaultMessages: Message[] = [
       'Tried to come up with a carpentry pun that woodwork... Think I nailed it',
   },
   {
-    author: 'John doe',
+    author: 'John Doe',
     content:
       "Fun fact: It's illegal to own just one guinea pig in Switzerland. It's considered animal abuse because they're social beings and get lonely.",
   },
