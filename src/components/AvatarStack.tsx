@@ -65,6 +65,22 @@ const AvatarStack = () => {
     }
   }, [presenceUsers])
 
+  useEffect(() => {
+    if (pastUsers.length > 0) {
+      setTimeout(() => {
+        channel.presence.history((err, result) => {
+          const leftUsers = result?.items.filter(
+            (user) =>
+              user.action === 'leave' &&
+              Math.floor((Date.now() - user.timestamp) / 1000) > 120_000
+          )
+
+          setPastUsers(leftUsers as any[])
+        })
+      }, 121_000)
+    }
+  }, [pastUsers.length])
+
   const MAX_USERS_BEFORE_LIST = 5
 
   const otherUsers = [
