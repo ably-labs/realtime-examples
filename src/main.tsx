@@ -5,7 +5,7 @@ import './index.css'
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Layout from './Layout'
-import AvatarStack from './components/AvatarStack'
+import AvatarStack from './components/AvatarStack/AvatarStack'
 import Home from './home'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

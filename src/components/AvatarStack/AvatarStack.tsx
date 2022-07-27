@@ -2,16 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { usePresence, useChannel } from '@ably-labs/react-hooks'
 
-import { fakeNames } from './fakeData'
-
-const colours = [
-  'from-orange-400 to-orange-500',
-  'from-pink-400 to-pink-500',
-  'from-green-400 to-green-500',
-  'from-violet-400 to-violet-500',
-  'from-rose-400 to-rose-500',
-  'from-lime-400 to-lime-500',
-]
+import { fakeNames, colours } from './utils/fakeData'
 
 const AvatarStack = () => {
   const [pastUsers, setPastUsers] = useState<any[]>([])
