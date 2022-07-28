@@ -5,7 +5,7 @@ import './index.css'
 
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Layout from './Layout'
-import AvatarStack from './components/AvatarStack/AvatarStack'
+import AvatarStack from './components/AvatarStack'
 import Home from './home'
 import MessageReactions from './components/MessageReactions/MessageReactions'
 

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, FunctionComponent } from 'react'
+import type { ProjectInfo } from './Layout'
 import AblyLogo from './AblyLogo'
 import {
   ExternalLinkIcon,
@@ -6,14 +7,16 @@ import {
   ChevronUpIcon,
 } from '@heroicons/react/solid'
 
-const InfoCard = () => {
+const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
+  projectInfo,
+}) => {
   const [expanded, setExpanded] = useState(true)
   return (
     <div className="bg-slate-800 shadow-xl w-screen md:w-[360px] rounded-t-lg md:rounded-lg">
       <div className="p-6 space-y-4">
         <div>
           <div className="flex justify-between text-white">
-            <h2>Avatar Stack</h2>
+            <h2>{projectInfo.name}</h2>
             <button className="text-sm" onClick={() => setExpanded(!expanded)}>
               {expanded ? 'Less' : 'More'} info
               <ChevronUpIcon
@@ -27,8 +30,8 @@ const InfoCard = () => {
         {expanded ? (
           <div className="space-y-4">
             <p className="text-slate-300 text-sm">
-              Open in multiple windows or share the URL with your team to see
-              more avatars.
+              Open this page in multiple windows or share the URL with your team
+              to experience the demo.
             </p>
             <div className="flex flex-col text-center space-y-4 text-sm">
               <a
@@ -41,7 +44,7 @@ const InfoCard = () => {
               </a>
               <a
                 className="flex justify-center bg-slate-700 text-white rounded py-3"
-                href="https://github.com/ably/atomic-examples"
+                href={`https://github.com/ably-labs/${projectInfo.repoNameAndPath}`}
               >
                 View source on Github
                 <ExternalLinkIcon className="h-5 w-5 ml-2 text-slate-300" />
