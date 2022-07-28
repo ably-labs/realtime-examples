@@ -1,11 +1,33 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, FunctionComponent } from 'react'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import { useOutletContext } from 'react-router-dom'
 import { usePresence, useChannel } from '@ably-labs/react-hooks'
 
 import { fakeNames, colours } from './utils/fakeData'
 
+dayjs.extend(relativeTime)
+
+const UserInfo: FunctionComponent<{ user: any }> = ({ user }) => {
+  return (
+    <>
+      <p className="font-semibold">{user.data.name}</p>
+      <div className="flex items-center justify-start">
+        <div
+          className={`${
+            user.action === 'leave' ? 'bg-slate-500' : 'bg-green-500'
+          } w-2 h-2 rounded-full mr-2`}
+        />
+        <p className="font-medium text-sm">
+          {user.action === 'leave' ? dayjs().to(user.timestamp) : 'Online now'}
+        </p>
+      </div>
+    </>
+  )
+}
 const AvatarStack = () => {
   const [pastUsers, setPastUsers] = useState<any[]>([])
+  const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
   const { channelName, clientId } = useOutletContext<{
     channelName: string
     clientId: string
@@ -68,7 +90,7 @@ const AvatarStack = () => {
 
           setPastUsers(leftUsers as any[])
         })
-      }, 121_000)
+      }, 125_000)
     }
   }, [pastUsers.length])
 
@@ -104,7 +126,7 @@ const AvatarStack = () => {
                 : index * HORIZONTAL_SPACING_OFFSET
             return (
               <div
-                className="group absolute right-0 flex flex-col items-center group"
+                className="absolute right-0 flex flex-col items-center"
                 key={user.clientId}
                 style={{
                   right: rightOffset,
@@ -113,25 +135,17 @@ const AvatarStack = () => {
               >
                 <div
                   className={`bg-gradient-to-l ${colours[index]} h-12 w-12 rounded-full mb-2 shadow-[0_0_0_4px_rgba(255,255,255,1)]`}
+                  onMouseOver={() => setHoveredClientId(user.clientId)}
+                  onMouseLeave={() => setHoveredClientId(null)}
                 ></div>
                 {user.action === 'leave' ? (
-                  <div className="absolute top-0 h-12 w-12 rounded-full mb-2 bg-white opacity-80" />
+                  <div className="absolute top-0 h-12 w-12 rounded-full mb-2 bg-white opacity-80 pointer-events-none" />
                 ) : null}
-                <div className="absolute top-14 invisible group-hover:visible min-w-[175px] px-4 py-2 bg-black rounded-lg text-white">
-                  {user.data.name}
-                  <div className="flex items-center justify-start">
-                    <div
-                      className={`${
-                        user.action === 'leave'
-                          ? 'bg-slate-500'
-                          : 'bg-green-500'
-                      } w-2 h-2 rounded-full mr-2`}
-                    />
-                    <p className="font-medium text-sm">
-                      {user.action === 'leave' ? 'Offline' : 'Online'} now
-                    </p>
+                {hoveredClientId === user.clientId ? (
+                  <div className="absolute top-14 min-w-[175px] px-4 py-2 bg-black rounded-lg text-white">
+                    <UserInfo user={user} />
                   </div>
-                </div>
+                ) : null}
               </div>
             )
           })}
@@ -157,19 +171,7 @@ const AvatarStack = () => {
                     className="hover:bg-slate-700 hover:rounded-lg px-7 py-2"
                     key={user.clientId}
                   >
-                    <p className="font-semibold">{user.data.name}</p>
-                    <div className="flex items-center justify-start">
-                      <div
-                        className={`${
-                          user.action === 'leave'
-                            ? 'bg-slate-500'
-                            : 'bg-green-500'
-                        } w-2 h-2 rounded-full mr-2`}
-                      />
-                      <p className="font-medium text-sm">
-                        {user.action === 'leave' ? 'Offline' : 'Online'} now
-                      </p>
-                    </div>
+                    <UserInfo user={user} />
                   </div>
                 ))}
               </div>
