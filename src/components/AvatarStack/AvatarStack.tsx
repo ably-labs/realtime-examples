@@ -1,14 +1,18 @@
 import { useState, useEffect, useRef, FunctionComponent } from 'react'
 import dayjs from 'dayjs'
+import type { Types } from 'ably'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useOutletContext } from 'react-router-dom'
 import { usePresence, useChannel } from '@ably-labs/react-hooks'
 
+import type { ProjectInfo } from '../../Layout'
 import { fakeNames, colours } from './utils/fakeData'
 
 dayjs.extend(relativeTime)
 
-const UserInfo: FunctionComponent<{ user: any }> = ({ user }) => {
+const UserInfo: FunctionComponent<{ user: Types.PresenceMessage }> = ({
+  user,
+}) => {
   return (
     <>
       <p className="font-semibold">{user.data.name}</p>
@@ -26,12 +30,12 @@ const UserInfo: FunctionComponent<{ user: any }> = ({ user }) => {
   )
 }
 const AvatarStack = () => {
-  const [pastUsers, setPastUsers] = useState<any[]>([])
+  const [pastUsers, setPastUsers] = useState<Types.PresenceMessage[]>([])
   const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
   const { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
-    setProjectInfo: any
+    setProjectInfo: (projectInfo: ProjectInfo) => void
   }>()
 
   const listRef = useRef<HTMLDivElement>(null)
@@ -81,7 +85,8 @@ const AvatarStack = () => {
         const pastUsers = result?.items.filter(
           (resultItem) => resultItem.action === 'leave'
         )
-        setPastUsers(pastUsers as any[])
+
+        setPastUsers(pastUsers || [])
       })
     }
   }, [presenceUsers])
@@ -96,7 +101,7 @@ const AvatarStack = () => {
               Math.floor((Date.now() - user.timestamp) / 1000) > 120_000
           )
 
-          setPastUsers(leftUsers as any[])
+          setPastUsers(leftUsers || [])
         })
       }, 125_000)
     }
