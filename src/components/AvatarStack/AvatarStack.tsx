@@ -28,13 +28,21 @@ const UserInfo: FunctionComponent<{ user: any }> = ({ user }) => {
 const AvatarStack = () => {
   const [pastUsers, setPastUsers] = useState<any[]>([])
   const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
-  const { channelName, clientId } = useOutletContext<{
+  const { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
+    setProjectInfo: any
   }>()
 
   const listRef = useRef<HTMLDivElement>(null)
   const plusButtonRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setProjectInfo({
+      name: 'Avatar Stack',
+      repoNameAndPath: 'atomic-examples/tree/main/src/components/AvatarStack',
+    })
+  }, [])
 
   // Click outside handler
   useEffect(() => {
