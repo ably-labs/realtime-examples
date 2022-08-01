@@ -1,21 +1,29 @@
 import { AblyMessageCallback, useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import defaultMessages, { Message } from './utils/messageData'
+import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
 import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
 import { Types } from 'ably'
 
 const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
 let msgReactions: string[] = []
 
+let emojiUsageData: EmojiUsage[] = []
+
 const MessageReactions = () => {
-  let { channelName } = useOutletContext<{ channelName: string }>()
+  let { channelName, clientId } = useOutletContext<{
+    channelName: string
+    clientId: string
+  }>()
   channelName = `reactions:${channelName}`
   const [chatMessage, setChatMessage] = useState<Message>({})
   const [showEmojiList, setShowEmojiList] = useState(false)
+  const [count, setCount] = useState(0)
   const [channel, ably] = useChannel(channelName, 'send', (msg) => {
+    console.log(msg, '\n====== msg', clientId)
     // reset reactions when new message is received
     msgReactions = []
+    emojiUsageData = []
     setChatMessage({
       author: msg.data.author,
       content: msg.data.content,
@@ -47,13 +55,31 @@ const MessageReactions = () => {
         refTimeserial: chatMessage.timeserial,
       },
       (reaction) => {
+        console.log(reaction, '\n====== reaction')
         // Update current chat with its reactions
-        if (!msgReactions.includes(reaction.data.body)) {
-          msgReactions.push(reaction.data.body)
+
+        // FindClient reaction
+        const usedEmoji = reaction.data.body
+        const emojiClientId = reaction.clientId
+
+        const userReactions = emojiUsageData.find((emj) => {
+          return emj.emoji === usedEmoji
+        })
+
+        if (userReactions) {
+          if (!userReactions.usedBy.includes(emojiClientId)) {
+            userReactions.usedBy.push(emojiClientId)
+          }
+        } else {
+          console.log('now adding')
+          const toh: EmojiUsage = { usedBy: [emojiClientId], emoji: usedEmoji }
+
+          emojiUsageData.push(toh)
         }
+
         setChatMessage((chatMessage) => ({
           ...chatMessage,
-          reactions: msgReactions,
+          reactions: emojiUsageData,
         }))
       }
     )
@@ -77,7 +103,7 @@ const MessageReactions = () => {
       author: lastPublishedMessage?.data.author,
       content: lastPublishedMessage?.data.content,
       timeserial: lastPublishedMessage?.extras.timeserial,
-      reactions: msgReactions,
+      // reactions: msgReactions,
     })
   }
 
@@ -92,7 +118,7 @@ const MessageReactions = () => {
       )
 
       if (lastPublishedMessageIndex >= 0) {
-        updateMessageFromHistory(lastPublishedMessageIndex, result!)
+        // updateMessageFromHistory(lastPublishedMessageIndex, result!)
       } else {
         // Load random message when no sent message history
         sendMessage()
@@ -118,10 +144,13 @@ const MessageReactions = () => {
             <p className="text-slate-500"> {chatMessage.content} </p>
             <div className="flex flex-row">
               {chatMessage.reactions?.length ? (
-                <ul className="bg-gray-200 rounded-full w-fit flex flex-row p-2 space-x-2">
+                <ul className="flex flex-row">
                   {chatMessage.reactions?.map((reaction) => (
-                    <li key={reaction} className="text-lg">
-                      {reaction}
+                    <li
+                      key={reaction.emoji}
+                      className="text-lg bg-gray-200 rounded-full w-fit p-2 m-1 space-x-2"
+                    >
+                      {reaction.emoji} {reaction.usedBy.length}
                     </li>
                   ))}
                 </ul>

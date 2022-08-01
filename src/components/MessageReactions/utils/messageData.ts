@@ -1,8 +1,12 @@
+interface EmojiUsage {
+  emoji: string
+  usedBy: string[]
+}
 interface Message {
   author?: string
   content?: string
   timeserial?: string
-  reactions?: string[]
+  reactions?: EmojiUsage[]
 }
 
 const defaultMessages: Message[] = [
@@ -33,4 +37,4 @@ const defaultMessages: Message[] = [
 ]
 
 export default defaultMessages
-export type { Message }
+export type { Message, EmojiUsage }
