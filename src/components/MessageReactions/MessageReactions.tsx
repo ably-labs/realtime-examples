@@ -1,8 +1,9 @@
-import { useChannel } from '@ably-labs/react-hooks'
+import { AblyMessageCallback, useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import defaultMessages, { Message } from './utils/messageData'
 import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
+import { Types } from 'ably'
 
 const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
 let msgReactions: string[] = []
@@ -29,7 +30,7 @@ const MessageReactions = () => {
     channel.publish('send', message)
   }
 
-  const sendReaction = (emoji: string, timeserial: any) => {
+  const sendMessageReaction = (emoji: string, timeserial: any) => {
     channel.publish('reaction', {
       body: emoji,
       extras: {
@@ -39,8 +40,7 @@ const MessageReactions = () => {
     setShowEmojiList(false)
   }
 
-  useEffect(() => {
-    // Subscribe to message reactions
+  const getMessageReactions = () => {
     channel.subscribe(
       {
         name: 'reaction',
@@ -57,7 +57,33 @@ const MessageReactions = () => {
         }))
       }
     )
+  }
 
+  const updateMessageFromHistory = (
+    messageIndex: number,
+    history: Types.PaginatedResult<Types.Message>
+  ) => {
+    const lastPublishedMessage = history?.items[messageIndex]
+    // Get reactions of the published message
+    if (messageIndex > 0) {
+      for (let i = messageIndex - 1; i >= 0; i--) {
+        if (!msgReactions.includes(history?.items[i].data.body)) {
+          msgReactions.push(history?.items[i].data.body)
+        }
+      }
+    }
+    // Update chat message
+    setChatMessage({
+      author: lastPublishedMessage?.data.author,
+      content: lastPublishedMessage?.data.content,
+      timeserial: lastPublishedMessage?.extras.timeserial,
+      reactions: msgReactions,
+    })
+  }
+
+  useEffect(() => {
+    // Subscribe to message reactions
+    getMessageReactions()
     // Keep last published message and reactions
     channel.history((err, result) => {
       // Get index of last sent message from history
@@ -68,22 +94,7 @@ const MessageReactions = () => {
       )
 
       if (lastPublishedMessageIndex >= 0) {
-        const lastPublishedMessage = result?.items[lastPublishedMessageIndex]
-        // Get reactions of the last sent message
-        if (lastPublishedMessageIndex > 0) {
-          for (let i = lastPublishedMessageIndex - 1; i >= 0; i--) {
-            if (!msgReactions.includes(result?.items[i].data.body)) {
-              msgReactions.push(result?.items[i].data.body)
-            }
-          }
-        }
-        // Update chat message
-        setChatMessage({
-          author: lastPublishedMessage?.data.author,
-          content: lastPublishedMessage?.data.content,
-          timeserial: lastPublishedMessage?.extras.timeserial,
-          reactions: msgReactions,
-        })
+        updateMessageFromHistory(lastPublishedMessageIndex, result!)
       } else {
         // Load random message when no sent message history
         sendMessage()
@@ -128,7 +139,9 @@ const MessageReactions = () => {
                   <li
                     key={emoji}
                     className="text-lg"
-                    onClick={() => sendReaction(emoji, chatMessage.timeserial)}
+                    onClick={() =>
+                      sendMessageReaction(emoji, chatMessage.timeserial)
+                    }
                   >
                     {emoji}
                   </li>
