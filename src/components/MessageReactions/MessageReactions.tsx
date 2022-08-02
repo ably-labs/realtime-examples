@@ -1,4 +1,4 @@
-import { AblyMessageCallback, useChannel } from '@ably-labs/react-hooks'
+import { useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
@@ -6,9 +6,7 @@ import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
 import { Types } from 'ably'
 
 const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
-let msgReactions: string[] = []
-
-let emojiUsageData: EmojiUsage[] = []
+let usedEmojiCollection: EmojiUsage[] = []
 
 const MessageReactions = () => {
   let { channelName, clientId } = useOutletContext<{
@@ -18,12 +16,9 @@ const MessageReactions = () => {
   channelName = `reactions:${channelName}`
   const [chatMessage, setChatMessage] = useState<Message>({})
   const [showEmojiList, setShowEmojiList] = useState(false)
-  const [count, setCount] = useState(0)
   const [channel, ably] = useChannel(channelName, 'send', (msg) => {
-    console.log(msg, '\n====== msg', clientId)
     // reset reactions when new message is received
-    msgReactions = []
-    emojiUsageData = []
+    usedEmojiCollection = []
     setChatMessage({
       author: msg.data.author,
       content: msg.data.content,
@@ -55,34 +50,33 @@ const MessageReactions = () => {
         refTimeserial: chatMessage.timeserial,
       },
       (reaction) => {
-        console.log(reaction, '\n====== reaction')
         // Update current chat with its reactions
-
-        // FindClient reaction
         const usedEmoji = reaction.data.body
         const emojiClientId = reaction.clientId
-
-        const userReactions = emojiUsageData.find((emj) => {
-          return emj.emoji === usedEmoji
-        })
-
-        if (userReactions) {
-          if (!userReactions.usedBy.includes(emojiClientId)) {
-            userReactions.usedBy.push(emojiClientId)
-          }
-        } else {
-          console.log('now adding')
-          const toh: EmojiUsage = { usedBy: [emojiClientId], emoji: usedEmoji }
-
-          emojiUsageData.push(toh)
-        }
+        const msgReactions = updateEmojiCollection(usedEmoji, emojiClientId)
 
         setChatMessage((chatMessage) => ({
           ...chatMessage,
-          reactions: emojiUsageData,
+          reactions: msgReactions,
         }))
       }
     )
+  }
+
+  const updateEmojiCollection = (emoji: string, clientId: string) => {
+    const userReactions = usedEmojiCollection.find((emj) => {
+      return emj.emoji === emoji
+    })
+
+    if (userReactions) {
+      if (!userReactions.usedBy.includes(clientId)) {
+        userReactions.usedBy.push(clientId)
+      }
+    } else {
+      const emojiUse: EmojiUsage = { usedBy: [clientId], emoji: emoji }
+      usedEmojiCollection.push(emojiUse)
+    }
+    return usedEmojiCollection
   }
 
   const updateMessageFromHistory = (
@@ -93,8 +87,16 @@ const MessageReactions = () => {
     // Get reactions of the published message
     if (messageIndex > 0) {
       for (let i = messageIndex - 1; i >= 0; i--) {
-        if (!msgReactions.includes(history?.items[i].data.body)) {
-          msgReactions.push(history?.items[i].data.body)
+        const emoji = history?.items[i].data.body
+        const emojiClientId = history?.items[i].clientId
+
+        if (usedEmojiCollection.length > 0) {
+          for (const usage of usedEmojiCollection) {
+            const msgReactions = updateEmojiCollection(emoji, emojiClientId)
+          }
+        } else {
+          const emojiUse: EmojiUsage = { usedBy: [emojiClientId], emoji: emoji }
+          usedEmojiCollection.push(emojiUse)
         }
       }
     }
@@ -103,7 +105,7 @@ const MessageReactions = () => {
       author: lastPublishedMessage?.data.author,
       content: lastPublishedMessage?.data.content,
       timeserial: lastPublishedMessage?.extras.timeserial,
-      // reactions: msgReactions,
+      reactions: usedEmojiCollection,
     })
   }
 
@@ -118,7 +120,7 @@ const MessageReactions = () => {
       )
 
       if (lastPublishedMessageIndex >= 0) {
-        // updateMessageFromHistory(lastPublishedMessageIndex, result!)
+        updateMessageFromHistory(lastPublishedMessageIndex, result!)
       } else {
         // Load random message when no sent message history
         sendMessage()
