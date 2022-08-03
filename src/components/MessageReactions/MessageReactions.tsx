@@ -5,36 +5,63 @@ import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
 import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
 import { Types } from 'ably'
 
-const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
-let usedEmojiCollection: EmojiUsage[] = []
-
 const MessageReactions = () => {
   let { channelName, clientId } = useOutletContext<{
     channelName: string
     clientId: string
   }>()
+
   channelName = `reactions:${channelName}`
+  const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
+  let usedEmojiCollection: EmojiUsage[] = []
+
+  const ADD_REACTION_EVENT = 'add-reaction'
+  const REMOVE_REACTION_EVENT = 'remove-reaction'
+  const SEND_EVENT = 'send'
+
   const [chatMessage, setChatMessage] = useState<Message>({})
   const [showEmojiList, setShowEmojiList] = useState(false)
-  const [channel, ably] = useChannel(channelName, 'send', (msg) => {
-    // reset reactions when new message is received
-    usedEmojiCollection = []
-    setChatMessage({
-      author: msg.data.author,
-      content: msg.data.content,
-      timeserial: msg.extras.timeserial,
-    })
+
+  const [channel, ably] = useChannel(channelName, (msg) => {
+    switch (msg.name) {
+      case SEND_EVENT:
+        // reset reactions when new message is received
+        usedEmojiCollection = []
+        setChatMessage({
+          author: msg.data.author,
+          content: msg.data.content,
+          timeserial: msg.extras.timeserial,
+        })
+        break
+      case REMOVE_REACTION_EVENT:
+        // remove emoji reaction
+        const msgReactions = updateEmojiCollection(
+          msg.data.body,
+          msg.clientId,
+          msg.name
+        )
+        setChatMessage((chatMessage) => ({
+          ...chatMessage,
+          reactions: msgReactions,
+        }))
+        break
+    }
   })
 
   const sendMessage = () => {
     // Picks a message at random
     const message =
       defaultMessages[Math.floor(Math.random() * defaultMessages.length)]
-    channel.publish('send', message)
+    channel.publish(SEND_EVENT, message)
   }
 
-  const sendMessageReaction = (emoji: string, timeserial: any) => {
-    channel.publish('reaction', {
+  const sendMessageReaction = (
+    emoji: string,
+    timeserial: any,
+    reactionEvent: string
+  ) => {
+    // setPublishAction(reactionEvent)
+    channel.publish(reactionEvent, {
       body: emoji,
       extras: {
         reference: { type: 'com.ably.reaction', timeserial },
@@ -46,15 +73,16 @@ const MessageReactions = () => {
   const getMessageReactions = () => {
     channel.subscribe(
       {
-        name: 'reaction',
+        name: ADD_REACTION_EVENT,
         refTimeserial: chatMessage.timeserial,
       },
       (reaction) => {
         // Update current chat with its reactions
-        const usedEmoji = reaction.data.body
-        const emojiClientId = reaction.clientId
-        const msgReactions = updateEmojiCollection(usedEmoji, emojiClientId)
-
+        const msgReactions = updateEmojiCollection(
+          reaction.data.body,
+          reaction.clientId,
+          reaction.name
+        )
         setChatMessage((chatMessage) => ({
           ...chatMessage,
           reactions: msgReactions,
@@ -63,18 +91,31 @@ const MessageReactions = () => {
     )
   }
 
-  const updateEmojiCollection = (emoji: string, clientId: string) => {
-    const userReactions = usedEmojiCollection.find((emj) => {
-      return emj.emoji === emoji
-    })
+  const updateEmojiCollection = (
+    emoji: string,
+    clientId: string,
+    reactionEvent: string
+  ) => {
+    const userReactions = usedEmojiCollection.find((emj) => emj.emoji === emoji)
 
-    if (userReactions) {
-      if (!userReactions.usedBy.includes(clientId)) {
-        userReactions.usedBy.push(clientId)
-      }
-    } else {
-      const emojiUse: EmojiUsage = { usedBy: [clientId], emoji: emoji }
-      usedEmojiCollection.push(emojiUse)
+    switch (reactionEvent) {
+      case ADD_REACTION_EVENT:
+        if (userReactions) {
+          if (!userReactions.usedBy.includes(clientId)) {
+            userReactions.usedBy.push(clientId)
+          }
+        } else {
+          const emojiUse: EmojiUsage = { usedBy: [clientId], emoji: emoji }
+          usedEmojiCollection.push(emojiUse)
+        }
+        break
+      case REMOVE_REACTION_EVENT:
+        if (userReactions && userReactions.usedBy.includes(clientId)) {
+          userReactions.usedBy.splice(userReactions.usedBy.indexOf(clientId), 1)
+          usedEmojiCollection[usedEmojiCollection.indexOf(userReactions)] =
+            userReactions
+        }
+        break
     }
     return usedEmojiCollection
   }
@@ -88,14 +129,15 @@ const MessageReactions = () => {
     if (messageIndex > 0) {
       for (let i = messageIndex - 1; i >= 0; i--) {
         const emoji = history?.items[i].data.body
-        const emojiClientId = history?.items[i].clientId
+        const client = history?.items[i].clientId
+        const event = history?.items[i].name
 
         if (usedEmojiCollection.length > 0) {
           for (const usage of usedEmojiCollection) {
-            const msgReactions = updateEmojiCollection(emoji, emojiClientId)
+            updateEmojiCollection(emoji, client, event)
           }
         } else {
-          const emojiUse: EmojiUsage = { usedBy: [emojiClientId], emoji: emoji }
+          const emojiUse: EmojiUsage = { usedBy: [client], emoji: emoji }
           usedEmojiCollection.push(emojiUse)
         }
       }
@@ -116,7 +158,7 @@ const MessageReactions = () => {
     channel.history((err, result) => {
       // Get index of last sent message from history
       const lastPublishedMessageIndex: any = result?.items.findIndex(
-        (message) => message.name == 'send'
+        (message) => message.name == SEND_EVENT
       )
 
       if (lastPublishedMessageIndex >= 0) {
@@ -147,14 +189,29 @@ const MessageReactions = () => {
             <div className="flex flex-row">
               {chatMessage.reactions?.length ? (
                 <ul className="flex flex-row">
-                  {chatMessage.reactions?.map((reaction) => (
-                    <li
-                      key={reaction.emoji}
-                      className="text-lg bg-gray-200 rounded-full w-fit p-2 m-1 space-x-2"
-                    >
-                      {reaction.emoji} {reaction.usedBy.length}
-                    </li>
-                  ))}
+                  {chatMessage.reactions?.map((reaction) =>
+                    reaction.usedBy.length ? (
+                      <li
+                        key={reaction.emoji}
+                        className={`text-sm rounded-full w-fit p-2 m-1 space-x-2 ${
+                          reaction.usedBy.includes(clientId)
+                            ? 'bg-blue-200'
+                            : 'bg-gray-200'
+                        }`}
+                        onClick={() =>
+                          sendMessageReaction(
+                            reaction.emoji,
+                            chatMessage.timeserial,
+                            REMOVE_REACTION_EVENT
+                          )
+                        }
+                      >
+                        <span>
+                          {reaction.emoji} {reaction.usedBy.length}
+                        </span>
+                      </li>
+                    ) : null
+                  )}
                 </ul>
               ) : null}
               <EmojiHappyIcon
@@ -169,7 +226,11 @@ const MessageReactions = () => {
                     key={emoji}
                     className="text-lg"
                     onClick={() =>
-                      sendMessageReaction(emoji, chatMessage.timeserial)
+                      sendMessageReaction(
+                        emoji,
+                        chatMessage.timeserial,
+                        ADD_REACTION_EVENT
+                      )
                     }
                   >
                     {emoji}
