@@ -7,8 +7,16 @@ import {
   ChevronUpIcon,
 } from '@heroicons/react/solid'
 
-const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
+const InfoCard: FunctionComponent<{
+  projectInfo: ProjectInfo
+  githubRepoLinkTrackerEvent: any
+  openNewTabTrackerEvent: any
+  allExamplesLinkTrackerEvent: any
+}> = ({
   projectInfo,
+  githubRepoLinkTrackerEvent,
+  allExamplesLinkTrackerEvent,
+  openNewTabTrackerEvent,
 }) => {
   const [expanded, setExpanded] = useState(true)
   return (
@@ -36,6 +44,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
             <div className="flex flex-col text-center space-y-4 text-sm">
               <a
                 className="flex justify-center bg-white rounded py-3"
+                onClick={openNewTabTrackerEvent}
                 href={window.location.href}
                 target="_blank"
               >
@@ -44,6 +53,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
               </a>
               <a
                 className="flex justify-center bg-slate-700 text-white rounded py-3"
+                onClick={githubRepoLinkTrackerEvent}
                 href={`https://github.com/ably-labs/${projectInfo.repoNameAndPath}`}
               >
                 View source on Github
@@ -56,7 +66,11 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
       <div className="w-full h-px bg-gray-700" />
       <div className="flex justify-between items-center py-4 px-6 text-white">
         <AblyLogo />
-        <a className="flex text-sm">
+        <a
+          onClick={allExamplesLinkTrackerEvent}
+          className="flex text-sm"
+          href="/"
+        >
           View all examples
           <ArrowRightIcon className="h-5 w-5 ml-2 text-orange-600" />
         </a>
