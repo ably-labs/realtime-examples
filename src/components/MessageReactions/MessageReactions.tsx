@@ -2,6 +2,7 @@ import { useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import defaultMessages, { Message } from './messageData'
+import type { ProjectInfo } from '../../Layout'
 
 const MessageReactions = () => {
   let { channelName } = useOutletContext<{ channelName: string }>()
@@ -9,6 +10,9 @@ const MessageReactions = () => {
 
   const [chatMessage, setChatMessage] = useState<Message>({})
   const [channel, ably] = useChannel(channelName, 'send', (msg) => {})
+  const { setProjectInfo } = useOutletContext<{
+    setProjectInfo: (projectInfo: ProjectInfo) => void
+  }>()
 
   const sendMessage = () => {
     // Picks a message at random
@@ -18,7 +22,12 @@ const MessageReactions = () => {
   }
 
   useEffect(() => {
-    sendMessage()
+    sendMessage(),
+      setProjectInfo({
+        name: 'Message Reactions',
+        repoNameAndPath:
+          'atomic-examples/tree/main/src/components/MessageReactions',
+      })
   }, [])
 
   return (
