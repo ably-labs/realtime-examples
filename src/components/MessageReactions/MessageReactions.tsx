@@ -34,7 +34,7 @@ const MessageReactions = () => {
     channel.publish('reaction', {
       body: emoji,
       extras: {
-        reference: { type: 'com.ably.reaction', timeserial: timeserial },
+        reference: { type: 'com.ably.reaction', timeserial },
       },
     })
     setShowEmojiList(false)
@@ -88,9 +88,7 @@ const MessageReactions = () => {
     channel.history((err, result) => {
       // Get index of last sent message from history
       const lastPublishedMessageIndex: any = result?.items.findIndex(
-        (message) => {
-          return message.name == 'send'
-        }
+        (message) => message.name == 'send'
       )
 
       if (lastPublishedMessageIndex >= 0) {
