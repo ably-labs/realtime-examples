@@ -19,6 +19,8 @@ const MessageReactions = () => {
   const REMOVE_REACTION_EVENT = 'remove-reaction'
   const SEND_EVENT = 'send'
 
+  const [addEmoji, setAddEmoji] = useState(true)
+
   const [chatMessage, setChatMessage] = useState<Message>({})
   const [showEmojiList, setShowEmojiList] = useState(false)
 
@@ -89,6 +91,12 @@ const MessageReactions = () => {
         }))
       }
     )
+  }
+
+  const handleEmojiCount = (emoji: string, timeserial: any) => {
+    const emojiEvent = addEmoji ? ADD_REACTION_EVENT : REMOVE_REACTION_EVENT
+    setAddEmoji(!addEmoji)
+    sendMessageReaction(emoji, timeserial, emojiEvent)
   }
 
   const updateEmojiCollection = (
@@ -199,10 +207,9 @@ const MessageReactions = () => {
                             : 'bg-gray-200'
                         }`}
                         onClick={() =>
-                          sendMessageReaction(
+                          handleEmojiCount(
                             reaction.emoji,
-                            chatMessage.timeserial,
-                            REMOVE_REACTION_EVENT
+                            chatMessage.timeserial
                           )
                         }
                       >
