@@ -188,7 +188,7 @@ const MessageReactions = () => {
       <p>Go ahead, give it a try! You can always checkout the source code </p>
       {chatMessage.author ? (
         <div className="p-6 max-w-fit mx-auto bg-slate-50 rounded-xl shadow-lg flex items-center space-x-4 m-6">
-          <img className="bg-gradient-to-r from-cyan-500 to-blue-500 h-12 w-12 rounded-full mb-2"></img>
+          <img className="bg-gradient-to-r from-cyan-500 to-blue-500 h-12 w-12 rounded-full mb-2 shrink-0"></img>
           <div>
             <p className="text-sm font-small text-black">
               {chatMessage.author}
