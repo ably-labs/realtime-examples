@@ -2,12 +2,12 @@
 # yarn lockfile v1
 
 
-"@ably-labs/react-hooks@^2.0.6":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@ably-labs/react-hooks/-/react-hooks-2.0.6.tgz#e851da2c18ecb2ac1c04b06537a3d053027fca2d"
-  integrity sha512-V7942aXx+XJuQpMEUebvanr72sxn/obgDpSL/y9K3lP/Xiyhs3jWd+53Q8PZJ03hVumhJ6TfgkJKEjhtAyrZww==
+"@ably-labs/react-hooks@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@ably-labs/react-hooks/-/react-hooks-2.0.7.tgz#7f4ad32d24025e870a33d2ea65a3d5d8a2697439"
+  integrity sha512-4g0Neg0rfIceS4/U/W1L8ib/1q5aW9JDPOtjQBZE8zxRvbxwdSu32+BjQEL5oRpALDd06iosPYdDixKDwNwwoA==
   dependencies:
-    ably "^1.2.22"
+    ably "^1.2.27"
 
 "@ably/msgpack-js@^0.4.0":
   version "0.4.0"
@@ -425,7 +425,7 @@
     react-refresh "^0.13.0"
     resolve "^1.22.0"
 
-ably@^1.2.22:
+ably@^1.2.27:
   version "1.2.27"
   resolved "https://registry.yarnpkg.com/ably/-/ably-1.2.27.tgz#e39f4cde258cb28a41a282da368c036195dd53e7"
   integrity sha512-hf8KoOpln3me0CfV4NruAVjXWpWgiVUc+dhSuoVAsWpcqjTgTBlYin14t9o2dE5a8Sjn8HMoRhLMTB8VazXzqg==
@@ -1410,6 +1410,11 @@ quick-lru@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-5.1.1.tgz#366493e6b3e42a3a6885e2e99d18f80fb7a8c932"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
+
+random-words@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/random-words/-/random-words-1.2.0.tgz#94d0cc8061965efe955d60b80ad93392a7edf2f5"
+  integrity sha512-YP2bXrT19pxtBh22DK9CLcWsmBjUBAGzw3JWJycTNbXm1+0aS6PrKuAJ9aLT0GGaPlPp9LExfJIMVkzhrDZE6g==
 
 react-dom@^18.0.0:
   version "18.2.0"

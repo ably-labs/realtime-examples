@@ -2,6 +2,7 @@ interface Message {
   author?: string
   content?: string
   timeserial?: string
+  reactions?: string[]
 }
 
 const defaultMessages: Message[] = [

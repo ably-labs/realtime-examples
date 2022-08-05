@@ -7,7 +7,7 @@ import { usePresence, useChannel } from '@ably-labs/react-hooks'
 
 import type { ProjectInfo } from '../../Layout'
 import { fakeNames, colours } from './utils/fakeData'
-import { UserCircleIcon } from '@heroicons/react/solid'
+import { UserCircleIcon } from '@heroicons/react/outline'
 
 dayjs.extend(relativeTime)
 
@@ -120,7 +120,7 @@ const AvatarStack = () => {
   return (
     <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
       <div className="group relative flex flex-col items-center group">
-        <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 stroke-white fill-transparent" />
+        <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white" />
         <div
           className="bg-gradient-to-r from-cyan-500 to-blue-500 
                 h-12 w-12 rounded-full mb-2"

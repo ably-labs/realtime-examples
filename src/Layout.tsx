@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Outlet, useSearchParams } from 'react-router-dom'
 import { nanoid } from 'nanoid'
+import randomWords from 'random-words'
 import { configureAbly } from '@ably-labs/react-hooks'
 import InfoCard from './InfoCard'
 
@@ -20,11 +21,12 @@ const Layout = () => {
     repoNameAndPath: 'atomic-examples',
   })
 
-  const channelId = searchParams.get('id') || nanoid()
+  const channelId =
+    searchParams.get('id') || randomWords({ exactly: 3, join: '-' })
 
   useEffect(() => {
     if (!searchParams.get('id')) {
-      setSearchParams({ id: channelId })
+      setSearchParams({ id: channelId }, { replace: true })
     }
   }, [channelId])
 
