@@ -24,7 +24,7 @@ const Layout = () => {
 
   useEffect(() => {
     if (!searchParams.get('id')) {
-      setSearchParams({ id: channelId })
+      setSearchParams({ id: channelId }, { replace: true })
     }
   }, [channelId])
 
