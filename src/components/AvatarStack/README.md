@@ -2,34 +2,31 @@
 
 ![Avatar Stack Start screen](./Ably-Avatar-Stack.gif)
 
-This repository contains the code for the Avatar Stack - a demo of how you can leverage Ably to create an Avatar Stack.
+This repository contains the code for the Avatar Stack - a demo of how you can leverage Ably to show a list of currently online users.
 
 _Link to the Avatar Stack example and demo._
 
-## Running locally:
+## Running locally
 
-- Fork or clone the [Atomic Examples Repo](https://github.com/ably/atomic-examples).
+- Fork or clone the [Examples Repo](https://github.com/ably/atomic-examples).
 - Sign up for an account on [Ably](https://ably.com/) and get an API KEY.
-- Create a `.env` file and add your API KEY for the `VITE_ABLY_KEY` environment variable.
-- Run `npm run dev` and go to http://localhost:5173/avatar-stack
+- Rename `.env.example` to `.env` and fill in your API KEY in the `VITE_ABLY_KEY` environment variable.
+- Run `yarn` or `npm install` to install dependencies.
+- Run `yarn dev` or `npm run dev` and go to http://localhost:5173/avatar-stack
 
 ## Runtime Requirements
 
 _What is needed to run the demo_
 
-## Usage (if needed? ):
-
-_Explain how to use the demo._
+- [Node.js](https://nodejs.org/en/)
+- Ably API Key
+- [Yarn](https://yarnpkg.com/) (optional)
 
 ## Resources
 
 _Links to relevant pages. See www.ably.com/topic/avatar-stack. We link to a lot of resources there. Method links._
 
 _Requirements (if any)_
-
-## Contributing
-
-_How can other people contribute?_
 
 ## Support, feedback and troubleshooting
 
