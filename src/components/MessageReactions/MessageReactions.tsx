@@ -213,9 +213,8 @@ const MessageReactions = () => {
                           )
                         }
                       >
-                        <span>
-                          {reaction.emoji} {reaction.usedBy.length}
-                        </span>
+                        <EmojiDisplay emoji={reaction.emoji} />
+                        <span>{reaction.usedBy.length}</span>
                       </li>
                     ) : null
                   )}
@@ -240,7 +239,7 @@ const MessageReactions = () => {
                       )
                     }
                   >
-                    {emoji}
+                    <EmojiDisplay emoji={emoji} />
                   </li>
                 ))}
               </ul>
@@ -257,6 +256,18 @@ const MessageReactions = () => {
         New message
       </button>
     </div>
+  )
+}
+
+const EmojiDisplay = ({ emoji }: { emoji: string }) => {
+  return (
+    <object
+      className="h-5 w-5 pointer-events-none inline-block cursor-pointer"
+      data={`https://twemoji.maxcdn.com/v/latest/svg/${emoji
+        .codePointAt(0)
+        ?.toString(16)}.svg`}
+      type="image/svg+xml"
+    ></object>
   )
 }
 
