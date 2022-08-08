@@ -26,6 +26,7 @@ _Todo_
 
 For more questions or comments, please contact us on our Ably Discord.
 
+- [Create a GitHub Issue](https://github.com/ably-labs/atomic-examples/issues)
 - [Join our Discord server](https://discord.gg/q89gDHZcBK)
 - [Follow us on Twitter](https://twitter.com/ablyrealtime)
 - [Use our SDKs](https://github.com/ably/)
