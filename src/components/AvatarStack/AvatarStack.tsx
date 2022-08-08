@@ -11,6 +11,7 @@ import { UserCircleIcon } from '@heroicons/react/outline'
 
 dayjs.extend(relativeTime)
 
+// 💡 Displays basic information about user & their presence status
 const UserInfo: FunctionComponent<{ user: Types.PresenceMessage }> = ({
   user,
 }) => {
@@ -30,6 +31,7 @@ const UserInfo: FunctionComponent<{ user: Types.PresenceMessage }> = ({
     </>
   )
 }
+
 const AvatarStack = () => {
   const [pastUsers, setPastUsers] = useState<Types.PresenceMessage[]>([])
   const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
@@ -42,6 +44,7 @@ const AvatarStack = () => {
   const listRef = useRef<HTMLDivElement>(null)
   const plusButtonRef = useRef<HTMLDivElement>(null)
 
+  // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
       name: 'Avatar Stack',
@@ -49,7 +52,7 @@ const AvatarStack = () => {
     })
   }, [])
 
-  // Click outside handler
+  // 💡 Handler to click outside user list
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       if (
@@ -74,12 +77,15 @@ const AvatarStack = () => {
 
   const [showList, setShowList] = useState(false)
 
+  // 💡 Connect current user to Ably Presence with a random fake name
   const [presenceUsers] = usePresence(channelName, {
     name: fakeNames[Math.floor(Math.random() * fakeNames.length)],
   })
 
+  // 💡 This is used to access Ably's `channel.presence.history`
   const [channel] = useChannel(channelName, () => {})
 
+  // 💡 Effect to set past users from the Ably presence history
   useEffect(() => {
     if (presenceUsers.length >= 1) {
       channel.presence.history((err, result) => {
@@ -92,19 +98,22 @@ const AvatarStack = () => {
     }
   }, [presenceUsers])
 
+  // 💡 Effect to remove users who have left more than 2 minutes ago using the Ably presence history
   useEffect(() => {
+    const REMOVE_USER_AFTER_MILLIS = 120_000
     if (pastUsers.length > 0) {
       setTimeout(() => {
         channel.presence.history((err, result) => {
           const leftUsers = result?.items.filter(
             (user) =>
               user.action === 'leave' &&
-              Math.floor((Date.now() - user.timestamp) / 1000) > 120_000
+              Math.floor((Date.now() - user.timestamp) / 1000) >
+                REMOVE_USER_AFTER_MILLIS
           )
 
           setPastUsers(leftUsers || [])
         })
-      }, 125_000)
+      }, REMOVE_USER_AFTER_MILLIS + 5000)
     }
   }, [pastUsers.length])
 
@@ -119,6 +128,7 @@ const AvatarStack = () => {
 
   return (
     <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
+      {/** 💡 "You" avatar💡 */}
       <div className="group relative flex flex-col items-center group">
         <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white pointer-events-none" />
         <div
@@ -130,6 +140,7 @@ const AvatarStack = () => {
         </div>
       </div>
       <div className="relative">
+        {/** 💡 Stack of first 5 avatars.💡 */}
         {otherUsers
           .slice(0, MAX_USERS_BEFORE_LIST)
           .reverse()
@@ -165,6 +176,8 @@ const AvatarStack = () => {
               </div>
             )
           })}
+
+        {/** 💡 Dropdown list of surplus users 💡 */}
         {otherUsers.length > MAX_USERS_BEFORE_LIST ? (
           <div className="absolute right-0 z-50">
             <div
