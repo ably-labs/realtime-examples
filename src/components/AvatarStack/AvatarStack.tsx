@@ -120,7 +120,7 @@ const AvatarStack = () => {
   return (
     <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
       <div className="group relative flex flex-col items-center group">
-        <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white" />
+        <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white pointer-events-none" />
         <div
           className="bg-gradient-to-r from-cyan-500 to-blue-500 
                 h-12 w-12 rounded-full mb-2"
@@ -148,7 +148,7 @@ const AvatarStack = () => {
                   zIndex: otherUsers.length - index,
                 }}
               >
-                <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 stroke-white fill-transparent" />
+                <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 stroke-white fill-transparent pointer-events-none" />
                 <div
                   className={`bg-gradient-to-l ${colours[index]} h-12 w-12 rounded-full mb-2 shadow-[0_0_0_4px_rgba(255,255,255,1)]`}
                   onMouseOver={() => setHoveredClientId(user.clientId)}
