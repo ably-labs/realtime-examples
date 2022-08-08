@@ -32,7 +32,7 @@ const MessageReactions = () => {
         setChatMessage({
           author: msg.data.author,
           content: msg.data.content,
-          timeserial: msg.extras.timeserial,
+          timeserial: msg.id,
         })
         break
       case REMOVE_REACTION_EVENT:
@@ -154,7 +154,7 @@ const MessageReactions = () => {
     setChatMessage({
       author: lastPublishedMessage?.data.author,
       content: lastPublishedMessage?.data.content,
-      timeserial: lastPublishedMessage?.extras.timeserial,
+      timeserial: lastPublishedMessage?.id,
       reactions: usedEmojiCollection,
     })
   }
