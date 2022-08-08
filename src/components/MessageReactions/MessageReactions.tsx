@@ -222,7 +222,7 @@ const MessageReactions = () => {
                 </ul>
               ) : null}
               <EmojiHappyIcon
-                className="inline-block ml-2 h-5 w-5 text-slate-500"
+                className="inline-block ml-2 h-5 w-5 text-slate-500 self-center"
                 onClick={() => setShowEmojiList(!showEmojiList)}
               />
             </div>
