@@ -56,7 +56,10 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
       <div className="w-full h-px bg-gray-700" />
       <div className="flex justify-between items-center py-4 px-6 text-white">
         <AblyLogo />
-        <a className="flex text-sm">
+        <a
+          href="www.ably.com/examples?utm_source=ably-labs&utm_medium=demo&utm_campaign=avatar-stack"
+          className="flex text-sm"
+        >
           View all examples
           <ArrowRightIcon className="h-5 w-5 ml-2 text-orange-600" />
         </a>
