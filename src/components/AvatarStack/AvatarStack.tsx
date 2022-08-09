@@ -49,6 +49,7 @@ const AvatarStack = () => {
     setProjectInfo({
       name: 'Avatar Stack',
       repoNameAndPath: 'atomic-examples/tree/main/src/components/AvatarStack',
+      topic: 'avatar-stack',
     })
   }, [])
 

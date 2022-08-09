@@ -31,7 +31,14 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
           <div className="space-y-4">
             <p className="text-slate-300 text-sm">
               Open this page in multiple windows or share the URL with your team
-              to experience the demo.
+              to experience the demo.{' '}
+              <a
+                className="text-slate-300 text-sm hover:underline"
+                href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
+                target="_blank"
+              >
+                Learn more.
+              </a>
             </p>
             <div className="flex flex-col text-center space-y-4 text-sm">
               <a
@@ -57,7 +64,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
       <div className="flex justify-between items-center py-4 px-6 text-white">
         <AblyLogo />
         <a
-          href="www.ably.com/examples?utm_source=ably-labs&utm_medium=demo&utm_campaign=avatar-stack"
+          href={`https://ably.com/examples?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
           className="flex text-sm"
         >
           View all examples
