@@ -194,9 +194,9 @@ const MessageReactions = () => {
               {chatMessage.author}
             </p>
             <p className="text-slate-500"> {chatMessage.content} </p>
-            <div className="flex flex-row">
+            <div className="flex flex-row flex-wrap">
               {chatMessage.reactions?.length ? (
-                <ul className="flex flex-row">
+                <ul className="flex flex-row flex-wrap">
                   {chatMessage.reactions?.map((reaction) =>
                     reaction.usedBy.length ? (
                       <li
