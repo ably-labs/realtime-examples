@@ -260,14 +260,13 @@ const MessageReactions = () => {
 }
 
 const EmojiDisplay = ({ emoji }: { emoji: string }) => {
+  const codePoint = emoji.codePointAt(0)?.toString(16)
   return (
-    <object
+    <img
+      alt={emoji}
       className="h-5 w-5 pointer-events-none inline-block cursor-pointer"
-      data={`https://twemoji.maxcdn.com/v/latest/svg/${emoji
-        .codePointAt(0)
-        ?.toString(16)}.svg`}
-      type="image/svg+xml"
-    ></object>
+      src={`https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`}
+    />
   )
 }
 
