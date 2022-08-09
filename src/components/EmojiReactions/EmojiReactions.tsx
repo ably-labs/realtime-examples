@@ -5,7 +5,7 @@ import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
 import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
 import { Types } from 'ably'
 
-const MessageReactions = () => {
+const EmojiReactions = () => {
   let { channelName, clientId } = useOutletContext<{
     channelName: string
     clientId: string
@@ -180,7 +180,7 @@ const MessageReactions = () => {
 
   return (
     <div className="p-6">
-      <h1>Message reactions</h1>
+      <h1>Emoji Reactions</h1>
       <p>
         Hello to you and welcome to Ably. You can react to any of these
         messages.
@@ -272,4 +272,4 @@ const EmojiDisplay = ({ emoji }: { emoji: string }) => {
   )
 }
 
-export default MessageReactions
+export default EmojiReactions

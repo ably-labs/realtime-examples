@@ -3,7 +3,7 @@ const Home = () => {
     <div>
       <a href="/avatar-stack">Avatar Stack</a>
       <p>
-        <a href="/reactions">Message Reaction</a>
+        <a href="/reactions">Emoji Reactions</a>
       </p>
     </div>
   )
