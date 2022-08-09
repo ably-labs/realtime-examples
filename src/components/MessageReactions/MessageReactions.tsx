@@ -179,7 +179,7 @@ const MessageReactions = () => {
   }, [])
 
   return (
-    <div>
+    <div className="p-6">
       <h1>Message reactions</h1>
       <p>
         Hello to you and welcome to Ably. You can react to any of these
