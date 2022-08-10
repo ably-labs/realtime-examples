@@ -12,6 +12,7 @@ configureAbly({ key: import.meta.env.VITE_ABLY_KEY, clientId })
 export type ProjectInfo = {
   name: string
   repoNameAndPath: string
+  topic: string
 }
 
 const Layout = () => {
@@ -19,6 +20,7 @@ const Layout = () => {
   const [projectInfo, setProjectInfo] = useState<ProjectInfo>({
     name: 'Atomic Example',
     repoNameAndPath: 'atomic-examples',
+    topic: 'atomic-examples',
   })
 
   const channelId =
