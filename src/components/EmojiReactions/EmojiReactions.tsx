@@ -222,7 +222,7 @@ const EmojiReactions = () => {
               ) : null}
               <div className="self-center">
                 <EmojiHappyIcon
-                  className="inline-block ml-2 h-5 w-5 text-slate-500"
+                  className="inline-block ml-2 h-5 w-5 text-slate-500 cursor-pointer"
                   onClick={() => setShowEmojiList(!showEmojiList)}
                 />
                 {showEmojiList ? (
@@ -230,7 +230,7 @@ const EmojiReactions = () => {
                     {emojis.map((emoji) => (
                       <li
                         key={emoji}
-                        className="text-lg"
+                        className="text-lg cursor-pointer"
                         onClick={() =>
                           sendMessageReaction(
                             emoji,
@@ -266,7 +266,7 @@ const EmojiDisplay = ({ emoji }: { emoji: string }) => {
   return (
     <img
       alt={emoji}
-      className="h-5 w-5 pointer-events-none inline-block cursor-pointer"
+      className="h-5 w-5 pointer-events-none inline-block"
       src={`https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`}
     />
   )
