@@ -4,11 +4,13 @@ import { useOutletContext } from 'react-router-dom'
 import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
 import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
 import { Types } from 'ably'
+import type { ProjectInfo } from '../../Layout'
 
 const EmojiReactions = () => {
-  let { channelName, clientId } = useOutletContext<{
+  let { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
+    setProjectInfo: (projectInfo: ProjectInfo) => void
   }>()
 
   channelName = `reactions:${channelName}`
@@ -158,6 +160,14 @@ const EmojiReactions = () => {
       reactions: usedEmojiCollection,
     })
   }
+
+  useEffect(() => {
+    setProjectInfo({
+      name: 'Message Reactions',
+      repoNameAndPath:
+        'atomic-examples/tree/main/src/components/MessageReactions',
+    })
+  }, [])
 
   useEffect(() => {
     // Subscribe to message reactions
