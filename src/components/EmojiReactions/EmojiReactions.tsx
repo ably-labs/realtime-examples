@@ -276,7 +276,7 @@ const EmojiDisplay = ({ emoji }: { emoji: string }) => {
   return (
     <img
       alt={emoji}
-      className="h-5 w-5 inline-block"
+      className="h-5 w-5 pointer-events-none inline-block"
       src={`https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`}
     />
   )
