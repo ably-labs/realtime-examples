@@ -13,6 +13,8 @@ All of the examples are built with the following technology:
 - Tailwind
 - HeroIcons
 
+To see what else is possible with Ably, check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=atomic-examples).
+
 ## 🏃 Runtime Requirements
 
 - [Node.js](https://nodejs.org/en/)
