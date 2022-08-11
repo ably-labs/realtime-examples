@@ -240,7 +240,7 @@ const EmojiReactions = () => {
                     {emojis.map((emoji) => (
                       <li
                         key={emoji}
-                        className="text-lg cursor-pointer"
+                        className="text-lg cursor-pointer transition delay-5 ease-in-out hover:-translate-y-1 motion-reduce:transition-none"
                         onClick={() =>
                           sendMessageReaction(
                             emoji,
@@ -276,7 +276,7 @@ const EmojiDisplay = ({ emoji }: { emoji: string }) => {
   return (
     <img
       alt={emoji}
-      className="h-5 w-5 pointer-events-none inline-block"
+      className="h-5 w-5 inline-block"
       src={`https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`}
     />
   )
