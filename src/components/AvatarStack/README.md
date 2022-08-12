@@ -22,7 +22,7 @@ Try out the [live demo](https://examples.ably.dev/avatar-stack) of the avatar st
 
 ## Resources
 
-- Read further more about building an [avatar stack](https://ably.com/examples/avatar-stack?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
+- Learn more about how to build your own [avatar stack](https://ably.com/examples/avatar-stack?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
 - To see what else is possible with Ably check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
 
 _Requirements (if any)_
