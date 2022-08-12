@@ -4,7 +4,7 @@
 
 This folder contains the code for the Avatar Stack - a demo of how you can leverage Ably to show a list of currently online users.
 
-_Link to the Avatar Stack example and demo._
+Try out the [live demo](https://examples.ably.dev/avatar-stack) of the avatar stack.
 
 ## Running locally
 
@@ -22,7 +22,8 @@ _Link to the Avatar Stack example and demo._
 
 ## Resources
 
-_Links to relevant pages. See www.ably.com/topic/avatar-stack. We link to a lot of resources there. Method links._
+- Learn more about how to build your own [avatar stack](https://ably.com/examples/avatar-stack?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
+- To see what else is possible with Ably check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
 
 _Requirements (if any)_
 
