@@ -1,6 +1,6 @@
 ## Overview
 
-![Avatar Stack Start screen](./Ably-Avatar-Stack.gif)
+![Avatar Stack Start screen](./Ably-Avatar-Stack.png)
 
 This folder contains the code for the Avatar Stack - a demo of how you can leverage Ably to show a list of currently online users.
 
