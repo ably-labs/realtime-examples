@@ -197,6 +197,7 @@ const EmojiReactions = () => {
         messages.
       </p>
       <p>Go ahead, give it a try! You can always checkout the source code </p>
+      {/* Display default chat message */}
       {chatMessage.author ? (
         <div className="p-6 max-w-fit mx-auto bg-slate-50 rounded-xl shadow-lg flex items-center space-x-4 m-6">
           <img className="bg-gradient-to-r from-cyan-500 to-blue-500 h-12 w-12 rounded-full mb-2 shrink-0"></img>
@@ -205,6 +206,7 @@ const EmojiReactions = () => {
               {chatMessage.author}
             </p>
             <p className="text-slate-500"> {chatMessage.content} </p>
+            {/* Display chat message emoji reactions and count */}
             <div className="flex flex-row flex-wrap">
               {chatMessage.reactions?.length ? (
                 <ul className="flex flex-row flex-wrap">
@@ -231,6 +233,7 @@ const EmojiReactions = () => {
                   )}
                 </ul>
               ) : null}
+              {/* Allow user to select and add an emoji reaction */}
               <div className="self-center">
                 <EmojiHappyIcon
                   className="inline-block ml-2 h-5 w-5 text-slate-500 cursor-pointer"
@@ -260,7 +263,7 @@ const EmojiReactions = () => {
           </div>
         </div>
       ) : null}
-
+      {/* Load new chat message */}
       <button
         className="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
         onClick={sendMessage}
@@ -272,6 +275,7 @@ const EmojiReactions = () => {
   )
 }
 
+// Use twemoji for consistency in emoji display across platforms
 const EmojiDisplay = ({ emoji }: { emoji: string }) => {
   const codePoint = emoji.codePointAt(0)?.toString(16)
   return (
