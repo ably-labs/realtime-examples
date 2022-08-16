@@ -18,9 +18,9 @@ export type ProjectInfo = {
 const Layout = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [projectInfo, setProjectInfo] = useState<ProjectInfo>({
-    name: 'Atomic Example',
-    repoNameAndPath: 'atomic-examples',
-    topic: 'atomic-examples',
+    name: 'Realtime Examples',
+    repoNameAndPath: 'realtime-examples',
+    topic: 'realtime-examples',
   })
 
   const channelId =
