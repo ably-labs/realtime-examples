@@ -48,7 +48,7 @@ const AvatarStack = () => {
   useEffect(() => {
     setProjectInfo({
       name: 'Avatar Stack',
-      repoNameAndPath: 'atomic-examples/tree/main/src/components/AvatarStack',
+      repoNameAndPath: 'realtime-examples/tree/main/src/components/AvatarStack',
       topic: 'avatar-stack',
     })
   }, [])
