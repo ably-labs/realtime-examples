@@ -23,11 +23,11 @@ If you would like to add a new feature please submit an issue first that describ
 
 #### Create a new issue
 
-If you spot a problem, [search if an issue already exists](https://github.com/ably-labs/serverless-websockets-quest/issues). If a related issue doesn't exist, you can open a [new issue](https://github.com/ably-labs/serverless-websockets-quest/issues/new).
+If you spot a problem, [search if an issue already exists](https://github.com/ably-labs/realtime-examples/issues). If a related issue doesn't exist, you can open a [new issue](https://github.com/ably-labs/realtime-examples/issues/new).
 
 #### Solve an issue
 
-Scan through our [existing issues](https://github.com/ably-labs/serverless-websockets-quest/issues) to find one that interests you. As a general rule, we don’t assign issues to anyone. If you find an issue to work on, you are welcome to open a PR with a fix.
+Scan through our [existing issues](https://github.com/ably-labs/realtime-examples/issues) to find one that interests you. As a general rule, we don’t assign issues to anyone. If you find an issue to work on, you are welcome to open a PR with a fix.
 
 #### Make changes locally
 
