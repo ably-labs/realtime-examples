@@ -1,5 +1,7 @@
 ## Overview
 
+![Emoji Reaction](./Ably-Emoji-Reactions.png)
+
 This folder contains the code for Emoji Reactions - a demo leveraging Ably's [message interactions](https://ably.com/docs/realtime/messages#message-interactions) feature to add emoji reactions to messages.
 
 ## Running locally
