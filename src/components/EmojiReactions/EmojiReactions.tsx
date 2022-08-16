@@ -163,9 +163,10 @@ const EmojiReactions = () => {
 
   useEffect(() => {
     setProjectInfo({
-      name: 'Message Reactions',
+      name: 'Emoji Reactions',
       repoNameAndPath:
         'atomic-examples/tree/main/src/components/MessageReactions',
+      topic: 'emoji-reactions',
     })
   }, [])
 
