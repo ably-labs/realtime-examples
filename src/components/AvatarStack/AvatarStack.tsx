@@ -180,10 +180,13 @@ const AvatarStack = () => {
 
         {/** 💡 Dropdown list of surplus users 💡 */}
         {otherUsers.length > MAX_USERS_BEFORE_LIST ? (
-          <div className="absolute right-0 z-50">
+          <div className="absolute right-0">
             <div
-              className="flex justify-center items-center absolute right-0 text-white bg-gradient-to-r from-gray-500 to-slate-500 
+              className="flex justify-center items-center absolute right-0 text-white text-sm bg-gradient-to-r from-gray-500 to-slate-500 
                     h-12 w-12 rounded-full mb-2 select-none shadow-[0_0_0_4px_rgba(255,255,255,1)]"
+              style={{
+                zIndex: otherUsers.length + 50,
+              }}
               ref={plusButtonRef}
               onClick={() => {
                 setShowList(!showList)
