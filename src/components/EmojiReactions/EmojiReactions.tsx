@@ -213,96 +213,104 @@ const EmojiReactions = () => {
   }, [])
 
   return (
-    <div className="p-6 w-[480px] mx-auto">
-      <div className="rounded-lg bg-slate-50 p-4 mb-6">
-        <p className="text-slate-500 text-center">
-          Open this page in a few windows and add a reaction to the message to
-          see it update everywhere
-        </p>
-      </div>
+    <div className="bg-slate-50 h-screen w-screen flex items-center">
+      <div className="p-6 w-[480px] mx-auto">
+        <div className="rounded-lg bg-slate-100 p-4 mb-6">
+          <p className="text-slate-500 text-center">
+            Open this page in a few windows and add a reaction to the message to
+            see it update everywhere
+          </p>
+        </div>
 
-      {/* Display default chat message */}
-      {chatMessage.author ? (
-        <div className="p-5 bg-white rounded-lg border drop-shadow-lg mb-8">
-          <div className="flex flex-row mb-6">
-            <img className="inline bg-gradient-to-r from-pink-500 to-rose-800 h-12 w-12 rounded-full mb-2 shrink-0 mr-3"></img>
-            <div>
-              <p className="text-sm mb-2 text-slate-800">
-                {chatMessage.author}
-                <span className="text-xs ml-4 text-slate-500">
-                  {formatChatMessageTime(chatMessage.timeStamp)}
-                </span>
-              </p>
-              <p className="text-slate-600"> {chatMessage.content} </p>
-            </div>
-          </div>
-
-          {/* Display chat message emoji reactions and count */}
-          <div className="ml-12 flex">
-            {chatMessage.reactions?.length ? (
-              <ul className="flex flex-row flex-wrap">
-                {chatMessage.reactions?.map((reaction) =>
-                  reaction.usedBy.length ? (
-                    <li
-                      key={reaction.emoji}
-                      className={`text-xs rounded-full p-2 ml-3 space-x-2 hover:bg-gray-400 cursor-pointer ${
-                        reaction.usedBy.includes(clientId)
-                          ? 'bg-blue-200'
-                          : 'bg-gray-200'
-                      }`}
-                      onClick={() =>
-                        handleEmojiCount(reaction.emoji, chatMessage.timeserial)
-                      }
-                    >
-                      <EmojiDisplay emoji={reaction.emoji} />
-                      <span>{reaction.usedBy.length}</span>
-                    </li>
-                  ) : null
-                )}
-              </ul>
-            ) : null}
-
-            {/* Allow user to select and add an emoji reaction */}
-            <div className="self-center">
-              <div className="bg-gray-200 rounded-full p-1 ml-3 cursor-pointer hover:bg-gray-400">
-                <EmojiHappyIcon
-                  className="h-7 w-7 text-slate-500"
-                  onClick={() => setShowEmojiList(!showEmojiList)}
-                />
+        {/* Display default chat message */}
+        {chatMessage.author ? (
+          <div className="p-5 bg-white rounded-lg shadow-lg mb-8">
+            <div className="flex flex-row mb-5">
+              <img className="inline bg-gradient-to-r from-pink-500 to-rose-800 h-10 w-10 rounded-full mb-2 shrink-0 mr-3"></img>
+              <div>
+                <p className="text-base font-bold mb-2 text-slate-800">
+                  {chatMessage.author}
+                  <span className="text-sm ml-4 text-slate-500">
+                    {formatChatMessageTime(chatMessage.timeStamp)}
+                  </span>
+                </p>
+                <p className="text-base text-slate-600">
+                  {' '}
+                  {chatMessage.content}{' '}
+                </p>
               </div>
-              {showEmojiList ? (
-                <ul className="bg-black rounded-full w-fit flex flex-row p-2 space-x-2 absolute">
-                  {emojis.map((emoji) => (
-                    <li
-                      key={emoji}
-                      className="text-lg px-1 cursor-pointer transition delay-5 ease-in-out hover:-translate-y-1 motion-reduce:transition-none"
-                      onClick={() =>
-                        sendMessageReaction(
-                          emoji,
-                          chatMessage.timeserial,
-                          ADD_REACTION_EVENT
-                        )
-                      }
-                    >
-                      <EmojiDisplay emoji={emoji} />
-                    </li>
-                  ))}
+            </div>
+
+            {/* Display chat message emoji reactions and count */}
+            <div className="ml-12 flex">
+              {chatMessage.reactions?.length ? (
+                <ul className="flex flex-row flex-wrap">
+                  {chatMessage.reactions?.map((reaction) =>
+                    reaction.usedBy.length ? (
+                      <li
+                        key={reaction.emoji}
+                        className={`text-xs rounded-full p-2 m-1 space-x-2  cursor-pointer ${
+                          reaction.usedBy.includes(clientId)
+                            ? 'bg-blue-300 hover:bg-blue-100'
+                            : 'bg-slate-100 hover:bg-slate-50'
+                        }`}
+                        onClick={() =>
+                          handleEmojiCount(
+                            reaction.emoji,
+                            chatMessage.timeserial
+                          )
+                        }
+                      >
+                        <EmojiDisplay emoji={reaction.emoji} />
+                        <span>{reaction.usedBy.length}</span>
+                      </li>
+                    ) : null
+                  )}
                 </ul>
               ) : null}
+
+              {/* Allow user to select and add an emoji reaction */}
+              <div className="mt-1">
+                <div className="bg-gray-200 rounded-full p-1 ml-1 cursor-pointer hover:bg-slate-100">
+                  <EmojiHappyIcon
+                    className="h-7 w-7 text-slate-500"
+                    onClick={() => setShowEmojiList(!showEmojiList)}
+                  />
+                </div>
+                {showEmojiList ? (
+                  <ul className="bg-black rounded-full w-fit flex flex-row p-2 space-x-2 mt-2 absolute">
+                    {emojis.map((emoji) => (
+                      <li
+                        key={emoji}
+                        className="text-lg px-1 cursor-pointer transition delay-5 ease-in-out hover:-translate-y-1 motion-reduce:transition-none"
+                        onClick={() =>
+                          sendMessageReaction(
+                            emoji,
+                            chatMessage.timeserial,
+                            ADD_REACTION_EVENT
+                          )
+                        }
+                      >
+                        <EmojiDisplay emoji={emoji} />
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
             </div>
           </div>
-        </div>
-      ) : null}
+        ) : null}
 
-      {/* Load new chat message */}
-      <div className="flex items-center justify-center">
-        <button
-          className="bg-slate-200 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
-          onClick={sendMessage}
-        >
-          <RefreshIcon className="inline-block mr-1 h-4 w-4 text-slate-500" />
-          <span className="text-slate-800">New message</span>
-        </button>
+        {/* Load new chat message */}
+        <div className="flex items-center justify-center">
+          <button
+            className="bg-slate-200 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
+            onClick={sendMessage}
+          >
+            <RefreshIcon className="inline-block mr-1 h-4 w-4 text-slate-500" />
+            <span className="text-slate-800">New message</span>
+          </button>
+        </div>
       </div>
     </div>
   )
