@@ -16,7 +16,6 @@ const EmojiReactions = () => {
   channelName = `reactions:${channelName}`
   const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
   let usedEmojiCollection: EmojiUsage[] = []
-  const [reactionsUsers, setReactionsUsers] = useState<string[]>([])
 
   const ADD_REACTION_EVENT = 'add-reaction'
   const REMOVE_REACTION_EVENT = 'remove-reaction'
@@ -137,6 +136,7 @@ const EmojiReactions = () => {
     history: Types.PaginatedResult<Types.Message>
   ) => {
     const lastPublishedMessage = history?.items[messageIndex]
+
     // Get reactions of the published message
     if (messageIndex > 0) {
       for (let i = messageIndex - 1; i >= 0; i--) {
@@ -154,6 +154,7 @@ const EmojiReactions = () => {
         }
       }
     }
+
     // Update chat message
     setChatMessage({
       author: lastPublishedMessage?.data.author,
@@ -176,6 +177,7 @@ const EmojiReactions = () => {
   useEffect(() => {
     // Subscribe to message reactions
     getMessageReactions()
+
     // Keep last published message and reactions
     channel.history((err, result) => {
       // Get index of last sent message from history
@@ -193,24 +195,25 @@ const EmojiReactions = () => {
   }, [])
 
   return (
-    <div className="p-6 w-4/12 mx-auto">
-      <div className="rounded bg-slate-50 p-5 mb-10">
-        <p>
+    <div className="p-6 w-[480px] mx-auto">
+      <div className="rounded-lg bg-slate-50 p-4 mb-6">
+        <p className="text-slate-500 text-center">
           Open this page in a few windows and add a reaction to the message to
           see it update everywhere
         </p>
       </div>
+
       {/* Display default chat message */}
       {chatMessage.author ? (
-        <div className="p-5 bg-slate-50 rounded shadow-lg m-5">
-          <div className="flex flex-row mb-2">
-            <img className="inline bg-gradient-to-r from-cyan-500 to-blue-500 h-12 w-12 rounded-full mb-2 shrink-0 mr-3"></img>
+        <div className="p-5 bg-white rounded-lg border drop-shadow-lg mb-8">
+          <div className="flex flex-row mb-6">
+            <img className="inline bg-gradient-to-r from-pink-500 to-rose-800 h-12 w-12 rounded-full mb-2 shrink-0 mr-3"></img>
             <div>
-              <p className="text-sm text-black">
+              <p className="text-sm mb-2 text-slate-800">
                 {chatMessage.author}
                 <span className="text-xs ml-4 text-slate-500">{`${chatMessage.timeStamp?.getHours()}:${chatMessage.timeStamp?.getMinutes()}`}</span>
               </p>
-              <p className="text-slate-500"> {chatMessage.content} </p>
+              <p className="text-slate-600"> {chatMessage.content} </p>
             </div>
           </div>
 
@@ -238,6 +241,7 @@ const EmojiReactions = () => {
                 )}
               </ul>
             ) : null}
+
             {/* Allow user to select and add an emoji reaction */}
             <div className="self-center">
               <div className="bg-gray-200 rounded-full p-1 ml-3">
@@ -269,6 +273,7 @@ const EmojiReactions = () => {
           </div>
         </div>
       ) : null}
+
       {/* Load new chat message */}
       <div className="flex items-center justify-center">
         <button
