@@ -169,7 +169,7 @@ const EmojiReactions = () => {
     setProjectInfo({
       name: 'Emoji Reactions',
       repoNameAndPath:
-        'realtime-examples/tree/main/src/components/MessageReactions',
+        'realtime-examples/tree/main/src/components/EmojiReactions',
       topic: 'emoji-reactions',
     })
   }, [])
