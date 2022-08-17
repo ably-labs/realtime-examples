@@ -219,7 +219,7 @@ const EmojiReactions = () => {
         <div className="rounded-lg bg-slate-100 p-4 mb-6">
           <p className="text-slate-500 text-center">
             Open this page in a few windows and add a reaction to the message to
-            see it update everywhere
+            see it update everywhere.
           </p>
         </div>
 
