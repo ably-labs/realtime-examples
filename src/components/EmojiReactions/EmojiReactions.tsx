@@ -13,6 +13,7 @@ const EmojiReactions = () => {
     setProjectInfo: (projectInfo: ProjectInfo) => void
   }>()
 
+  // Include your channel namespace created in Ably for message interactions. In this case, we use "reactions"
   channelName = `reactions:${channelName}`
   const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
   let usedEmojiCollection: EmojiUsage[] = []
@@ -26,10 +27,11 @@ const EmojiReactions = () => {
   const [chatMessage, setChatMessage] = useState<Message>({})
   const [showEmojiList, setShowEmojiList] = useState(false)
 
+  // Access and subscribe to your channel using "useChannel" from "ably-react-hooks"
   const [channel, ably] = useChannel(channelName, (msg) => {
     switch (msg.name) {
       case SEND_EVENT:
-        // reset reactions when new message is received
+        // Reset emoji reactions when a new message is received
         usedEmojiCollection = []
         setChatMessage({
           author: msg.data.author,
@@ -39,7 +41,7 @@ const EmojiReactions = () => {
         })
         break
       case REMOVE_REACTION_EVENT:
-        // remove emoji reaction
+        // Remove emoji reaction from chat message
         const msgReactions = updateEmojiCollection(
           msg.data.body,
           msg.clientId,
@@ -53,19 +55,22 @@ const EmojiReactions = () => {
     }
   })
 
+  // Publish new chat message to channel
   const sendMessage = () => {
-    // Picks a message at random
+    // Selects a random message to publish
     const message =
       defaultMessages[Math.floor(Math.random() * defaultMessages.length)]
+
+    // Publish message to channel
     channel.publish(SEND_EVENT, message)
   }
 
+  // Publish emoji reaction for a message using the chat message timeserial
   const sendMessageReaction = (
     emoji: string,
     timeserial: any,
     reactionEvent: string
   ) => {
-    // setPublishAction(reactionEvent)
     channel.publish(reactionEvent, {
       body: emoji,
       extras: {
@@ -75,6 +80,7 @@ const EmojiReactions = () => {
     setShowEmojiList(false)
   }
 
+  // Subscribe to emoji reactions for a message using the message timeserial
   const getMessageReactions = () => {
     channel.subscribe(
       {
@@ -82,7 +88,7 @@ const EmojiReactions = () => {
         refTimeserial: chatMessage.timeserial,
       },
       (reaction) => {
-        // Update current chat with its reactions
+        // Update current chat message with its reaction(s)
         const msgReactions = updateEmojiCollection(
           reaction.data.body,
           reaction.clientId,
@@ -96,12 +102,14 @@ const EmojiReactions = () => {
     )
   }
 
+  // Increase or decrease emoji count on click on existing emoji
   const handleEmojiCount = (emoji: string, timeserial: any) => {
     const emojiEvent = addEmoji ? ADD_REACTION_EVENT : REMOVE_REACTION_EVENT
     setAddEmoji(!addEmoji)
     sendMessageReaction(emoji, timeserial, emojiEvent)
   }
 
+  // Keep track of used emojis
   const updateEmojiCollection = (
     emoji: string,
     clientId: string,
@@ -131,6 +139,7 @@ const EmojiReactions = () => {
     return usedEmojiCollection
   }
 
+  // Update current chat message and its reactions leveraging Ably channel history
   const updateMessageFromHistory = (
     messageIndex: number,
     history: Types.PaginatedResult<Types.Message>
@@ -165,6 +174,15 @@ const EmojiReactions = () => {
     })
   }
 
+  // Format chat message timestamp to readable format
+  const formatChatMessageTime = (timestamp: Date) => {
+    const hour = timestamp.getHours()
+    const minutes = `${
+      timestamp.getMinutes() < 10 ? '0' : ''
+    }${timestamp.getMinutes()}`
+    return `${hour}:${minutes}`
+  }
+
   useEffect(() => {
     setProjectInfo({
       name: 'Emoji Reactions',
@@ -178,7 +196,7 @@ const EmojiReactions = () => {
     // Subscribe to message reactions
     getMessageReactions()
 
-    // Keep last published message and reactions
+    // Keep last published message and reactions using Ably channel history
     channel.history((err, result) => {
       // Get index of last sent message from history
       const lastPublishedMessageIndex: any = result?.items.findIndex(
@@ -188,7 +206,7 @@ const EmojiReactions = () => {
       if (lastPublishedMessageIndex >= 0) {
         updateMessageFromHistory(lastPublishedMessageIndex, result!)
       } else {
-        // Load random message when no sent message history
+        // Load new random message when channel has no history
         sendMessage()
       }
     })
@@ -211,7 +229,9 @@ const EmojiReactions = () => {
             <div>
               <p className="text-sm mb-2 text-slate-800">
                 {chatMessage.author}
-                <span className="text-xs ml-4 text-slate-500">{`${chatMessage.timeStamp?.getHours()}:${chatMessage.timeStamp?.getMinutes()}`}</span>
+                <span className="text-xs ml-4 text-slate-500">
+                  {formatChatMessageTime(chatMessage.timeStamp)}
+                </span>
               </p>
               <p className="text-slate-600"> {chatMessage.content} </p>
             </div>
