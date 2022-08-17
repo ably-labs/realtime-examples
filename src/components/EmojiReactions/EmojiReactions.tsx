@@ -245,7 +245,7 @@ const EmojiReactions = () => {
                   reaction.usedBy.length ? (
                     <li
                       key={reaction.emoji}
-                      className={`text-xs rounded-full p-2 ml-3 space-x-2 ${
+                      className={`text-xs rounded-full p-2 ml-3 space-x-2 hover:bg-gray-400 cursor-pointer ${
                         reaction.usedBy.includes(clientId)
                           ? 'bg-blue-200'
                           : 'bg-gray-200'
@@ -264,9 +264,9 @@ const EmojiReactions = () => {
 
             {/* Allow user to select and add an emoji reaction */}
             <div className="self-center">
-              <div className="bg-gray-200 rounded-full p-1 ml-3">
+              <div className="bg-gray-200 rounded-full p-1 ml-3 cursor-pointer hover:bg-gray-400">
                 <EmojiHappyIcon
-                  className="h-7 w-7 text-slate-500 cursor-pointer"
+                  className="h-7 w-7 text-slate-500"
                   onClick={() => setShowEmojiList(!showEmojiList)}
                 />
               </div>
@@ -297,11 +297,11 @@ const EmojiReactions = () => {
       {/* Load new chat message */}
       <div className="flex items-center justify-center">
         <button
-          className="bg-gray-300 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
+          className="bg-slate-200 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
           onClick={sendMessage}
         >
-          <RefreshIcon className="inline-block mr-1 h-5 w-5 text-slate-500" />
-          New message
+          <RefreshIcon className="inline-block mr-1 h-4 w-4 text-slate-500" />
+          <span className="text-slate-800">New message</span>
         </button>
       </div>
     </div>
