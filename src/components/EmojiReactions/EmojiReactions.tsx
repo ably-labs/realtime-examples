@@ -1,12 +1,7 @@
 import { useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-import {
-  defaultMessages,
-  EmojiUsage,
-  fakeNames,
-  Message,
-} from './utils/messageData'
+import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
 import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
 import { Types } from 'ably'
 import type { ProjectInfo } from '../../Layout'
@@ -58,19 +53,6 @@ const EmojiReactions = () => {
         break
     }
   })
-
-  const loadEmojiUsersList = (usersLength: number, emoji: string) => {
-    const userReactions = chatMessage.reactions?.find(
-      (emj) => emj.emoji === emoji
-    )
-    for (let i = 0; i < usersLength; i++) {
-      reactionsUsers.push(fakeNames[i])
-    }
-    if (userReactions?.usedBy.includes(clientId)) {
-      reactionsUsers[0] = 'You'
-    }
-    setReactionsUsers(reactionsUsers)
-  }
 
   const sendMessage = () => {
     // Picks a message at random
@@ -211,18 +193,16 @@ const EmojiReactions = () => {
   }, [])
 
   return (
-    <div className="p-6">
-      <div>
-        <h1 className="text-xl mb-5">Emoji Reactions</h1>
+    <div className="p-6 w-4/12 mx-auto">
+      <div className="rounded bg-slate-50 p-5 mb-10">
         <p>
-          Hello to you and welcome to Ably. You can react to any of these
-          messages.
+          Open this page in a few windows and add a reaction to the message to
+          see it update everywhere
         </p>
-        <p>Go ahead, give it a try! You can always checkout the source code </p>
       </div>
       {/* Display default chat message */}
       {chatMessage.author ? (
-        <div className="p-5 max-w-fit mx-auto bg-slate-50 rounded-xl shadow-lg m-5">
+        <div className="p-5 bg-slate-50 rounded shadow-lg m-5">
           <div className="flex flex-row mb-2">
             <img className="inline bg-gradient-to-r from-cyan-500 to-blue-500 h-12 w-12 rounded-full mb-2 shrink-0 mr-3"></img>
             <div>
@@ -250,13 +230,6 @@ const EmojiReactions = () => {
                       onClick={() =>
                         handleEmojiCount(reaction.emoji, chatMessage.timeserial)
                       }
-                      onMouseEnter={() =>
-                        loadEmojiUsersList(
-                          reaction.usedBy.length,
-                          reaction.emoji
-                        )
-                      }
-                      onMouseLeave={() => setReactionsUsers([])}
                     >
                       <EmojiDisplay emoji={reaction.emoji} />
                       <span>{reaction.usedBy.length}</span>
