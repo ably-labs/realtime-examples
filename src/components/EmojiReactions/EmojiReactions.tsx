@@ -236,8 +236,7 @@ const EmojiReactions = () => {
                   </span>
                 </p>
                 <p className="text-base text-slate-600">
-                  {' '}
-                  {chatMessage.content}{' '}
+                  {chatMessage.content}
                 </p>
               </div>
             </div>
