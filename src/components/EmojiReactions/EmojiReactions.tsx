@@ -57,6 +57,7 @@ const EmojiReactions = () => {
 
   // Publish new chat message to channel
   const sendMessage = () => {
+
     // Selects a random message to publish
     const message =
       defaultMessages[Math.floor(Math.random() * defaultMessages.length)]
