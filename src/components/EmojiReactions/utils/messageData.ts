@@ -7,6 +7,7 @@ interface Message {
   content?: string
   timeserial?: string
   reactions?: EmojiUsage[]
+  timeStamp?: Date
 }
 
 const defaultMessages: Message[] = [
