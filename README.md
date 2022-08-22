@@ -5,7 +5,7 @@ This repository contains all of the code necessary to run and test the Ably exam
 Click on any of the links below to find out more specific information on each example:
 
 - [Avatar Stack](/src/components/AvatarStack/README.md)
-- [Message Interactions](/src/components/EmojiReactions/README.md)
+- [Message Reactions](/src/components/EmojiReactions/README.md)
 
 All of the examples are built with the following technology:
 
