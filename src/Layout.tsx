@@ -6,8 +6,23 @@ import { configureAbly } from '@ably-labs/react-hooks'
 import InfoCard from './InfoCard'
 
 const clientId = nanoid()
+const example: string = window.location.pathname
+let API_KEY: string | undefined
 
-configureAbly({ key: import.meta.env.VITE_ABLY_KEY, clientId })
+switch (example) {
+  case '/avatar-stack':
+    API_KEY = import.meta.env.VITE_ABLY_KEY_AVATAR_STACK
+    break
+
+  case '/emoji-reactions':
+    API_KEY = import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS
+    break
+
+  default:
+    API_KEY = import.meta.env.VITE_ABLY_KEY
+}
+
+configureAbly({ key: API_KEY || import.meta.env.VITE_ABLY_KEY, clientId })
 
 export type ProjectInfo = {
   name: string
