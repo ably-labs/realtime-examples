@@ -4,25 +4,55 @@ import { nanoid } from 'nanoid'
 import randomWords from 'random-words'
 import { configureAbly } from '@ably-labs/react-hooks'
 import InfoCard from './InfoCard'
-
+import { Types } from 'ably'
+import { SignJWT } from 'jose'
 const clientId = nanoid()
 const example: string = window.location.pathname
-let API_KEY: string | undefined
-
+let API_CONFIG: Types.ClientOptions = { clientId }
 switch (example) {
   case '/avatar-stack':
-    API_KEY = import.meta.env.VITE_ABLY_KEY_AVATAR_STACK
+    API_CONFIG.key = import.meta.env.VITE_ABLY_KEY_AVATAR_STACK
     break
 
   case '/emoji-reactions':
-    API_KEY = import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS
+    API_CONFIG.key = import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS
+    break
+
+  case '/claims':
+    API_CONFIG.authCallback = (e, cb) => {
+      CreateJWT(
+        clientId,
+        import.meta.env.VITE_ABLY_KEY,
+        e.clientId === 'true' ? 'moderator' : 'user'
+      ).then((key) => {
+        cb(null as any, key)
+      })
+    }
     break
 
   default:
-    API_KEY = import.meta.env.VITE_ABLY_KEY
+    API_CONFIG.key = import.meta.env.VITE_ABLY_KEY
 }
 
-configureAbly({ key: API_KEY || import.meta.env.VITE_ABLY_KEY, clientId })
+configureAbly(API_CONFIG)
+
+async function CreateJWT(
+  clientId: string,
+  apiKey: string,
+  claim: string
+): Promise<string> {
+  const [appId, signingKey] = apiKey.split(':', 2)
+  const enc = new TextEncoder()
+  return new SignJWT({
+    'x-ably-capabilities': `{"*":["*"]}`,
+    'x-ably-clientId': clientId,
+    'ably.channel.*': claim,
+  })
+    .setProtectedHeader({ kid: appId, alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('24h')
+    .sign(enc.encode(signingKey))
+}
 
 export type ProjectInfo = {
   name: string

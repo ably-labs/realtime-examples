@@ -61,21 +61,6 @@ const Claims = () => {
     setProjectInfo: (projectInfo: ProjectInfo) => void
   }>()
 
-  configureAbly({
-    authCallback: (e, cb) => {
-      console.log(`Re-authing as ${e.clientId}`)
-      CreateJWT(
-        clientId,
-        import.meta.env.VITE_ABLY_KEY,
-        e.clientId === 'true' ? 'moderator' : 'user'
-      ).then((key) => {
-        cb(null as any, key)
-      })
-    },
-    clientId,
-    key: undefined,
-  })
-
   useEffect(() => {
     setProjectInfo({
       name: 'User Claims',
@@ -292,25 +277,6 @@ function Message({
       </button>
     </div>
   )
-}
-
-// Create a JWT, in a production app this would be done serverside
-async function CreateJWT(
-  clientId: string,
-  apiKey: string,
-  claim: string
-): Promise<string> {
-  const [appId, signingKey] = apiKey.split(':', 2)
-  const enc = new TextEncoder()
-  return new SignJWT({
-    'x-ably-capabilities': `{"*":["*"]}`,
-    'x-ably-clientId': clientId,
-    'ably.channel.*': claim,
-  })
-    .setProtectedHeader({ kid: appId, alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime('24h')
-    .sign(enc.encode(signingKey))
 }
 
 export default Claims
