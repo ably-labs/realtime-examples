@@ -131,45 +131,55 @@ const Claims = () => {
   }
 
   return (
-    <div
-      className={`bg-white rounded-lg ${
-        moderator ? 'shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
-      } transition flex text-sm flex-col w-1/2`}
-    >
-      <div className="flex-grow border-solid h-80 overflow-auto flex flex-col justify-end px-5">
-        {messages.map((m) => (
-          <Message
-            message={m}
-            local={m.author === author}
-            deleteMessage={deleteMessage}
-            moderator={moderator}
-            key={m.id}
+    <div className="flex flex-col items-center">
+      <div className="p-6 w-[480px] mx-auto">
+        <div className="rounded-lg bg-slate-100 p-4 mb-6">
+          <p className="text-slate-500 text-center">
+            Send messages from one or more windows. Toggle between roles to
+            delete messages sent by you or by anyone in the chat.
+          </p>
+        </div>
+      </div>
+      <div
+        className={`bg-white w-[100%] rounded-lg ${
+          moderator ? 'shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
+        } transition flex text-sm flex-col w-1/2`}
+      >
+        <div className="flex-grow border-solid h-80 overflow-auto flex flex-col justify-end px-5">
+          {messages.map((m) => (
+            <Message
+              message={m}
+              local={m.author === author}
+              deleteMessage={deleteMessage}
+              moderator={moderator}
+              key={m.id}
+            />
+          ))}
+        </div>
+        <div className="pb-3 px-5 border-b flex justify-between">
+          <input
+            type="text"
+            disabled={loading}
+            className="bg-slate-100 rounded-full p-2 px-3 flex-grow mr-2"
+            placeholder="Type something..."
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           />
-        ))}
-      </div>
-      <div className="pb-3 px-5 border-b flex justify-between">
-        <input
-          type="text"
-          disabled={loading}
-          className="bg-slate-100 rounded-full p-2 px-3 flex-grow mr-2"
-          placeholder="Type something..."
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          <button
+            onClick={sendMessage}
+            className="bg-slate-800 text-white rounded-full p-2 px-3 hover:bg-slate-700 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
+            disabled={loading}
+          >
+            Send
+          </button>
+        </div>
+        <PrivilegeBar
+          moderator={moderator}
+          loading={loading}
+          onToggle={switchMode}
         />
-        <button
-          onClick={sendMessage}
-          className="bg-slate-800 text-white rounded-full p-2 px-3 hover:bg-slate-700 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
-          disabled={loading}
-        >
-          Send
-        </button>
       </div>
-      <PrivilegeBar
-        moderator={moderator}
-        loading={loading}
-        onToggle={switchMode}
-      />
     </div>
   )
 }
