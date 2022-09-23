@@ -7,7 +7,7 @@ import InfoCard from './InfoCard'
 
 const clientId = nanoid()
 
-configureAbly({ key: import.meta.env.VITE_ABLY_KEY, clientId })
+// configureAbly({ key: import.meta.env.VITE_ABLY_KEY, clientId })
 
 export type ProjectInfo = {
   name: string
