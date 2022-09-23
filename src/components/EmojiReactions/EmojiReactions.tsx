@@ -57,7 +57,6 @@ const EmojiReactions = () => {
 
   // Publish new chat message to channel
   const sendMessage = () => {
-
     // Selects a random message to publish
     const message =
       defaultMessages[Math.floor(Math.random() * defaultMessages.length)]
@@ -232,7 +231,7 @@ const EmojiReactions = () => {
                 <p className="text-base font-bold mb-2 text-slate-800">
                   {chatMessage.author}
                   <span className="text-sm ml-4 text-slate-500">
-                    {formatChatMessageTime(chatMessage.timeStamp)}
+                    {formatChatMessageTime(chatMessage.timeStamp!)}
                   </span>
                 </p>
                 <p className="text-base text-slate-600">
