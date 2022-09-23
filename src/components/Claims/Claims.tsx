@@ -3,7 +3,11 @@ import { useEffect, useReducer, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { Types } from 'ably'
 import type { ProjectInfo } from '../../Layout'
-import { ShieldCheckIcon, UserCircleIcon } from '@heroicons/react/solid'
+import {
+  RefreshIcon,
+  ShieldCheckIcon,
+  UserCircleIcon,
+} from '@heroicons/react/solid'
 import randomWords from 'random-words'
 import { SignJWT } from 'jose'
 
@@ -33,7 +37,10 @@ const Claims = () => {
         return state.concat(action.message)
       case 'delete':
         return state.map((m) =>
-          m.id === action.extras.ref.timeserial ? { ...m, deleted: true } : m
+          !(m.author !== author && action.extras?.userClaim === 'user') &&
+          m.id === action.extras.ref.timeserial
+            ? { ...m, deleted: true }
+            : m
         )
       case 'clear':
         return []
@@ -106,7 +113,6 @@ const Claims = () => {
 
   const sendMessage = () => {
     if (draft.length === 0) return
-    console.log('publish')
     channel.publish('send', {
       message: { author, content: draft, timestamp: new Date() },
     })
@@ -130,6 +136,10 @@ const Claims = () => {
     ably.close()
     ably.connect()
     ably.connection.once('connected', () => {
+      // Workaround because switching the connection seems to break subscriptions
+      const dummyListener = () => {}
+      ably.channels.get(channelName).subscribe(dummyListener)
+      ably.channels.get(channelName).unsubscribe(dummyListener)
       setModerator(!moderator)
       setLoading(false)
     })
@@ -138,8 +148,8 @@ const Claims = () => {
   return (
     <div
       className={`bg-white rounded-lg ${
-        moderator ? 'shadow-orange-400' : ''
-      } transition shadow-md flex text-sm flex-col w-1/2`}
+        moderator ? 'shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
+      } transition flex text-sm flex-col w-1/2`}
     >
       <div className="flex-grow border-solid h-80 overflow-auto flex flex-col justify-end px-5">
         {messages.map((m) => (
@@ -164,7 +174,7 @@ const Claims = () => {
         />
         <button
           onClick={sendMessage}
-          className="bg-slate-800 text-slate-100 rounded-full p-2 px-3"
+          className="bg-slate-800 text-white rounded-full p-2 px-3 hover:bg-slate-700 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
           disabled={loading}
         >
           Send
@@ -188,38 +198,52 @@ function PrivilegeBar({
   loading: boolean
   onToggle: () => void
 }) {
-  const background = moderator ? 'bg-orange-100' : 'bg-blue-100'
-  const text = moderator ? 'text-orange-500' : 'text-blue-500'
-  const Icon = moderator ? ShieldCheckIcon : UserCircleIcon
+  let iconColour = 'text-slate-500'
+  let iconBackground = 'bg-slate-100'
+  let Icon = RefreshIcon
+  let titleText = <>Switching roles</>
+  let subtitleText = <>Loading...</>
+  if (!loading) {
+    if (moderator) {
+      titleText = (
+        <>
+          You have the <b>moderator</b> role
+        </>
+      )
+      subtitleText = <>You can delete everyone's messages</>
+      Icon = ShieldCheckIcon
+      iconColour = 'text-orange-500'
+      iconBackground = 'bg-orange-100'
+    } else {
+      titleText = (
+        <>
+          You have the <b>moderator</b> role
+        </>
+      )
+      subtitleText = <>You can delete everyone's messages</>
+      Icon = UserCircleIcon
+      iconColour = 'text-blue-500'
+      iconBackground = 'bg-blue-100'
+    }
+  }
   return (
     <div className="flex pt-3 px-3 py-5 items-center relative">
       <div
-        className={`rounded-full ${background} w-10 h-10 flex justify-center mr-2 transition`}
+        className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
       >
-        <Icon className={`w-6 ${text} transition`} />
+        <Icon className={`w-6 ${iconColour} transition`} />
       </div>
       <div className="flex-grow">
-        <div>
-          You have the <b>{moderator ? 'moderator' : 'participant'}</b> role
-        </div>
-        <div className="text-slate-500">
-          {moderator
-            ? 'You can delete your own and others messages'
-            : 'You can delete your own messages'}
-        </div>
+        <div>{titleText}</div>
+        <div className="text-slate-500">{subtitleText}</div>
       </div>
       <button
-        className="bg-slate-200 text-slate-800 rounded-full p-2 px-3 font-bold"
+        className="bg-slate-100 text-slate-800 rounded-full p-2 px-3 font-bold hover:bg-slate-50 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)]"
         onClick={onToggle}
         disabled={loading}
       >
         Switch to {moderator ? 'participant' : 'moderator'}
       </button>
-      {loading && (
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-[#eeeeeeaa]">
-          <div>Loading...</div>
-        </div>
-      )}
     </div>
   )
 }
@@ -253,20 +277,24 @@ function Message({
           {message.deleted ? 'This message has been deleted.' : message.content}
         </p>
       </div>
-      <div
-        className={`text-red-400 cursor-pointer ${
-          local ? 'text-right mr-1' : 'ml-1'
+      <button
+        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 p-1 px-2 cursor-pointer disabled:cursor-default ${
+          local
+            ? 'text-right ml-[50%] rounded-tr-sm rounded-tl-lg'
+            : 'ml-1 rounded-tr-lg rounded-tl-sm'
         } ${
           (!moderator && !local) || message.deleted ? 'opacity-0' : ''
         } transition`}
+        disabled={!moderator && !local}
         onClick={deleteMessage(message.id)}
       >
         Delete
-      </div>
+      </button>
     </div>
   )
 }
 
+// Create a JWT, in a production app this would be done serverside
 async function CreateJWT(
   clientId: string,
   apiKey: string,
@@ -275,7 +303,7 @@ async function CreateJWT(
   const [appId, signingKey] = apiKey.split(':', 2)
   const enc = new TextEncoder()
   return new SignJWT({
-    'x-ably-capability': `{"*":["*"]}`,
+    'x-ably-capabilities': `{"*":["*"]}`,
     'x-ably-clientId': clientId,
     'ably.channel.*': claim,
   })
