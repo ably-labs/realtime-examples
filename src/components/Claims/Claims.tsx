@@ -9,7 +9,7 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/solid'
 import randomWords from 'random-words'
-import { SignJWT } from 'jose'
+import JWTUtil from './JWTUtil'
 
 type Message = {
   author: string
@@ -117,17 +117,9 @@ const Claims = () => {
 
   const switchMode = async () => {
     setLoading(true)
-    await ably.auth.authorize({ clientId: '' + moderator })
-    ably.close()
-    ably.connect()
-    ably.connection.once('connected', () => {
-      // Workaround because switching the connection seems to break subscriptions
-      const dummyListener = () => {}
-      ably.channels.get(channelName).subscribe(dummyListener)
-      ably.channels.get(channelName).unsubscribe(dummyListener)
-      setModerator(!moderator)
-      setLoading(false)
-    })
+    await JWTUtil.switchToken(ably, channelName, moderator)
+    setModerator(!moderator)
+    setLoading(false)
   }
 
   return (
