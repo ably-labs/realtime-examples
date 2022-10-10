@@ -1,4 +1,4 @@
-import { configureAbly, useChannel } from '@ably-labs/react-hooks'
+import { useChannel } from '@ably-labs/react-hooks'
 import { useEffect, useReducer, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { Types } from 'ably'
@@ -30,12 +30,14 @@ const Claims = () => {
     state: Message[],
     action: MessageDispatch
   ): Message[] => {
-    console.log((action as any).extras)
     switch (action.type) {
       case 'send':
         action.message.id = action.id
         return state.concat(action.message)
       case 'delete':
+        // Delete the message by remapping the message list with the target message deleted
+        // checking that the user who sent the delete action has the privilege to do so
+        // action.extras.userClaim will be populated automatically with the claim from the JWT when claims are active
         return state.map((m) =>
           !(m.author !== author && action.extras?.userClaim === 'user') &&
           m.id === action.extras.ref.timeserial
@@ -106,6 +108,7 @@ const Claims = () => {
 
   const deleteMessage = (mid: string) => {
     return () => {
+      // Send a message interaction for the target message with the `com.ably.delete` reference type
       channel.publish('delete', {
         user: author,
         extras: {
@@ -123,8 +126,8 @@ const Claims = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="p-6 w-[480px] mx-auto">
+    <div className="flex flex-col items-center w-full">
+      <div className="p-6 md:w-[480px] mx-auto">
         <div className="rounded-lg bg-slate-100 p-4 mb-6">
           <p className="text-slate-500 text-center">
             Send messages from one or more windows. Toggle between roles to
@@ -133,11 +136,11 @@ const Claims = () => {
         </div>
       </div>
       <div
-        className={`bg-white w-[100%] rounded-lg ${
+        className={`bg-white w-full lg:w-1/3 rounded-lg ${
           moderator ? 'shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
-        } transition flex text-sm flex-col w-1/2`}
+        } transition flex text-sm flex-col`}
       >
-        <div className="flex-grow border-solid h-80 overflow-auto flex flex-col justify-end px-5">
+        <div className="flex-grow border-solid h-80 pb-5 overflow-auto flex flex-col justify-end px-5">
           {messages.map((m) => (
             <Message
               message={m}
@@ -204,10 +207,10 @@ function PrivilegeBar({
     } else {
       titleText = (
         <>
-          You have the <b>moderator</b> role
+          You have the <b>participant</b> role
         </>
       )
-      subtitleText = <>You can delete everyone's messages</>
+      subtitleText = <>You can delete your own messages</>
       Icon = UserCircleIcon
       iconColour = 'text-blue-500'
       iconBackground = 'bg-blue-100'
@@ -248,11 +251,11 @@ function Message({
 }) {
   return (
     <div
-      className={`mb-5 items-baseline ${
+      className={`mb-5 items-baseline relative ${
         local ? 'flex-row-reverse self-end' : 'flex-row'
       }`}
     >
-      <div className="bg-slate-200 p-1 px-2 rounded-lg">
+      <div className="bg-slate-200 p-1 px-2 mt-5 rounded-lg">
         <p className={`text-${local ? 'blue' : 'slate'}-400 font-bold`}>
           {message.author} {local ? '(you)' : ''}
         </p>
@@ -265,9 +268,9 @@ function Message({
         </p>
       </div>
       <button
-        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 p-1 px-2 cursor-pointer disabled:cursor-default ${
+        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 p-1 px-2 cursor-pointer disabled:cursor-default absolute ${
           local
-            ? 'text-right ml-[50%] rounded-tr-sm rounded-tl-lg'
+            ? 'text-right rounded-tr-sm rounded-tl-lg right-0'
             : 'ml-1 rounded-tr-lg rounded-tl-sm'
         } ${
           (!moderator && !local) || message.deleted ? 'opacity-0' : ''
