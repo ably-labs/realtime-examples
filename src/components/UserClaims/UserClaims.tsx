@@ -222,18 +222,20 @@ function PrivilegeBar({
     }
   }
   return (
-    <div className="flex pt-3 px-3 pb-5 items-center relative">
-      <div
-        className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
-      >
-        <Icon className={`w-6 ${iconColour} transition`} />
-      </div>
-      <div className="flex-grow">
-        <div>{titleText}</div>
-        <div className="text-slate-500">{subtitleText}</div>
+    <div className="flex pt-3 px-3 pb-5 relative flex-wrap lg:flex-row md:flex-col">
+      <div className="flex flex-row flex-grow lg:pb-0 pb-3">
+        <div
+          className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
+        >
+          <Icon className={`w-6 ${iconColour} transition`} />
+        </div>
+        <div>
+          <div>{titleText}</div>
+          <div className="text-slate-500">{subtitleText}</div>
+        </div>
       </div>
       <button
-        className="bg-slate-100 text-slate-800 rounded-full py-2 px-3 font-bold hover:bg-slate-50 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)]"
+        className="bg-slate-100 text-slate-800 rounded-full py-2 px-3 font-bold hover:bg-slate-50 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)] lg:w-auto w-full self-center"
         onClick={onToggle}
         disabled={loading}
       >
@@ -260,7 +262,11 @@ function Message({
         local ? 'flex-row-reverse self-end' : 'flex-row'
       }`}
     >
-      <div className="bg-slate-200 py-1 px-2 mt-5 rounded-lg">
+      <div
+        className={`${
+          local ? 'bg-blue-50' : 'bg-slate-100'
+        } py-1 px-2 mt-5 rounded-lg`}
+      >
         <p className={`text-${local ? 'blue' : 'slate'}-400 font-bold`}>
           {message.author} {local ? '(you)' : ''}
         </p>
