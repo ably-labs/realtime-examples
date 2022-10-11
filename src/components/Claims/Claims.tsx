@@ -136,7 +136,7 @@ const Claims = () => {
         <div className="rounded-lg bg-slate-100 p-4 mb-6">
           <p className="text-slate-500 text-center">
             Send messages from one or more windows. Toggle between roles to
-            delete messages sent by you or by anyone in the chat.
+            delete messages sent by you or by anyone else in the chat.
           </p>
         </div>
       </div>
