@@ -155,7 +155,7 @@ const Claims = () => {
           <input
             type="text"
             disabled={loading}
-            className="bg-slate-100 rounded-full p-2 px-3 flex-grow mr-2"
+            className="bg-slate-100 rounded-full py-2 px-3 flex-grow mr-2"
             placeholder="Type something..."
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
@@ -163,7 +163,7 @@ const Claims = () => {
           />
           <button
             onClick={sendMessage}
-            className="bg-slate-800 text-white rounded-full p-2 px-3 hover:bg-slate-700 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
+            className="bg-slate-800 text-white rounded-full py-2 px-3 hover:bg-slate-700 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
             disabled={loading}
           >
             Send
@@ -217,7 +217,7 @@ function PrivilegeBar({
     }
   }
   return (
-    <div className="flex pt-3 px-3 py-5 items-center relative">
+    <div className="flex pt-3 px-3 pb-5 items-center relative">
       <div
         className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
       >
@@ -228,7 +228,7 @@ function PrivilegeBar({
         <div className="text-slate-500">{subtitleText}</div>
       </div>
       <button
-        className="bg-slate-100 text-slate-800 rounded-full p-2 px-3 font-bold hover:bg-slate-50 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)]"
+        className="bg-slate-100 text-slate-800 rounded-full py-2 px-3 font-bold hover:bg-slate-50 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)]"
         onClick={onToggle}
         disabled={loading}
       >
@@ -255,7 +255,7 @@ function Message({
         local ? 'flex-row-reverse self-end' : 'flex-row'
       }`}
     >
-      <div className="bg-slate-200 p-1 px-2 mt-5 rounded-lg">
+      <div className="bg-slate-200 py-1 px-2 mt-5 rounded-lg">
         <p className={`text-${local ? 'blue' : 'slate'}-400 font-bold`}>
           {message.author} {local ? '(you)' : ''}
         </p>
@@ -268,7 +268,7 @@ function Message({
         </p>
       </div>
       <button
-        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 p-1 px-2 cursor-pointer disabled:cursor-default absolute ${
+        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 py-1 px-2 cursor-pointer disabled:cursor-default absolute ${
           local
             ? 'text-right rounded-tr-sm rounded-tl-lg right-0'
             : 'ml-1 rounded-tr-lg rounded-tl-sm'
