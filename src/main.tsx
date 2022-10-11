@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route element={<Layout />}>
         <Route path="/avatar-stack" element={<AvatarStack />} />
         <Route path="/emoji-reactions" element={<EmojiReactions />} />
-        <Route path="/claims" element={<Claims />} />
+        <Route path="/user-claims" element={<Claims />} />
       </Route>
     </Routes>
   </BrowserRouter>

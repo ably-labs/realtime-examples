@@ -1,11 +1,16 @@
 const Home = () => {
   return (
-    <div>
-      <a href="/avatar-stack">Avatar Stack</a>
-      <p>
+    <ul>
+      <li>
+        <a href="/avatar-stack">Avatar Stack</a>
+      </li>
+      <li>
         <a href="/emoji-reactions">Emoji Reactions</a>
-      </p>
-    </div>
+      </li>
+      <li>
+        <a href="/user-claims">User Claims</a>
+      </li>
+    </ul>
   )
 }
 export default Home

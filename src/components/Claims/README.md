@@ -4,7 +4,7 @@
 
 This folder contains the code for User Claims - a demo leveraging Ably's [user claims](https://ably.com/docs/api/realtime-sdk/authentication#ably-jwt) feature to allow users to delete their own or other's messages depending on privilege level.
 
-Try out the [live demo](https://examples.ably.dev/claims) of the User Claims.
+Try out the [live demo](https://examples.ably.dev/user-claims) of the User Claims.
 
 ## Running locally
 
@@ -22,7 +22,7 @@ Try out the [live demo](https://examples.ably.dev/claims) of the User Claims.
 
 ## Resources
 
-- Learn more about how to build your own [emoji reactions](https://ably.com/examples/emoji-reactions?utm_source=ably-labs&utm_medium=github&utm_campaign=user-claims).
+- Learn more about how to use [user claims](https://ably.com/examples/user-claims?utm_source=ably-labs&utm_medium=github&utm_campaign=user-claims).
 - To see what else is possible with Ably check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=user-claims).
 
 ## Support, feedback and troubleshooting
