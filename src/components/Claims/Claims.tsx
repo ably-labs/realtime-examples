@@ -26,6 +26,22 @@ type MessageDeleteEvent = { type: 'delete'; [key: string]: any }
 type MessageDispatch = MessageSendEvent | MessageClearEvent | MessageDeleteEvent
 
 const Claims = () => {
+  let { channelName, setProjectInfo } = useOutletContext<{
+    channelName: string
+    clientId: string
+    setProjectInfo: (projectInfo: ProjectInfo) => void
+  }>()
+
+  // 💡 Project specific wiring for showing this example
+  useEffect(() => {
+    setProjectInfo({
+      name: 'User Claims',
+      repoNameAndPath: 'realtime-examples/tree/main/src/components/Claims',
+      topic: 'user-claims',
+    })
+  }, [])
+
+  // 💡 Used to handle incoming events and action the changes against the message list
   const messageReducer = (
     state: Message[],
     action: MessageDispatch
@@ -35,9 +51,9 @@ const Claims = () => {
         action.message.id = action.id
         return state.concat(action.message)
       case 'delete':
-        // Delete the message by remapping the message list with the target message deleted
-        // checking that the user who sent the delete action has the privilege to do so
-        // action.extras.userClaim will be populated automatically with the claim from the JWT when claims are active
+        // 💡 Delete the message by remapping the message list with the target message deleted
+        //    checking that the user who sent the delete action has the privilege to do so
+        //    action.extras.userClaim will be populated automatically with the claim from the JWT when claims are active
         return state.map((m) =>
           !(m.author !== author && action.extras?.userClaim === 'user') &&
           m.id === action.extras.ref.timeserial
@@ -51,33 +67,49 @@ const Claims = () => {
     }
   }
 
+  // 💡 Transforms the message from ably into the format that the reducer expects
+  const handleMessage = (msg: Types.Message) => {
+    dispatchMessage({ type: msg.name, id: msg.id, ...msg.data })
+  }
+
+  // 💡 Handles pressing enter or the send button
+  const sendMessage = () => {
+    if (draft.length === 0) return
+    channel.publish('send', {
+      message: { author, content: draft, timestamp: new Date() },
+    })
+    setDraft('')
+  }
+
+  // 💡 Handles pressing the delete button
+  const deleteMessage = (mid: string) => {
+    return () => {
+      // 💡 Send a message interaction for the target message with the `com.ably.delete` reference type
+      channel.publish('delete', {
+        user: author,
+        extras: {
+          ref: { type: 'com.ably.delete', timeserial: mid },
+        },
+      })
+    }
+  }
+
+  // 💡 Switches between the moderator/normal user JWT
+  const switchMode = async () => {
+    setLoading(true)
+    await JWTUtil.switchToken(ably, channelName, moderator)
+    setModerator(!moderator)
+    setLoading(false)
+  }
+
   const [author] = useState(randomWords({ exactly: 2, join: '' }))
   const [draft, setDraft] = useState('')
   const [moderator, setModerator] = useState(false)
   const [loading, setLoading] = useState(false)
   const [messages, dispatchMessage] = useReducer(messageReducer, [])
+  const [channel, ably] = useChannel(channelName, handleMessage)
 
-  let { channelName, clientId, setProjectInfo } = useOutletContext<{
-    channelName: string
-    clientId: string
-    setProjectInfo: (projectInfo: ProjectInfo) => void
-  }>()
-
-  useEffect(() => {
-    setProjectInfo({
-      name: 'User Claims',
-      repoNameAndPath: 'realtime-examples/tree/main/src/components/UserClaims',
-      topic: 'user-claims',
-    })
-  }, [])
-
-  const handleMessage = (msg: Types.Message) => {
-    dispatchMessage({ type: msg.name, id: msg.id, ...msg.data })
-  }
-
-  // Access and subscribe to your channel using "useChannel" from "ably-react-hooks"
-  let [channel, ably] = useChannel(channelName, handleMessage)
-
+  // 💡 Effect to replay the message history, and add an initial message to new sessions
   useEffect(() => {
     channel.history((err, result) => {
       if (err || !result) return
@@ -97,33 +129,6 @@ const Claims = () => {
       }
     })
   }, [])
-
-  const sendMessage = () => {
-    if (draft.length === 0) return
-    channel.publish('send', {
-      message: { author, content: draft, timestamp: new Date() },
-    })
-    setDraft('')
-  }
-
-  const deleteMessage = (mid: string) => {
-    return () => {
-      // Send a message interaction for the target message with the `com.ably.delete` reference type
-      channel.publish('delete', {
-        user: author,
-        extras: {
-          ref: { type: 'com.ably.delete', timeserial: mid },
-        },
-      })
-    }
-  }
-
-  const switchMode = async () => {
-    setLoading(true)
-    await JWTUtil.switchToken(ably, channelName, moderator)
-    setModerator(!moderator)
-    setLoading(false)
-  }
 
   return (
     <div className="flex flex-col items-center w-full">
