@@ -11,19 +11,24 @@ const example: string = window.location.pathname
 let API_CONFIG: Types.ClientOptions = { clientId }
 switch (example) {
   case '/avatar-stack':
-    API_CONFIG.key = import.meta.env.VITE_ABLY_KEY_AVATAR_STACK
+    API_CONFIG.key =
+      import.meta.env.VITE_ABLY_KEY_AVATAR_STACK ||
+      import.meta.env.VITE_ABLY_KEY
     break
 
   case '/emoji-reactions':
-    API_CONFIG.key = import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS
+    API_CONFIG.key =
+      import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS ||
+      import.meta.env.VITE_ABLY_KEY
     break
 
   case '/claims':
     API_CONFIG.authCallback = (e, cb) => {
       CreateJWT(
         clientId,
-        import.meta.env.VITE_ABLY_KEY,
-        e.clientId === 'true' ? 'moderator' : 'user'
+        import.meta.env.VITE_ABLY_KEY_USER_CLAIMS ||
+          import.meta.env.VITE_ABLY_KEY,
+        e.nonce === 'true' ? 'moderator' : 'user'
       ).then((key) => {
         cb(null as any, key)
       })

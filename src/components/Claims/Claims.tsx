@@ -26,7 +26,7 @@ type MessageDeleteEvent = { type: 'delete'; [key: string]: any }
 type MessageDispatch = MessageSendEvent | MessageClearEvent | MessageDeleteEvent
 
 const Claims = () => {
-  let { channelName, setProjectInfo } = useOutletContext<{
+  let { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
     setProjectInfo: (projectInfo: ProjectInfo) => void
@@ -97,7 +97,7 @@ const Claims = () => {
   // 💡 Switches between the moderator/normal user JWT
   const switchMode = async () => {
     setLoading(true)
-    await JWTUtil.switchToken(ably, channelName, moderator)
+    await JWTUtil.switchToken(ably, clientId, channelName, moderator)
     setModerator(!moderator)
     setLoading(false)
   }
