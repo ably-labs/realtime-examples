@@ -84,9 +84,9 @@ const Claims = () => {
       if (result.items.length === 0) {
         channel.publish('send', {
           message: {
-            author: 'Name of person',
+            author: 'Placeholder Author Name',
             content:
-              'This is a fake message from someone else, as a placeholder',
+              'This is a fake message from someone else, switch to moderator and try deleting it',
             timestamp: new Date(),
           },
         })
