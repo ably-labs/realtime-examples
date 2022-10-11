@@ -6,7 +6,7 @@ Click on any of the links below to find out more specific information on each ex
 
 - [Avatar Stack](/src/components/AvatarStack/README.md)
 - [Emoji Reactions](/src/components/EmojiReactions/README.md)
-- [User Claims](/src/components/Claims/README.md)
+- [User Claims](/src/components/UserClaims/README.md)
 
 All of the examples are built with the following technology:
 

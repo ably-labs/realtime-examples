@@ -6,7 +6,7 @@ import Layout from './Layout'
 import AvatarStack from './components/AvatarStack'
 import Home from './home'
 import EmojiReactions from './components/EmojiReactions/EmojiReactions'
-import Claims from './components/Claims/Claims'
+import UserClaims from './components/UserClaims/UserClaims'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Route element={<Layout />}>
         <Route path="/avatar-stack" element={<AvatarStack />} />
         <Route path="/emoji-reactions" element={<EmojiReactions />} />
-        <Route path="/user-claims" element={<Claims />} />
+        <Route path="/user-claims" element={<UserClaims />} />
       </Route>
     </Routes>
   </BrowserRouter>

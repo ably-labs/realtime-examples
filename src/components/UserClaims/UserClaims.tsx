@@ -25,7 +25,7 @@ type MessageDeleteEvent = { type: 'delete'; [key: string]: any }
 
 type MessageDispatch = MessageSendEvent | MessageClearEvent | MessageDeleteEvent
 
-const Claims = () => {
+const UserClaims = () => {
   let { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
@@ -36,7 +36,7 @@ const Claims = () => {
   useEffect(() => {
     setProjectInfo({
       name: 'User Claims',
-      repoNameAndPath: 'realtime-examples/tree/main/src/components/Claims',
+      repoNameAndPath: 'realtime-examples/tree/main/src/components/UserClaims',
       topic: 'user-claims',
     })
   }, [])
@@ -289,4 +289,4 @@ function Message({
   )
 }
 
-export default Claims
+export default UserClaims
