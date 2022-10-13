@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import { Types } from 'ably'
 import type { ProjectInfo } from '../../Layout'
 import {
+  PaperAirplaneIcon,
   RefreshIcon,
   ShieldCheckIcon,
   UserCircleIcon,
@@ -142,7 +143,7 @@ const UserClaims = () => {
       </div>
       <div
         className={`bg-white w-full lg:w-1/3 rounded-lg ${
-          moderator ? 'shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
+          moderator ? 'md:shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
         } transition flex text-sm flex-col`}
       >
         <div className="flex-grow border-solid h-80 pb-5 overflow-auto flex flex-col justify-end px-5">
@@ -168,10 +169,10 @@ const UserClaims = () => {
           />
           <button
             onClick={sendMessage}
-            className="bg-slate-800 text-white rounded-full py-2 px-3 hover:bg-slate-700 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
+            className="bg-slate-800 text-white rounded-full p-2 hover:bg-slate-900 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
             disabled={loading}
           >
-            Send
+            <PaperAirplaneIcon className="w-5 h-5 rotate-90" />
           </button>
         </div>
         <PrivilegeBar
@@ -217,8 +218,8 @@ function PrivilegeBar({
       )
       subtitleText = <>You can delete your own messages</>
       Icon = UserCircleIcon
-      iconColour = 'text-blue-500'
-      iconBackground = 'bg-blue-100'
+      iconColour = 'text-slate-800'
+      iconBackground = 'bg-slate-200'
     }
   }
   return (
@@ -235,7 +236,7 @@ function PrivilegeBar({
         </div>
       </div>
       <button
-        className="bg-slate-100 text-slate-800 rounded-full py-2 px-3 font-bold hover:bg-slate-50 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)] lg:w-auto w-full self-center"
+        className={`bg-blue-500 text-white rounded-full py-2 px-3 font-bold hover:bg-blue-600 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)] lg:w-auto w-full self-center`}
         onClick={onToggle}
         disabled={loading}
       >
