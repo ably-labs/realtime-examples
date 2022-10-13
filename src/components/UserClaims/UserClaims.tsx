@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import { Types } from 'ably'
 import type { ProjectInfo } from '../../Layout'
 import {
+  LightBulbIcon,
   PaperAirplaneIcon,
   RefreshIcon,
   ShieldCheckIcon,
@@ -133,14 +134,6 @@ const UserClaims = () => {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="p-6 md:w-[480px] mx-auto">
-        <div className="rounded-lg bg-slate-100 p-4 mb-6">
-          <p className="text-slate-500 text-center">
-            Send messages from one or more windows. Toggle between roles to
-            delete messages sent by you or by anyone else in the chat.
-          </p>
-        </div>
-      </div>
       <div
         className={`bg-white w-full lg:w-1/3 rounded-lg ${
           moderator ? 'md:shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
@@ -180,6 +173,13 @@ const UserClaims = () => {
           loading={loading}
           onToggle={switchMode}
         />
+      </div>
+      <div className="p-6 w-full lg:w-1/3 mx-auto rounded-lg bg-purple-100 p-4 mt-6 flex">
+        <LightBulbIcon className="w-[5em] text-purple-600" />
+        <p className="text-purple-900 text-center flex-grow">
+          Send messages from one or more windows. Toggle between roles to delete
+          messages sent by you or by anyone else in the chat.
+        </p>
       </div>
     </div>
   )
