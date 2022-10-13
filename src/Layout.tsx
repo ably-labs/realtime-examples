@@ -83,7 +83,7 @@ const Layout = () => {
   }, [channelId])
 
   return (
-    <main className="h-screen flex pt-6 md:pt-0 md:items-center justify-center font-sans">
+    <main className="h-screen flex pt-6 md:pt-0 md:items-center justify-center font-sans bg-slate-50">
       <Outlet context={{ channelName: channelId, clientId, setProjectInfo }} />
       <div className="fixed bottom-0 md:absolute md:left-12 md:bottom-12">
         <InfoCard projectInfo={projectInfo} />
