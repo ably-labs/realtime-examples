@@ -265,7 +265,9 @@ function Message({
           local ? 'bg-blue-50' : 'bg-slate-100'
         } py-1 px-2 mt-5 rounded-lg`}
       >
-        <p className={`text-${local ? 'blue' : 'slate'}-400 font-bold`}>
+        <p
+          className={`${local ? 'text-blue-400' : 'text-slate-400'} font-bold`}
+        >
           {message.author} {local ? '(you)' : ''}
         </p>
         <p
