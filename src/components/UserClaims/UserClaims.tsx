@@ -118,9 +118,8 @@ const UserClaims = () => {
       if (result.items.length === 0) {
         channel.publish('send', {
           message: {
-            author: 'Placeholder Author Name',
-            content:
-              'This is a fake message from someone else, switch to moderator and try deleting it',
+            author: 'Joe Bloggs',
+            content: "You won't believe this get rich quick scheme!",
             timestamp: new Date(),
           },
         })
@@ -154,7 +153,7 @@ const UserClaims = () => {
           <input
             type="text"
             disabled={loading}
-            className="bg-slate-100 rounded-full py-2 px-3 flex-grow mr-2"
+            className="bg-slate-100 rounded-full py-2 px-3 flex-grow mr-2 transition"
             placeholder="Type something..."
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
