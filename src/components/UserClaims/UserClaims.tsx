@@ -124,9 +124,7 @@ const UserClaims = () => {
           },
         })
       } else {
-        for (let i = result.items.length - 1; i >= 0; i--) {
-          handleMessage(result.items[i])
-        }
+        result.items.reverse().forEach(handleMessage)
       }
     })
   }, [])
