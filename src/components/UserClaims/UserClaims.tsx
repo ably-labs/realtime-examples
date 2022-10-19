@@ -1,5 +1,5 @@
 import { useChannel } from '@ably-labs/react-hooks'
-import { useEffect, useReducer, useState } from 'react'
+import { SVGProps, useEffect, useReducer, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { Types } from 'ably'
 import type { ProjectInfo } from '../../Layout'
@@ -191,47 +191,41 @@ function PrivilegeBar({
   loading: boolean
   onToggle: () => void
 }) {
-  let iconColour = 'text-slate-500'
-  let iconBackground = 'bg-slate-100'
-  let Icon = RefreshIcon
-  let titleText = <>Switching roles</>
-  let subtitleText = <>Loading...</>
-  if (!loading) {
-    if (moderator) {
-      titleText = (
-        <>
-          You have the <b>moderator</b> role
-        </>
-      )
-      subtitleText = <>You can delete everyone's messages</>
-      Icon = ShieldCheckIcon
-      iconColour = 'text-orange-500'
-      iconBackground = 'bg-orange-100'
-    } else {
-      titleText = (
-        <>
-          You have the <b>participant</b> role
-        </>
-      )
-      subtitleText = <>You can delete your own messages</>
-      Icon = UserCircleIcon
-      iconColour = 'text-slate-800'
-      iconBackground = 'bg-slate-200'
-    }
-  }
   return (
     <div className="flex pt-3 px-3 pb-5 relative flex-wrap lg:flex-row md:flex-col">
-      <div className="flex flex-row flex-grow lg:pb-0 pb-3">
-        <div
-          className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
-        >
-          <Icon className={`w-6 ${iconColour} transition`} />
-        </div>
-        <div>
-          <div>{titleText}</div>
-          <div className="text-slate-500">{subtitleText}</div>
-        </div>
-      </div>
+      {loading ? (
+        <PrivilegeBarInner
+          Icon={RefreshIcon}
+          titleText="Switching roles"
+          subtitleText="Loading..."
+          iconColour="text-slate-500"
+          iconBackground="bg-slate-100"
+        />
+      ) : moderator ? (
+        <PrivilegeBarInner
+          Icon={ShieldCheckIcon}
+          titleText={
+            <>
+              You have the <b>moderator</b> role
+            </>
+          }
+          subtitleText="You can delete everyone's messages"
+          iconColour="text-orange-500"
+          iconBackground="bg-orange-100"
+        />
+      ) : (
+        <PrivilegeBarInner
+          Icon={UserCircleIcon}
+          titleText={
+            <>
+              You have the <b>participant</b> role
+            </>
+          }
+          subtitleText="You can delete your own messages"
+          iconColour="text-slate-800"
+          iconBackground="bg-slate-200"
+        />
+      )}
       <button
         className={`bg-blue-500 text-white rounded-full py-2 px-3 font-bold hover:bg-blue-600 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)] lg:w-auto w-full self-center`}
         onClick={onToggle}
@@ -239,6 +233,34 @@ function PrivilegeBar({
       >
         Switch to {moderator ? 'participant' : 'moderator'}
       </button>
+    </div>
+  )
+}
+
+function PrivilegeBarInner({
+  Icon,
+  iconBackground,
+  iconColour,
+  titleText,
+  subtitleText,
+}: {
+  Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
+  iconBackground: string
+  iconColour: string
+  titleText: string | JSX.Element
+  subtitleText: string
+}) {
+  return (
+    <div className="flex flex-row flex-grow lg:pb-0 pb-3">
+      <div
+        className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
+      >
+        <Icon className={`w-6 ${iconColour} transition`} />
+      </div>
+      <div>
+        <div>{titleText}</div>
+        <div className="text-slate-500">{subtitleText}</div>
+      </div>
     </div>
   )
 }
