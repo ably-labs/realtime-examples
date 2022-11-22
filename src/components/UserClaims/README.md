@@ -1,6 +1,6 @@
 ## Overview
 
-![Emoji Reaction](./Ably-User-Claims.png)
+![User Claims](./Ably-User-Claims.png)
 
 This folder contains the code for User Claims - a demo leveraging Ably's [user claims](https://ably.com/docs/core-features/authentication#jwt-claims) feature to allow users to delete their own or other's messages depending on their privilege level.
 
