@@ -132,7 +132,7 @@ const UserClaims = () => {
   return (
     <div className="flex flex-col items-center w-full">
       <div
-        className={`bg-white w-full lg:w-1/3 rounded-lg ${
+        className={`bg-white w-full lg:w-1/3 lg:min-w-[600px] rounded-lg ${
           moderator ? 'md:shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
         } transition flex text-sm flex-col`}
       >

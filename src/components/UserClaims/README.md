@@ -1,10 +1,10 @@
 ## Overview
 
-[#TODO]
+![User Claims](./Ably-User-Claims.png)
 
-This folder contains the code for User Claims - a demo leveraging Ably's [user claims](https://ably.com/docs/api/realtime-sdk/authentication#ably-jwt) feature to allow users to delete their own or other's messages depending on their privilege level.
+This folder contains the code for User Claims - a demo leveraging Ably's [user claims](https://ably.com/docs/core-features/authentication#jwt-claims) feature to allow users to delete their own or other's messages depending on their privilege level.
 
-Try out the [live demo](https://examples.ably.dev/user-claims) of the User Claims.
+Try out the [live demo](https://examples.ably.dev/user-claims) of the Chat Admin Privileges.
 
 ## Running locally
 
