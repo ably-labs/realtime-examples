@@ -136,7 +136,7 @@ const UserClaims = () => {
           moderator ? 'md:shadow-[0_0_0_8px_rgb(255,237,212)]' : 'shadow-md'
         } transition flex text-sm flex-col`}
       >
-        <div className="flex-grow border-solid h-80 pb-5 overflow-auto flex flex-col justify-end px-5">
+        <div className="border-solid h-[21rem] pb-5 overflow-auto px-5">
           {messages.map((m) => (
             <Message
               message={m}
@@ -171,9 +171,9 @@ const UserClaims = () => {
           onToggle={switchMode}
         />
       </div>
-      <div className="p-6 w-full lg:w-1/3 mx-auto rounded-lg bg-purple-100 p-4 mt-6 flex">
+      <div className="p-6 w-full lg:w-1/3 lg:min-w-[600px] mx-auto rounded-lg bg-purple-100 p-4 mt-6 flex space-x-3">
         <LightBulbIcon className="w-[5em] text-purple-600" />
-        <p className="text-purple-900 text-center flex-grow">
+        <p className="text-purple-900 flex-grow text-sm">
           Send messages from one or more windows. Toggle between roles to delete
           messages sent by you or by anyone else in the chat.
         </p>
@@ -278,14 +278,14 @@ function Message({
 }) {
   return (
     <div
-      className={`mb-5 items-baseline relative ${
-        local ? 'flex-row-reverse self-end' : 'flex-row'
+      className={`mb-12 mt-5  items-baseline relative ${
+        local ? 'flex justify-end' : 'flex-row'
       }`}
     >
       <div
         className={`${
           local ? 'bg-blue-50' : 'bg-slate-100'
-        } py-1 px-2 mt-5 rounded-lg`}
+        } py-1 px-2 rounded-lg w-full max-w-[350px]`}
       >
         <p
           className={`${local ? 'text-blue-400' : 'text-slate-400'} font-bold`}
@@ -301,7 +301,7 @@ function Message({
         </p>
       </div>
       <button
-        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 py-1 px-2 cursor-pointer disabled:cursor-default absolute ${
+        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 py-1 px-2 cursor-pointer disabled:cursor-default absolute -bottom-10 ${
           local
             ? 'text-right rounded-tr-sm rounded-tl-lg right-0'
             : 'ml-1 rounded-tr-lg rounded-tl-sm'
