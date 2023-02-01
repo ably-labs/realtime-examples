@@ -14,6 +14,9 @@ import useClickOutsideList from './useClickOutsideList'
 
 dayjs.extend(relativeTime)
 
+const REMOVE_USER_AFTER_MILLIS = 120_000
+const MAX_USERS_BEFORE_LIST = 5
+
 const AvatarStack = () => {
   const { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
@@ -60,7 +63,6 @@ const AvatarStack = () => {
 
   // 💡 Effect to remove users who have left more than 2 minutes ago using the Ably presence history
   useEffect(() => {
-    const REMOVE_USER_AFTER_MILLIS = 120_000
     if (pastUsers.length > 0) {
       setTimeout(() => {
         channel.presence.history((err, result) => {
@@ -76,8 +78,6 @@ const AvatarStack = () => {
       }, REMOVE_USER_AFTER_MILLIS + 5000)
     }
   }, [pastUsers.length])
-
-  const MAX_USERS_BEFORE_LIST = 5
 
   const otherUsers = [
     ...presenceUsers.filter(
