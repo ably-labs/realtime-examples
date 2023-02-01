@@ -9,28 +9,9 @@ import type { ProjectInfo } from '../../Layout'
 import { fakeNames, colours } from './utils/fakeData'
 import { UserCircleIcon } from '@heroicons/react/outline'
 
-dayjs.extend(relativeTime)
+import UserInfo from './UserInfo'
 
-// 💡 Displays basic information about user & their presence status
-const UserInfo: FunctionComponent<{ user: Types.PresenceMessage }> = ({
-  user,
-}) => {
-  return (
-    <>
-      <p className="font-semibold">{user.data.name}</p>
-      <div className="flex items-center justify-start">
-        <div
-          className={`${
-            user.action === 'leave' ? 'bg-slate-500' : 'bg-green-500'
-          } w-2 h-2 rounded-full mr-2`}
-        />
-        <p className="font-medium text-sm">
-          {user.action === 'leave' ? dayjs().to(user.timestamp) : 'Online now'}
-        </p>
-      </div>
-    </>
-  )
-}
+dayjs.extend(relativeTime)
 
 const AvatarStack = () => {
   const [pastUsers, setPastUsers] = useState<Types.PresenceMessage[]>([])
