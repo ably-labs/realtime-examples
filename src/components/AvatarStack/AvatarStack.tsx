@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, FunctionComponent } from 'react'
+import { useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 import type { Types } from 'ably'
 import relativeTime from 'dayjs/plugin/relativeTime'
@@ -10,20 +10,16 @@ import { fakeNames, colours } from './utils/fakeData'
 import { UserCircleIcon } from '@heroicons/react/outline'
 
 import UserInfo from './UserInfo'
+import useClickOutsideList from './useClickOutsideList'
 
 dayjs.extend(relativeTime)
 
 const AvatarStack = () => {
-  const [pastUsers, setPastUsers] = useState<Types.PresenceMessage[]>([])
-  const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
   const { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
     setProjectInfo: (projectInfo: ProjectInfo) => void
   }>()
-
-  const listRef = useRef<HTMLDivElement>(null)
-  const plusButtonRef = useRef<HTMLDivElement>(null)
 
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
@@ -34,30 +30,12 @@ const AvatarStack = () => {
     })
   }, [])
 
-  // 💡 Handler to click outside user list
-  useEffect(() => {
-    const listener = (event: MouseEvent | TouchEvent) => {
-      if (
-        !listRef.current ||
-        listRef.current.contains(event.target as Node) ||
-        !plusButtonRef.current ||
-        plusButtonRef.current.contains(event.target as Node)
-      ) {
-        return
-      }
-
-      setShowList(false)
-    }
-
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
-    return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
-    }
-  }, [listRef, plusButtonRef])
-
+  const [pastUsers, setPastUsers] = useState<Types.PresenceMessage[]>([])
+  const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
   const [showList, setShowList] = useState(false)
+  const { listRef, plusButtonRef } = useClickOutsideList(() =>
+    setShowList(false)
+  )
 
   // 💡 Connect current user to Ably Presence with a random fake name
   const [presenceUsers] = usePresence(channelName, {
