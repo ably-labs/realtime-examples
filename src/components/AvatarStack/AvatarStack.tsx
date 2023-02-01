@@ -86,7 +86,7 @@ const AvatarStack = () => {
       (presenceUser) => presenceUser.clientId !== clientId
     ),
     ...pastUsers,
-  ]
+  ].filter((val, index, arr) => arr.indexOf(val) === index)
 
   return (
     <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
