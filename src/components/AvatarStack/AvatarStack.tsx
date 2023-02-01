@@ -17,6 +17,8 @@ dayjs.extend(relativeTime)
 const REMOVE_USER_AFTER_MILLIS = 120_000
 const MAX_USERS_BEFORE_LIST = 5
 
+const fakeName = () => fakeNames[Math.floor(Math.random() * fakeNames.length)]
+
 const AvatarStack = () => {
   const { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
@@ -42,7 +44,7 @@ const AvatarStack = () => {
 
   // 💡 Connect current user to Ably Presence with a random fake name
   const [presenceUsers] = usePresence(channelName, {
-    name: fakeNames[Math.floor(Math.random() * fakeNames.length)],
+    name: fakeName(),
   })
 
   // 💡 This is used to access Ably's `channel.presence.history`
