@@ -1,1 +1,1 @@
-export { default } from './AvatarStack'
+export { default } from './Project'
