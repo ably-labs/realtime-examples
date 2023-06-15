@@ -10,12 +10,6 @@ const clientId = nanoid()
 const example: string = window.location.pathname
 let API_CONFIG: Types.ClientOptions = { clientId }
 switch (example) {
-  case '/avatar-stack':
-    API_CONFIG.key =
-      import.meta.env.VITE_ABLY_KEY_AVATAR_STACK ||
-      import.meta.env.VITE_ABLY_KEY
-    break
-
   case '/emoji-reactions':
     API_CONFIG.key =
       import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS ||

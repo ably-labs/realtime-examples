@@ -1,85 +1,52 @@
-import { useState, useEffect } from 'react'
+import Spaces, { SpaceMember } from '@ably-labs/spaces'
+import { configureAbly } from '@ably-labs/react-hooks'
+import { useEffect, useState } from 'react'
+import Avatars, { SelfAvatar } from './Avatars'
 import dayjs from 'dayjs'
-import type { Types } from 'ably'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { usePresence, useChannel } from '@ably-labs/react-hooks'
-
+import Surplus from './Surplus'
 import { fakeNames } from './utils/fakeData'
 
-import { REMOVE_USER_AFTER_MILLIS } from './utils/constants'
-import Avatars, { YouAvatar } from './Avatars'
-import Surplus from './Surplus'
-
 dayjs.extend(relativeTime)
-
 const fakeName = () => fakeNames[Math.floor(Math.random() * fakeNames.length)]
 
-const AvatarStack = ({
-  channelName,
-  clientId,
-}: {
-  channelName: string
-  clientId: string
-}) => {
-  const [pastUsers, setPastUsers] = useState<Types.PresenceMessage[]>([])
+let ABLY_API_KEY =
+  import.meta.env.VITE_ABLY_KEY_AVATAR_STACK || import.meta.env.VITE_ABLY_KEY
 
-  // 💡 Connect current user to Ably Presence with a random fake name
-  const [presenceUsers] = usePresence(channelName, {
-    name: fakeName(),
+const initializeSpace = async (clientId: string, setMembers: any) => {
+  const client = configureAbly({ key: ABLY_API_KEY, clientId })
+  const spaces = new Spaces(client)
+
+  const space = await spaces.get('avatar-stack')
+
+  space.on('membersUpdate', (members: SpaceMember[]) => {
+    const self = space.getSelf()
+    const others = members.filter(
+      (member) => member.connectionId !== self?.connectionId
+    )
+    setMembers(others)
   })
 
-  // 💡 This is used to access Ably's `channel.presence.history`
-  const [channel] = useChannel(channelName, () => {})
+  space.enter({ name: fakeName() })
+}
 
-  // 💡 Effect to set past users from the Ably presence history
+const AvatarStack = ({ clientId }: { clientId: string }) => {
+  const [members, setMembers] = useState([])
   useEffect(() => {
-    if (presenceUsers.length >= 1) {
-      channel.presence.history((err, result) => {
-        const pastUsers = result?.items.filter(
-          (resultItem) => resultItem.action === 'leave'
-        )
-
-        setPastUsers(pastUsers || [])
-      })
-    }
-  }, [presenceUsers])
-
-  // 💡 Effect to remove users who have left more than 2 minutes ago using the Ably presence history
-  useEffect(() => {
-    if (pastUsers.length > 0) {
-      setTimeout(() => {
-        channel.presence.history((err, result) => {
-          const leftUsers = result?.items.filter(
-            (user) =>
-              user.action === 'leave' &&
-              Math.floor((Date.now() - user.timestamp) / 1000) >
-                REMOVE_USER_AFTER_MILLIS
-          )
-
-          setPastUsers(leftUsers || [])
-        })
-      }, REMOVE_USER_AFTER_MILLIS + 5000)
-    }
-  }, [pastUsers.length])
-
-  const otherUsers = [
-    ...presenceUsers.filter(
-      (presenceUser) => presenceUser.clientId !== clientId
-    ),
-    ...pastUsers,
-  ].filter((val, index, arr) => arr.indexOf(val) === index)
+    initializeSpace(clientId, setMembers)
+  }, [clientId])
 
   return (
     <div className="w-screen flex justify-between px-6 md:max-w-lg md:-mt-32">
       {/** 💡 "You" avatar 💡 */}
-      <YouAvatar />
+      <SelfAvatar />
 
       <div className="relative">
         {/** 💡 Stack of first 5 avatars.💡 */}
-        <Avatars otherUsers={otherUsers} />
+        <Avatars otherUsers={members} />
 
         {/** 💡 Dropdown list of surplus users 💡 */}
-        <Surplus otherUsers={otherUsers} />
+        <Surplus otherUsers={members} />
       </div>
     </div>
   )
