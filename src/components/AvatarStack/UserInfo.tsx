@@ -5,6 +5,7 @@ import { SpaceMember } from '@ably-labs/spaces'
 const UserInfo: FunctionComponent<{ user: SpaceMember }> = ({ user }) => {
   return (
     <>
+      {/* 💡 Display the name of the user from the `profileData` object 💡 */}
       <p className="font-semibold">{user.profileData.name}</p>
       <p className="font-semibold"></p>
       <div className="flex items-center justify-start">
