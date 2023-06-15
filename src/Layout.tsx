@@ -8,7 +8,7 @@ import { Types } from 'ably'
 import { SignJWT } from 'jose'
 const clientId = nanoid()
 const example: string = window.location.pathname
-let API_CONFIG: Types.ClientOptions = { clientId }
+let API_CONFIG: Types.ClientOptions | string = { clientId }
 switch (example) {
   case '/emoji-reactions':
     API_CONFIG.key =
