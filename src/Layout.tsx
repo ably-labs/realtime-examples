@@ -16,7 +16,7 @@ switch (example) {
       import.meta.env.VITE_ABLY_KEY
     break
 
-  case '/claims':
+  case '/user-claims':
     API_CONFIG.authCallback = (e, cb) => {
       CreateJWT(
         clientId,
