@@ -20,7 +20,7 @@ const Project = () => {
     })
   }, [])
 
-  return <AvatarStack channelName={channelName} clientId={clientId} />
+  return <AvatarStack clientId={clientId} />
 }
 
 export default Project
