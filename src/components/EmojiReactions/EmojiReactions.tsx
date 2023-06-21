@@ -81,11 +81,13 @@ const EmojiReactions = () => {
   }
 
   // Subscribe to emoji reactions for a message using the message timeserial
+
   const getMessageReactions = () => {
     channel.subscribe(
       {
         name: ADD_REACTION_EVENT,
         refTimeserial: chatMessage.timeserial,
+        clientId: clientId,
       },
       (reaction) => {
         // Update current chat message with its reaction(s)
