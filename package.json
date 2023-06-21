@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ably-labs/react-hooks": "^2.0.7",
+    "@ably-labs/spaces": "^0.0.7",
     "@heroicons/react": "^1.0.6",
     "dayjs": "^1.11.4",
     "jose": "^4.9.3",

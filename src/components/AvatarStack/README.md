@@ -2,7 +2,7 @@
 
 ![Avatar Stack Start screen](./Ably-Avatar-Stack.png)
 
-This folder contains the code for the Avatar Stack - a demo of how you can leverage Ably to show a list of currently online users.
+This folder contains the code for the Avatar Stack - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show a list of currently online users.
 
 Try out the [live demo](https://examples.ably.dev/avatar-stack) of the avatar stack.
 
