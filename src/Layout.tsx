@@ -6,15 +6,18 @@ import { configureAbly } from '@ably-labs/react-hooks'
 import InfoCard from './InfoCard'
 import { Types } from 'ably'
 import { SignJWT } from 'jose'
+
 const clientId = nanoid()
 const example: string = window.location.pathname
 let API_CONFIG: Types.ClientOptions = { clientId }
+
 switch (example) {
-  case '/avatar-stack':
+  case '/avatar-stack': {
     API_CONFIG.key =
       import.meta.env.VITE_ABLY_KEY_AVATAR_STACK ||
       import.meta.env.VITE_ABLY_KEY
     break
+  }
 
   case '/emoji-reactions':
     API_CONFIG.key =
@@ -22,7 +25,7 @@ switch (example) {
       import.meta.env.VITE_ABLY_KEY
     break
 
-  case '/claims':
+  case '/user-claims':
     API_CONFIG.authCallback = (e, cb) => {
       CreateJWT(
         clientId,
