@@ -6,9 +6,11 @@ import { configureAbly } from '@ably-labs/react-hooks'
 import InfoCard from './InfoCard'
 import { Types } from 'ably'
 import { SignJWT } from 'jose'
+
 const clientId = nanoid()
 const example: string = window.location.pathname
 let API_CONFIG: Types.ClientOptions = { clientId }
+
 switch (example) {
   case '/live-cursors':
     API_CONFIG.key =
