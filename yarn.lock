@@ -9,6 +9,13 @@
   dependencies:
     ably "^1.2.27"
 
+"@ably-labs/spaces@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@ably-labs/spaces/-/spaces-0.0.7.tgz#28b0c12fc1a06a6400972621e09fe6e4f314254a"
+  integrity sha512-/1fjzA8iDa7iXjmXzLZWFixcLxEmSnfd9dOMDciH9mHqSLaGsXdu9w7BC3zG7IyqAHcEaPaM5fbMsse/2sET7g==
+  dependencies:
+    ably "^1.2.39"
+
 "@ably/msgpack-js@^0.4.0":
   version "0.4.0"
   resolved "https://registry.npmjs.org/@ably/msgpack-js/-/msgpack-js-0.4.0.tgz"
@@ -432,6 +439,15 @@ ably@^1.2.27:
   dependencies:
     "@ably/msgpack-js" "^0.4.0"
     got "^11.8.2"
+    ws "^5.1"
+
+ably@^1.2.39:
+  version "1.2.40"
+  resolved "https://registry.yarnpkg.com/ably/-/ably-1.2.40.tgz#8e52d28f1f11a3eef3456b247398d50a4be9b864"
+  integrity sha512-Rmc/IBW9BQeDqaVZdeYD2HMakfzoumHw8Ag3JtqxdC8xcc50k69FDY3Y1t9Mp7nrDQDjDYXvHgiOkVp99jNjHA==
+  dependencies:
+    "@ably/msgpack-js" "^0.4.0"
+    got "^11.8.5"
     ws "^5.1"
 
 acorn-node@^1.8.2:
@@ -989,6 +1005,23 @@ got@^11.8.2:
   version "11.8.5"
   resolved "https://registry.npmjs.org/got/-/got-11.8.5.tgz"
   integrity sha512-o0Je4NvQObAuZPHLFoRSkdG2lTgtcynqymzg2Vupdx6PorhaT5MCbIyXG6d4D94kk8ZG57QeosgdiqfJWhEhlQ==
+  dependencies:
+    "@sindresorhus/is" "^4.0.0"
+    "@szmarczak/http-timer" "^4.0.5"
+    "@types/cacheable-request" "^6.0.1"
+    "@types/responselike" "^1.0.0"
+    cacheable-lookup "^5.0.3"
+    cacheable-request "^7.0.2"
+    decompress-response "^6.0.0"
+    http2-wrapper "^1.0.0-beta.5.2"
+    lowercase-keys "^2.0.0"
+    p-cancelable "^2.0.0"
+    responselike "^2.0.0"
+
+got@^11.8.5:
+  version "11.8.6"
+  resolved "https://registry.yarnpkg.com/got/-/got-11.8.6.tgz#276e827ead8772eddbcfc97170590b841823233a"
+  integrity sha512-6tfZ91bOr7bOXnK7PRDCGBLa1H4U080YHNaAQ2KsMGlLEzRbk44nsZF2E1IeRc3vtJHPVbKCYgdFbaGO2ljd8g==
   dependencies:
     "@sindresorhus/is" "^4.0.0"
     "@szmarczak/http-timer" "^4.0.5"
