@@ -2,6 +2,9 @@ const Home = () => {
   return (
     <ul>
       <li>
+        <a href="/live-cursors">Live Cursors</a>
+      </li>
+      <li>
         <a href="/avatar-stack">Avatar Stack</a>
       </li>
       <li>

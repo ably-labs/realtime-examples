@@ -10,6 +10,12 @@ const clientId = nanoid()
 const example: string = window.location.pathname
 let API_CONFIG: Types.ClientOptions = { clientId }
 switch (example) {
+  case '/live-cursors':
+    API_CONFIG.key =
+      import.meta.env.VITE_ABLY_KEY_LIVE_CURSORS ||
+      import.meta.env.VITE_ABLY_KEY
+    break
+
   case '/avatar-stack':
     API_CONFIG.key =
       import.meta.env.VITE_ABLY_KEY_AVATAR_STACK ||
@@ -22,7 +28,7 @@ switch (example) {
       import.meta.env.VITE_ABLY_KEY
     break
 
-  case '/claims':
+  case '/user_claims':
     API_CONFIG.authCallback = (e, cb) => {
       CreateJWT(
         clientId,
