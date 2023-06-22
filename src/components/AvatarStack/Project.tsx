@@ -5,7 +5,7 @@ import type { ProjectInfo } from '../../Layout'
 import AvatarStack from './AvatarStack'
 
 const Project = () => {
-  const { setProjectInfo } = useOutletContext<{
+  const { channelName, clientId, setProjectInfo } = useOutletContext<{
     channelName: string
     clientId: string
     setProjectInfo: (projectInfo: ProjectInfo) => void
@@ -20,7 +20,7 @@ const Project = () => {
     })
   }, [])
 
-  return <AvatarStack />
+  return <AvatarStack channelName={channelName} clientId={clientId} />
 }
 
 export default Project

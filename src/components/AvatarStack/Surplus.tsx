@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { SpaceMember } from '@ably-labs/spaces'
+import { Types } from 'ably'
+
 import useClickOutsideList from './useClickOutsideList'
 import { MAX_USERS_BEFORE_LIST } from './utils/constants'
 import UserInfo from './UserInfo'
 
-const Surplus = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
+const Surplus = ({ otherUsers }: { otherUsers: Types.PresenceMessage[] }) => {
   const [showList, setShowList] = useState(false)
   const { listRef, plusButtonRef } = useClickOutsideList(() =>
     setShowList(false)
