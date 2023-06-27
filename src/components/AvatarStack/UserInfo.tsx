@@ -1,23 +1,21 @@
 import { FunctionComponent } from 'react'
+import type { Types } from 'ably'
 import dayjs from 'dayjs'
-import { SpaceMember } from '@ably-labs/spaces'
 
-const UserInfo: FunctionComponent<{ user: SpaceMember }> = ({ user }) => {
+const UserInfo: FunctionComponent<{ user: Types.PresenceMessage }> = ({
+  user,
+}) => {
   return (
     <>
-      {/* 💡 Display the name of the user from the `profileData` object 💡 */}
-      <p className="font-semibold">{user.profileData.name}</p>
-      <p className="font-semibold"></p>
+      <p className="font-semibold">{user.data.name}</p>
       <div className="flex items-center justify-start">
         <div
           className={`${
-            user.isConnected ? 'bg-green-500' : 'bg-slate-500'
+            user.action === 'leave' ? 'bg-slate-500' : 'bg-green-500'
           } w-2 h-2 rounded-full mr-2`}
         />
         <p className="font-medium text-sm">
-          {user.isConnected
-            ? 'Online now'
-            : dayjs().to(user.lastEvent.timestamp)}
+          {user.action === 'leave' ? dayjs().to(user.timestamp) : 'Online now'}
         </p>
       </div>
     </>

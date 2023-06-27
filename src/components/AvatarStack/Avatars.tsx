@@ -1,11 +1,13 @@
 import { useState } from 'react'
+import { Types } from 'ably'
 import { UserCircleIcon } from '@heroicons/react/outline'
-import { SpaceMember } from '@ably-labs/spaces'
+
 import { colours } from './utils/fakeData'
 import { MAX_USERS_BEFORE_LIST } from './utils/constants'
+
 import UserInfo from './UserInfo'
 
-const SelfAvatar = () => (
+const YouAvatar = () => (
   <div className="group relative flex flex-col items-center group">
     <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white pointer-events-none" />
     <div
@@ -18,7 +20,7 @@ const SelfAvatar = () => (
   </div>
 )
 
-const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
+const Avatars = ({ otherUsers }: { otherUsers: Types.PresenceMessage[] }) => {
   const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
 
   return (
@@ -47,7 +49,7 @@ const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
                 onMouseOver={() => setHoveredClientId(user.clientId)}
                 onMouseLeave={() => setHoveredClientId(null)}
               ></div>
-              {!user.isConnected ? (
+              {user.action === 'leave' ? (
                 <div className="absolute top-0 h-12 w-12 rounded-full mb-2 bg-white opacity-80 pointer-events-none" />
               ) : null}
               {hoveredClientId === user.clientId ? (
@@ -62,5 +64,5 @@ const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
   )
 }
 
-export { SelfAvatar }
+export { YouAvatar }
 export default Avatars
