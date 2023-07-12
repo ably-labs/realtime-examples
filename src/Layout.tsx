@@ -49,7 +49,7 @@ async function CreateJWT(
   const [appId, signingKey] = apiKey.split(':', 2)
   const enc = new TextEncoder()
   return new SignJWT({
-    'x-ably-capabilities': `{"*":["*"]}`,
+    'x-ably-capability': `{"*":["*"]}`,
     'x-ably-clientId': clientId,
     'ably.channel.*': claim,
   })
