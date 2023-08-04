@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { SpaceMember } from '@ably-labs/spaces'
-import useClickOutsideList from './useClickOutsideList'
-import { MAX_USERS_BEFORE_LIST } from './utils/constants'
-import UserInfo from './UserInfo'
+import { useState } from "react";
+import { SpaceMember } from "@ably-labs/spaces";
+import useClickOutsideList from "./useClickOutsideList";
+import { MAX_USERS_BEFORE_LIST } from "./utils/constants";
+import UserInfo from "./UserInfo";
 
 const Surplus = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
-  const [showList, setShowList] = useState(false)
+  const [showList, setShowList] = useState(false);
   const { listRef, plusButtonRef } = useClickOutsideList(() =>
-    setShowList(false)
-  )
+    setShowList(false),
+  );
 
   return otherUsers.length > MAX_USERS_BEFORE_LIST ? (
     <div className="absolute right-0">
@@ -20,7 +20,7 @@ const Surplus = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
         }}
         ref={plusButtonRef}
         onClick={() => {
-          setShowList(!showList)
+          setShowList(!showList);
         }}
       >
         +{otherUsers.slice(MAX_USERS_BEFORE_LIST).length}
@@ -42,7 +42,7 @@ const Surplus = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
         </div>
       ) : null}
     </div>
-  ) : null
-}
+  ) : null;
+};
 
-export default Surplus
+export default Surplus;
