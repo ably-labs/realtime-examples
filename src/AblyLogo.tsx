@@ -51,6 +51,6 @@ const AblyLogo = () => (
       </linearGradient>
     </defs>
   </svg>
-)
+);
 
-export default AblyLogo
+export default AblyLogo;

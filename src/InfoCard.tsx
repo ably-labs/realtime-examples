@@ -1,16 +1,16 @@
-import { useState, FunctionComponent } from 'react'
-import type { ProjectInfo } from './Layout'
-import AblyLogo from './AblyLogo'
+import { useState, FunctionComponent } from "react";
+import type { ProjectInfo } from "./Layout";
+import AblyLogo from "./AblyLogo";
 import {
   ExternalLinkIcon,
   ArrowRightIcon,
   ChevronUpIcon,
-} from '@heroicons/react/solid'
+} from "@heroicons/react/solid";
 
 const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   projectInfo,
 }) => {
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(true);
   return (
     <div className="bg-slate-800 shadow-xl w-screen md:w-[360px] rounded-t-lg md:rounded-lg">
       <div className="p-6 space-y-4">
@@ -18,10 +18,10 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
           <div className="flex justify-between text-white">
             <h2>{projectInfo.name}</h2>
             <button className="text-sm" onClick={() => setExpanded(!expanded)}>
-              {expanded ? 'Less' : 'More'} info
+              {expanded ? "Less" : "More"} info
               <ChevronUpIcon
                 className={`inline-block ml-2 h-5 w-5 text-slate-500 ${
-                  expanded ? 'rotate-180' : ''
+                  expanded ? "rotate-180" : ""
                 }`}
               />
             </button>
@@ -31,7 +31,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
           <div className="space-y-4">
             <p className="text-slate-300 text-sm">
               Open this page in multiple windows or share the URL with your team
-              to experience the demo.{' '}
+              to experience the demo.{" "}
               <a
                 className="text-slate-300 text-sm hover:underline"
                 href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
@@ -72,7 +72,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
         </a>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InfoCard
+export default InfoCard;
