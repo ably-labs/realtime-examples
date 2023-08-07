@@ -1,77 +1,16 @@
 import { useEffect, useState } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
-import { nanoid } from "nanoid";
 import randomWords from "random-words";
 import { configureAbly } from "@ably-labs/react-hooks";
 import InfoCard from "./InfoCard";
-import { Types } from "ably";
-import { SignJWT } from "jose";
+import type { ProjectInfo } from "./components/commonUtils/types";
+import apiConfig from "./components/commonUtils/apiConfig";
 
-const clientId = nanoid();
 const example: string = window.location.pathname;
-let API_CONFIG: Types.ClientOptions = { clientId };
-
-switch (example) {
-  case "/live-cursors":
-    API_CONFIG.key =
-      import.meta.env.VITE_ABLY_KEY_LIVE_CURSORS ||
-      import.meta.env.VITE_ABLY_KEY;
-    break;
-
-  case "/avatar-stack":
-    API_CONFIG.key =
-      import.meta.env.VITE_ABLY_KEY_AVATAR_STACK ||
-      import.meta.env.VITE_ABLY_KEY;
-    break;
-
-  case "/emoji-reactions":
-    API_CONFIG.key =
-      import.meta.env.VITE_ABLY_KEY_EMOJI_REACTIONS ||
-      import.meta.env.VITE_ABLY_KEY;
-    break;
-
-  case "/user_claims":
-    API_CONFIG.authCallback = (e, cb) => {
-      CreateJWT(
-        clientId,
-        import.meta.env.VITE_ABLY_KEY_USER_CLAIMS ||
-          import.meta.env.VITE_ABLY_KEY,
-        e.nonce === "true" ? "moderator" : "user",
-      ).then((key) => {
-        cb(null as any, key);
-      });
-    };
-    break;
-
-  default:
-    API_CONFIG.key = import.meta.env.VITE_ABLY_KEY;
-}
+const API_CONFIG = apiConfig(example);
+const clientId = API_CONFIG.clientId;
 
 configureAbly(API_CONFIG);
-
-async function CreateJWT(
-  clientId: string,
-  apiKey: string,
-  claim: string,
-): Promise<string> {
-  const [appId, signingKey] = apiKey.split(":", 2);
-  const enc = new TextEncoder();
-  return new SignJWT({
-    "x-ably-capabilities": `{"*":["*"]}`,
-    "x-ably-clientId": clientId,
-    "ably.channel.*": claim,
-  })
-    .setProtectedHeader({ kid: appId, alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("24h")
-    .sign(enc.encode(signingKey));
-}
-
-export type ProjectInfo = {
-  name: string;
-  repoNameAndPath: string;
-  topic: string;
-};
 
 const Layout = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -89,6 +28,7 @@ const Layout = () => {
       setSearchParams({ id: channelId }, { replace: true });
     }
   }, [channelId]);
+
   const oldLayouts = [
     "emoji-reactions",
     "user-claims",

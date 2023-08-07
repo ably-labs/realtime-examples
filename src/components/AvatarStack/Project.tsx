@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 
-import type { ProjectInfo } from "../../Layout";
+import type { ProjectInfo } from "../commonUtils/types";
 import AvatarStack from "./AvatarStack";
 
 const Project = () => {
