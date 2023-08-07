@@ -3,9 +3,9 @@ const CursorSvg = ({
   endColor,
   id,
 }: {
-  startColor: string
-  endColor: string
-  id: string
+  startColor: string;
+  endColor: string;
+  id: string;
 }) => {
   return (
     <svg
@@ -33,7 +33,7 @@ const CursorSvg = ({
         </linearGradient>
       </defs>
     </svg>
-  )
-}
+  );
+};
 
-export default CursorSvg
+export default CursorSvg;

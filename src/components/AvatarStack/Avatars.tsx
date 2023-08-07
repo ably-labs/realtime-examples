@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import { UserCircleIcon } from '@heroicons/react/outline'
-import { SpaceMember } from '@ably-labs/spaces'
-import { colours } from './utils/mockData'
-import { MAX_USERS_BEFORE_LIST } from './utils/constants'
-import UserInfo from './UserInfo'
+import { useState } from "react";
+import { UserCircleIcon } from "@heroicons/react/outline";
+import { SpaceMember } from "@ably-labs/spaces";
+import { colours } from "./utils/mockData";
+import { MAX_USERS_BEFORE_LIST } from "./utils/constants";
+import UserInfo from "./UserInfo";
 
 const SelfAvatar = () => (
   <div className="group relative flex flex-col items-center group">
@@ -16,10 +16,10 @@ const SelfAvatar = () => (
       You
     </div>
   </div>
-)
+);
 
 const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
-  const [hoveredClientId, setHoveredClientId] = useState<string | null>(null)
+  const [hoveredClientId, setHoveredClientId] = useState<string | null>(null);
 
   return (
     <>
@@ -27,11 +27,11 @@ const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
         .slice(0, MAX_USERS_BEFORE_LIST)
         .reverse()
         .map((user, index) => {
-          const HORIZONTAL_SPACING_OFFSET = 40
+          const HORIZONTAL_SPACING_OFFSET = 40;
           const rightOffset =
             otherUsers.length > MAX_USERS_BEFORE_LIST
               ? (index + 1) * HORIZONTAL_SPACING_OFFSET
-              : index * HORIZONTAL_SPACING_OFFSET
+              : index * HORIZONTAL_SPACING_OFFSET;
           return (
             <div
               className="absolute right-0 flex flex-col items-center"
@@ -56,11 +56,11 @@ const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
                 </div>
               ) : null}
             </div>
-          )
+          );
         })}
     </>
-  )
-}
+  );
+};
 
-export { SelfAvatar }
-export default Avatars
+export { SelfAvatar };
+export default Avatars;

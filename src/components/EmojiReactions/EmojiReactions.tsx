@@ -1,84 +1,84 @@
-import { useChannel } from '@ably-labs/react-hooks'
-import { useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
-import defaultMessages, { EmojiUsage, Message } from './utils/messageData'
-import { RefreshIcon, EmojiHappyIcon } from '@heroicons/react/solid'
-import { Types } from 'ably'
-import type { ProjectInfo } from '../../Layout'
+import { useChannel } from "@ably-labs/react-hooks";
+import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import defaultMessages, { EmojiUsage, Message } from "./utils/messageData";
+import { RefreshIcon, EmojiHappyIcon } from "@heroicons/react/solid";
+import { Types } from "ably";
+import type { ProjectInfo } from "../../Layout";
 
 const EmojiReactions = () => {
   let { channelName, clientId, setProjectInfo } = useOutletContext<{
-    channelName: string
-    clientId: string
-    setProjectInfo: (projectInfo: ProjectInfo) => void
-  }>()
+    channelName: string;
+    clientId: string;
+    setProjectInfo: (projectInfo: ProjectInfo) => void;
+  }>();
 
   // Include your channel namespace created in Ably for message interactions. In this case, we use "reactions"
-  channelName = `reactions:${channelName}`
-  const emojis = ['😀', '❤️', '👋', '😹', '😡', '👏']
-  let usedEmojiCollection: EmojiUsage[] = []
+  channelName = `reactions:${channelName}`;
+  const emojis = ["😀", "❤️", "👋", "😹", "😡", "👏"];
+  let usedEmojiCollection: EmojiUsage[] = [];
 
-  const ADD_REACTION_EVENT = 'add-reaction'
-  const REMOVE_REACTION_EVENT = 'remove-reaction'
-  const SEND_EVENT = 'send'
+  const ADD_REACTION_EVENT = "add-reaction";
+  const REMOVE_REACTION_EVENT = "remove-reaction";
+  const SEND_EVENT = "send";
 
-  const [addEmoji, setAddEmoji] = useState(true)
+  const [addEmoji, setAddEmoji] = useState(true);
 
-  const [chatMessage, setChatMessage] = useState<Message>({})
-  const [showEmojiList, setShowEmojiList] = useState(false)
+  const [chatMessage, setChatMessage] = useState<Message>({});
+  const [showEmojiList, setShowEmojiList] = useState(false);
 
   // Access and subscribe to your channel using "useChannel" from "ably-react-hooks"
   const [channel, ably] = useChannel(channelName, (msg) => {
     switch (msg.name) {
       case SEND_EVENT:
         // Reset emoji reactions when a new message is received
-        usedEmojiCollection = []
+        usedEmojiCollection = [];
         setChatMessage({
           author: msg.data.author,
           content: msg.data.content,
           timeserial: msg.id,
           timeStamp: new Date(msg.timestamp),
-        })
-        break
+        });
+        break;
       case REMOVE_REACTION_EVENT:
         // Remove emoji reaction from chat message
         const msgReactions = updateEmojiCollection(
           msg.data.body,
           msg.clientId,
-          msg.name
-        )
+          msg.name,
+        );
         setChatMessage((chatMessage) => ({
           ...chatMessage,
           reactions: msgReactions,
-        }))
-        break
+        }));
+        break;
     }
-  })
+  });
 
   // Publish new chat message to channel
   const sendMessage = () => {
     // Selects a random message to publish
     const message =
-      defaultMessages[Math.floor(Math.random() * defaultMessages.length)]
+      defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
 
     // Publish message to channel
-    channel.publish(SEND_EVENT, message)
-  }
+    channel.publish(SEND_EVENT, message);
+  };
 
   // Publish emoji reaction for a message using the chat message timeserial
   const sendMessageReaction = (
     emoji: string,
     timeserial: any,
-    reactionEvent: string
+    reactionEvent: string,
   ) => {
     channel.publish(reactionEvent, {
       body: emoji,
       extras: {
-        reference: { type: 'com.ably.reaction', timeserial },
+        reference: { type: "com.ably.reaction", timeserial },
       },
-    })
-    setShowEmojiList(false)
-  }
+    });
+    setShowEmojiList(false);
+  };
 
   // Subscribe to emoji reactions for a message using the message timeserial
   const getMessageReactions = () => {
@@ -92,74 +92,79 @@ const EmojiReactions = () => {
         const msgReactions = updateEmojiCollection(
           reaction.data.body,
           reaction.clientId,
-          reaction.name
-        )
+          reaction.name,
+        );
         setChatMessage((chatMessage) => ({
           ...chatMessage,
           reactions: msgReactions,
-        }))
-      }
-    )
-  }
+        }));
+      },
+    );
+  };
 
   // Increase or decrease emoji count on click on existing emoji
   const handleEmojiCount = (emoji: string, timeserial: any) => {
-    const emojiEvent = addEmoji ? ADD_REACTION_EVENT : REMOVE_REACTION_EVENT
-    setAddEmoji(!addEmoji)
-    sendMessageReaction(emoji, timeserial, emojiEvent)
-  }
+    const emojiEvent = addEmoji ? ADD_REACTION_EVENT : REMOVE_REACTION_EVENT;
+    setAddEmoji(!addEmoji);
+    sendMessageReaction(emoji, timeserial, emojiEvent);
+  };
 
   // Keep track of used emojis
   const updateEmojiCollection = (
     emoji: string,
     clientId: string,
-    reactionEvent: string
+    reactionEvent: string,
   ) => {
-    const userReactions = usedEmojiCollection.find((emj) => emj.emoji === emoji)
+    const userReactions = usedEmojiCollection.find(
+      (emj) => emj.emoji === emoji,
+    );
 
     switch (reactionEvent) {
       case ADD_REACTION_EVENT:
         if (userReactions) {
           if (!userReactions.usedBy.includes(clientId)) {
-            userReactions.usedBy.push(clientId)
+            userReactions.usedBy.push(clientId);
           }
         } else {
-          const emojiUse: EmojiUsage = { usedBy: [clientId], emoji: emoji }
-          usedEmojiCollection.push(emojiUse)
+          const emojiUse: EmojiUsage = { usedBy: [clientId], emoji: emoji };
+          usedEmojiCollection.push(emojiUse);
         }
-        break
+        break;
       case REMOVE_REACTION_EVENT:
         if (userReactions && userReactions.usedBy.includes(clientId)) {
-          userReactions.usedBy.splice(userReactions.usedBy.indexOf(clientId), 1)
+          userReactions.usedBy.splice(
+            userReactions.usedBy.indexOf(clientId),
+            1,
+          );
           usedEmojiCollection[usedEmojiCollection.indexOf(userReactions)] =
-            userReactions
+            userReactions;
         }
-        break
+        break;
     }
-    return usedEmojiCollection
-  }
+    return usedEmojiCollection;
+  };
 
   // Update current chat message and its reactions leveraging Ably channel history
   const updateMessageFromHistory = (
     messageIndex: number,
-    history: Types.PaginatedResult<Types.Message>
+    history: Types.PaginatedResult<Types.Message>,
   ) => {
-    const lastPublishedMessage = history?.items[messageIndex]
+    const lastPublishedMessage = history?.items[messageIndex];
 
     // Get reactions of the published message
     if (messageIndex > 0) {
       for (let i = messageIndex - 1; i >= 0; i--) {
-        const emoji = history?.items[i].data.body
-        const client = history?.items[i].clientId
-        const event = history?.items[i].name
+        const emoji = history?.items[i].data.body;
+        const client = history?.items[i].clientId;
+        const event = history?.items[i].name;
 
         if (usedEmojiCollection.length > 0) {
           for (const usage of usedEmojiCollection) {
-            updateEmojiCollection(emoji, client, event)
+            updateEmojiCollection(emoji, client, event);
           }
         } else {
-          const emojiUse: EmojiUsage = { usedBy: [client], emoji: emoji }
-          usedEmojiCollection.push(emojiUse)
+          const emojiUse: EmojiUsage = { usedBy: [client], emoji: emoji };
+          usedEmojiCollection.push(emojiUse);
         }
       }
     }
@@ -171,46 +176,46 @@ const EmojiReactions = () => {
       timeserial: lastPublishedMessage?.id,
       reactions: usedEmojiCollection,
       timeStamp: new Date(lastPublishedMessage.timestamp),
-    })
-  }
+    });
+  };
 
   // Format chat message timestamp to readable format
   const formatChatMessageTime = (timestamp: Date) => {
-    const hour = timestamp.getHours()
+    const hour = timestamp.getHours();
     const minutes = `${
-      timestamp.getMinutes() < 10 ? '0' : ''
-    }${timestamp.getMinutes()}`
-    return `${hour}:${minutes}`
-  }
+      timestamp.getMinutes() < 10 ? "0" : ""
+    }${timestamp.getMinutes()}`;
+    return `${hour}:${minutes}`;
+  };
 
   useEffect(() => {
     setProjectInfo({
-      name: 'Emoji Reactions',
+      name: "Emoji Reactions",
       repoNameAndPath:
-        'realtime-examples/tree/main/src/components/EmojiReactions',
-      topic: 'emoji-reactions',
-    })
-  }, [])
+        "realtime-examples/tree/main/src/components/EmojiReactions",
+      topic: "emoji-reactions",
+    });
+  }, []);
 
   useEffect(() => {
     // Subscribe to message reactions
-    getMessageReactions()
+    getMessageReactions();
 
     // Keep last published message and reactions using Ably channel history
     channel.history((err, result) => {
       // Get index of last sent message from history
       const lastPublishedMessageIndex: any = result?.items.findIndex(
-        (message) => message.name == SEND_EVENT
-      )
+        (message) => message.name == SEND_EVENT,
+      );
 
       if (lastPublishedMessageIndex >= 0) {
-        updateMessageFromHistory(lastPublishedMessageIndex, result!)
+        updateMessageFromHistory(lastPublishedMessageIndex, result!);
       } else {
         // Load new random message when channel has no history
-        sendMessage()
+        sendMessage();
       }
-    })
-  }, [])
+    });
+  }, []);
 
   return (
     <div className="bg-slate-50 h-screen w-screen flex items-center">
@@ -250,20 +255,20 @@ const EmojiReactions = () => {
                         key={reaction.emoji}
                         className={`text-xs rounded-full p-2 m-1 space-x-2  cursor-pointer ${
                           reaction.usedBy.includes(clientId)
-                            ? 'bg-blue-300 hover:bg-blue-100'
-                            : 'bg-slate-100 hover:bg-slate-50'
+                            ? "bg-blue-300 hover:bg-blue-100"
+                            : "bg-slate-100 hover:bg-slate-50"
                         }`}
                         onClick={() =>
                           handleEmojiCount(
                             reaction.emoji,
-                            chatMessage.timeserial
+                            chatMessage.timeserial,
                           )
                         }
                       >
                         <EmojiDisplay emoji={reaction.emoji} />
                         <span>{reaction.usedBy.length}</span>
                       </li>
-                    ) : null
+                    ) : null,
                   )}
                 </ul>
               ) : null}
@@ -286,7 +291,7 @@ const EmojiReactions = () => {
                           sendMessageReaction(
                             emoji,
                             chatMessage.timeserial,
-                            ADD_REACTION_EVENT
+                            ADD_REACTION_EVENT,
                           )
                         }
                       >
@@ -312,19 +317,19 @@ const EmojiReactions = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // Use twemoji for consistency in emoji display across platforms
 const EmojiDisplay = ({ emoji }: { emoji: string }) => {
-  const codePoint = emoji.codePointAt(0)?.toString(16)
+  const codePoint = emoji.codePointAt(0)?.toString(16);
   return (
     <img
       alt={emoji}
       className="h-5 w-5 pointer-events-none inline-block"
       src={`https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`}
     />
-  )
-}
+  );
+};
 
-export default EmojiReactions
+export default EmojiReactions;

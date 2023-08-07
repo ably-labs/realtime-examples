@@ -14,6 +14,6 @@ const Home = () => {
         <a href="/user-claims">User Claims</a>
       </li>
     </ul>
-  )
-}
-export default Home
+  );
+};
+export default Home;
