@@ -88,12 +88,18 @@ const Layout = () => {
     if (!searchParams.get("id")) {
       setSearchParams({ id: channelId }, { replace: true });
     }
-  }, [channelId])
+  }, [channelId]);
+  const oldLayouts = [
+    "emoji-reactions",
+    "user-claims",
+    "avatar-stack",
+    "realtime-examples",
+  ];
 
   return (
     <>
-      {projectInfo.topic === 'emoji-reactions' || projectInfo.topic === 'user-claims' || projectInfo.topic === 'avatar-stack' ? (
-        <main className="h-screen flex pt-6 md:pt-0 md:items-center justify-center font-sans bg-slate-50">
+      {oldLayouts.includes(projectInfo.topic) ? (
+        <main className="h-screen flex pt-6 md:pt-0 md:items-center justify-center font-sans bg-slate-100">
           <Outlet
             context={{ channelName: channelId, clientId, setProjectInfo }}
           />
@@ -102,7 +108,7 @@ const Layout = () => {
           </div>
         </main>
       ) : (
-        <main className="h-screen flex pt-6 md:pt-0 md:items-center justify-center font-sans bg-slate-50">
+        <main className="h-screen flex pt-6 md:pt-0 md:items-center justify-center font-sans bg-slate-100">
           <Outlet
             context={{ channelName: channelId, clientId, setProjectInfo }}
           />
