@@ -1,5 +1,5 @@
 import { useState, FunctionComponent } from "react";
-import type { ProjectInfo } from "./Layout";
+import type { ProjectInfo } from "./components/commonUtils/types";
 import AblyLogo from "./AblyLogo";
 import {
   ExternalLinkIcon,

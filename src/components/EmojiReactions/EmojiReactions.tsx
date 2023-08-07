@@ -4,7 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import defaultMessages, { EmojiUsage, Message } from "./utils/messageData";
 import { RefreshIcon, EmojiHappyIcon } from "@heroicons/react/solid";
 import { Types } from "ably";
-import type { ProjectInfo } from "../../Layout";
+import type { ProjectInfo } from "../commonUtils/types";
 
 const EmojiReactions = () => {
   let { channelName, clientId, setProjectInfo } = useOutletContext<{
