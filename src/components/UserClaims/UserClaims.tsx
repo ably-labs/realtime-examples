@@ -2,7 +2,7 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { SVGProps, useEffect, useReducer, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Types } from "ably";
-import type { ProjectInfo } from "../commonUtils/types";
+import type { ProjectInfo } from "../../commonUtils/types";
 import {
   LightBulbIcon,
   PaperAirplaneIcon,

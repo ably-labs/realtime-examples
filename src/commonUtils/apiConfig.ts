@@ -5,7 +5,7 @@ import { SignJWT } from "jose";
 const clientId = nanoid();
 let API_CONFIG: Types.ClientOptions = { clientId };
 
-export default function apiConfig(example: string) {
+export default function createApiConfig(example: string) {
   switch (example) {
     case "/live-cursors":
       API_CONFIG.key =
@@ -44,7 +44,7 @@ export default function apiConfig(example: string) {
   return API_CONFIG;
 }
 
-async function CreateJWT(
+function CreateJWT(
   clientId: string,
   apiKey: string,
   claim: string,
