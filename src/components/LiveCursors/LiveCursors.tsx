@@ -1,14 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { mockNames } from "../commonUtils/mockNames";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { mockNames } from "../../commonUtils/mockNames";
 import { colours } from "./utils/mockData";
-import useSpaces from "../commonUtils/useSpaces";
+import useSpaces from "../../commonUtils/useSpaces";
 import { MemberCursors, YourCursor } from "./Cursors";
 import { SpaceMember } from "@ably-labs/spaces";
 
 /** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
 const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
 
-const LiveCursors = () => {
+const LiveCursors = ({ spaceName }: { spaceName: string }) => {
   const [members, setMembers] = useState<SpaceMember[]>([]);
   const name = useMemo(mockName, []);
   /** 💡 Select a color to assign randomly to a new user that enters the space💡 */
@@ -19,7 +19,7 @@ const LiveCursors = () => {
   const [self, setSelf] = useState<SpaceMember | undefined>(undefined);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces("live-cursors", { name, userColors });
+  const space = useSpaces(spaceName, { name, userColors });
 
   useEffect(() => {
     if (!space) return;
@@ -38,10 +38,14 @@ const LiveCursors = () => {
       space?.off();
     };
   }, [space]);
-
+  const liveCursors = useRef(null);
   return (
-    <div id="live-cursors" className="w-screen flex">
-      <YourCursor user={self} space={space} />
+    <div
+      id="live-cursors"
+      ref={liveCursors}
+      className="w-full flex relative cursor-none overflow-hidden rounded-2xl bg-white"
+    >
+      <YourCursor user={self} space={space} parentRef={liveCursors} />
       <MemberCursors
         otherUsers={members}
         space={space}

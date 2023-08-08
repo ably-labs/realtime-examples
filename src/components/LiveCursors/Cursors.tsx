@@ -1,42 +1,41 @@
 import { useEffect, useState } from "react";
 import { Space, SpaceMember } from "@ably-labs/spaces";
 import CursorSvg from "./CursorSvg";
-import useCursor from "./utils/use-cursor";
+import useCursor from "./utils/useCursor";
 
 // 💡 This component is used to render the cursor of the user
-const YourCursor = ({ user, space }: { user?: SpaceMember; space?: Space }) => {
+const YourCursor = ({
+  user,
+  space,
+  parentRef,
+}: {
+  user?: SpaceMember;
+  space?: Space;
+  parentRef: React.RefObject<HTMLDivElement>;
+}) => {
   const [cursorPosition, setCursorPosition] = useState<{
     [key: string]: number;
   }>({ left: 100, top: 100 });
-  const handleSelfCursorMove = useCursor(setCursorPosition, space);
+  const handleSelfCursorMove = useCursor(setCursorPosition, parentRef, space);
   if (!user) {
     return null;
   }
-  const {
-    gradientStartClass,
-    gradientEndClass,
-    cursorStartColor,
-    cursorEndColor,
-  } = user.profileData.userColors;
+  const { cursorColor, nameColor } = user.profileData.userColors;
 
   return (
     <div
       className="absolute"
       onMouseMove={(e) => handleSelfCursorMove(e)}
       style={{
-        top: `${cursorPosition.top + 30}px`,
+        top: `${cursorPosition.top}px`,
         left: `${cursorPosition.left}px`,
       }}
     >
-      <CursorSvg
-        startColor={cursorStartColor}
-        endColor={cursorEndColor}
-        id={user.connectionId}
-      />
+      <CursorSvg cursorColor={cursorColor} />
       <div
-        className={`px-4 py-2 m-2 bg-gradient-to-r ${gradientStartClass} ${gradientEndClass} rounded-full text-sm text-white`}
+        className={`px-4 py-2 m-2 ${nameColor} rounded-full text-sm text-white whitespace-nowrap`}
       >
-        {user.profileData.name} (You)
+        You
       </div>
     </div>
   );
@@ -82,12 +81,7 @@ const MemberCursors = ({
     <>
       {otherUsers.map(({ connectionId, profileData }) => {
         if (!positions[connectionId]) return;
-        const {
-          cursorStartColor,
-          cursorEndColor,
-          gradientStartClass,
-          gradientEndClass,
-        } = profileData.userColors;
+        const { cursorColor, nameColor } = profileData.userColors;
         return (
           <div
             key={connectionId}
@@ -98,13 +92,9 @@ const MemberCursors = ({
               top: `${positions[connectionId].y}px`,
             }}
           >
-            <CursorSvg
-              startColor={cursorStartColor}
-              endColor={cursorEndColor}
-              id={connectionId}
-            />
+            <CursorSvg cursorColor={cursorColor} />
             <div
-              className={`px-4 py-2 m-2 bg-gradient-to-r ${gradientStartClass} ${gradientEndClass} rounded-full text-sm text-white member-cursor`}
+              className={`px-4 py-2 m-2 ${nameColor} rounded-full text-sm text-white whitespace-nowrap member-cursor`}
             >
               {profileData.name}
             </div>

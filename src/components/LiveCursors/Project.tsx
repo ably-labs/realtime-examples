@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-import type { ProjectInfo } from "../commonUtils/types";
+
+import type { ProjectInfo } from "../../commonUtils/types";
 import LiveCursors from "./LiveCursors";
 
 const Project = () => {
-  const { setProjectInfo } = useOutletContext<{
+  const { setProjectInfo, channelName } = useOutletContext<{
     channelName: string;
     clientId: string;
     setProjectInfo: (projectInfo: ProjectInfo) => void;
@@ -19,7 +20,7 @@ const Project = () => {
     });
   }, []);
 
-  return <LiveCursors />;
+  return <LiveCursors spaceName={channelName} />;
 };
 
 export default Project;

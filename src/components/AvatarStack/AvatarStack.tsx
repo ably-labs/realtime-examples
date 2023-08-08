@@ -3,8 +3,8 @@ import Avatars, { SelfAvatar } from "./Avatars";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Surplus from "./Surplus";
-import { mockNames } from "../commonUtils/mockNames";
-import useSpaces from "../commonUtils/useSpaces";
+import { mockNames } from "../../commonUtils/mockNames";
+import useSpaces from "../../commonUtils/useSpaces";
 import { SpaceMember } from "@ably-labs/spaces";
 
 dayjs.extend(relativeTime);
@@ -12,12 +12,12 @@ dayjs.extend(relativeTime);
 /** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
 const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
 
-const AvatarStack = () => {
+const AvatarStack = ({ spaceName }: { spaceName: string }) => {
   const [members, setMembers] = useState<SpaceMember[]>([]);
   const name = useMemo(mockName, []);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces("avatar-stack", { name });
+  const space = useSpaces(spaceName, { name });
 
   useEffect(() => {
     if (!space) return;
