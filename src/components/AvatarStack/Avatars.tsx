@@ -9,7 +9,7 @@ const SelfAvatar = () => (
   <div className="group relative flex flex-col items-center group">
     <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white pointer-events-none" />
     <div
-      className="bg-gradient-to-r from-cyan-500 to-blue-500
+      className="bg-gradient-to-r from-green-500 to-blue-500
                 h-12 w-12 rounded-full mb-2"
     ></div>
     <div className="absolute top-14 invisible group-hover:visible px-4 py-2 bg-black rounded-lg text-white text-center">

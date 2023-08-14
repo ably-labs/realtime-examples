@@ -4,7 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import defaultMessages, { EmojiUsage, Message } from "./utils/messageData";
 import { RefreshIcon, EmojiHappyIcon } from "@heroicons/react/solid";
 import { Types } from "ably";
-import type { ProjectInfo } from "../../Layout";
+import type { ProjectInfo } from "../../commonUtils/types";
 
 const EmojiReactions = () => {
   let { channelName, clientId, setProjectInfo } = useOutletContext<{
@@ -218,7 +218,7 @@ const EmojiReactions = () => {
   }, []);
 
   return (
-    <div className="bg-slate-50 h-screen w-screen flex items-center">
+    <div className="bg-slate-100 h-screen w-screen flex items-center">
       <div className="p-6 w-[480px] mx-auto">
         <div className="rounded-lg bg-slate-100 p-4 mb-6">
           <p className="text-slate-500 text-center">
@@ -231,7 +231,10 @@ const EmojiReactions = () => {
         {chatMessage.author ? (
           <div className="p-5 bg-white rounded-lg shadow-lg mb-8">
             <div className="flex flex-row mb-5">
-              <img className="inline bg-gradient-to-r from-pink-500 to-rose-800 h-10 w-10 rounded-full mb-2 shrink-0 mr-3"></img>
+              <img
+                className="inline bg-gradient-to-r from-pink-500 to-purple-800 h-10 w-10 rounded-full mb-2 shrink-0 mr-3"
+                role="presentation"
+              ></img>
               <div>
                 <p className="text-base font-bold mb-2 text-slate-800">
                   {chatMessage.author}
@@ -256,7 +259,7 @@ const EmojiReactions = () => {
                         className={`text-xs rounded-full p-2 m-1 space-x-2  cursor-pointer ${
                           reaction.usedBy.includes(clientId)
                             ? "bg-blue-300 hover:bg-blue-100"
-                            : "bg-slate-100 hover:bg-slate-50"
+                            : "bg-slate-200 hover:bg-slate-100"
                         }`}
                         onClick={() =>
                           handleEmojiCount(
