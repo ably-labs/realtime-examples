@@ -1,66 +1,92 @@
-import { useState } from "react";
-import { UserCircleIcon } from "@heroicons/react/outline";
 import { SpaceMember } from "@ably-labs/spaces";
-import { colours } from "./utils/mockData";
-import { MAX_USERS_BEFORE_LIST } from "./utils/constants";
+import {
+  MAX_USERS_BEFORE_LIST,
+  calculateRightOffset,
+  calculateTotalWidth,
+} from "./utils/helpers";
+import Surplus from "./Surplus";
+import { useState } from "react";
 import UserInfo from "./UserInfo";
 
 const SelfAvatar = () => (
-  <div className="group relative flex flex-col items-center group">
-    <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 text-white pointer-events-none" />
+  <div className="bg-orange-600 h-12 w-12 rounded-full flex items-center justify-center relative border-2 border-gray-200">
+    <p className="text-xs text-white">You</p>
     <div
-      className="bg-gradient-to-r from-green-500 to-blue-500
-                h-12 w-12 rounded-full mb-2"
-    ></div>
-    <div className="absolute top-14 invisible group-hover:visible px-4 py-2 bg-black rounded-lg text-white text-center">
-      You
-    </div>
+      className="bg-green-500 w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2"
+      id="status-indicator"
+    />
   </div>
 );
 
-const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
+const OtherAvatars = ({ users }: { users: SpaceMember[] }) => {
   const [hoveredClientId, setHoveredClientId] = useState<string | null>(null);
-
   return (
     <>
-      {otherUsers
-        .slice(0, MAX_USERS_BEFORE_LIST)
-        .reverse()
-        .map((user, index) => {
-          const HORIZONTAL_SPACING_OFFSET = 40;
-          const rightOffset =
-            otherUsers.length > MAX_USERS_BEFORE_LIST
-              ? (index + 1) * HORIZONTAL_SPACING_OFFSET
-              : index * HORIZONTAL_SPACING_OFFSET;
-          return (
+      {users.map((user, index) => {
+        const rightOffset = calculateRightOffset({ users, index });
+        return (
+          <div
+            className="right-0 flex flex-col items-center absolute"
+            key={user.clientId}
+            style={{
+              right: rightOffset,
+              zIndex: users.length - index,
+            }}
+          >
             <div
-              className="absolute right-0 flex flex-col items-center"
-              key={user.clientId}
-              style={{
-                right: rightOffset,
-                zIndex: otherUsers.length - index,
-              }}
+              className={`${
+                user.isConnected ? user.profileData.memberColor : "bg-gray-200"
+              } h-12 w-12 rounded-full flex items-center justify-center relative border-2 border-gray-200`}
+              onMouseOver={() => setHoveredClientId(user.clientId)}
+              onMouseLeave={() => setHoveredClientId(null)}
+              id="avatar"
             >
-              <UserCircleIcon className="absolute mt-2 h-8 w-8 opacity-80 stroke-white fill-transparent pointer-events-none" />
+              <p
+                className={`relative z-20 text-xs ${
+                  user.isConnected ? "text-white" : "text-gray-400"
+                }`}
+              >
+                {user.profileData.name
+                  .split(" ")
+                  .map((word: string) => word.charAt(0))
+                  .join("")}
+              </p>
               <div
-                className={`bg-gradient-to-l ${colours[index]} h-12 w-12 rounded-full mb-2 shadow-[0_0_0_4px_rgba(255,255,255,1)]`}
-                onMouseOver={() => setHoveredClientId(user.clientId)}
-                onMouseLeave={() => setHoveredClientId(null)}
-              ></div>
-              {!user.isConnected ? (
-                <div className="absolute top-0 h-12 w-12 rounded-full mb-2 bg-white opacity-80 pointer-events-none" />
-              ) : null}
-              {hoveredClientId === user.clientId ? (
-                <div className="absolute top-14 min-w-[175px] px-4 py-2 bg-black rounded-lg text-white">
-                  <UserInfo user={user} />
-                </div>
-              ) : null}
+                className={`${
+                  user.isConnected ? "bg-green-500" : "bg-gray-400"
+                } w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2 z-10`}
+                id="status-indicator"
+              />
             </div>
-          );
-        })}
+
+            {hoveredClientId === user.clientId ? (
+              <div className="absolute -top-16 min-w-[190px] px-2 py-2 bg-black rounded-lg text-white">
+                <UserInfo user={user} />
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
     </>
   );
 };
 
-export { SelfAvatar };
+const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
+  const totalWidth = calculateTotalWidth({ users: otherUsers });
+
+  return (
+    <div
+      className="relative flex max-w-[206px] "
+      style={{ width: `${totalWidth}px` }}
+    >
+      <SelfAvatar />
+      <OtherAvatars
+        users={otherUsers.slice(0, MAX_USERS_BEFORE_LIST).reverse()}
+      />
+      {/** 💡 Dropdown list of surplus users 💡 */}
+      <Surplus otherUsers={otherUsers} />
+    </div>
+  );
+};
+
 export default Avatars;

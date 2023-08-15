@@ -5,7 +5,6 @@ import type { ProjectInfo } from "../../commonUtils/types";
 import AvatarStack from "./AvatarStack";
 
 const Project = () => {
-
   const { setProjectInfo, channelName } = useOutletContext<{
     channelName: string;
     clientId: string;
