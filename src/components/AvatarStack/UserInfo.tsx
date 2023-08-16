@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import dayjs from "dayjs";
-import { avatarColors } from "./utils/mockData";
 import { SpaceMember } from "@ably-labs/spaces";
 
 function getRandomColor(arr: string[]) {

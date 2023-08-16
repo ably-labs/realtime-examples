@@ -1,23 +1,18 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Avatars from "./Avatars";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { mockNames } from "../../commonUtils/mockNames";
-import { avatarColors } from "./utils/mockData";
+import { getMemberName } from "../../commonUtils/mockNames";
+import { getMemberColor } from "../../commonUtils/mockColors";
 import useSpaces from "../../commonUtils/useSpaces";
 import { SpaceMember } from "@ably-labs/spaces";
 
 dayjs.extend(relativeTime);
 
-/** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
-const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
-const avatarColor = () =>
-  avatarColors[Math.floor(Math.random() * avatarColors.length)];
-
 const AvatarStack = ({ spaceName }: { spaceName: string }) => {
   const [members, setMembers] = useState<SpaceMember[]>([]);
-  const name = useMemo(mockName, []);
-  const memberColor = useMemo(avatarColor, []);
+  const [name, setName] = useState(getMemberName);
+  const [memberColor, setMemberColor] = useState(getMemberColor);
 
   /** 💡 Get a handle on a space instance 💡 */
   const space = useSpaces(spaceName, { name, memberColor });

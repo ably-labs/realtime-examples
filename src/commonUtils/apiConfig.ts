@@ -13,6 +13,12 @@ export default function createApiConfig(example: string) {
         import.meta.env.VITE_ABLY_KEY;
       break;
 
+    case "/member-location":
+      API_CONFIG.key =
+        import.meta.env.VITE_ABLY_KEY_MEMBER_LOCATION ||
+        import.meta.env.VITE_ABLY_KEY;
+      break;
+
     case "/avatar-stack":
       API_CONFIG.key =
         import.meta.env.VITE_ABLY_KEY_AVATAR_STACK ||
