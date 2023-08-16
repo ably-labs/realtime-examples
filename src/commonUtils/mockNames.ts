@@ -112,4 +112,8 @@ export const mockNames = [
   "Nadiya Movchan",
   "Nina Sayenko",
   "Hanna Tretyak",
+  "Artim Washere",
 ];
+
+export const getMemberName = () =>
+  mockNames[Math.floor(Math.random() * mockNames.length)];
