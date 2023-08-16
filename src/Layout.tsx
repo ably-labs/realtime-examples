@@ -30,12 +30,7 @@ const Layout = () => {
     }
   }, [channelId]);
 
-  const oldLayouts = [
-    "emoji-reactions",
-    "user-claims",
-    "avatar-stack",
-    "realtime-examples",
-  ];
+  const oldLayouts = ["emoji-reactions", "user-claims", "realtime-examples"];
 
   return oldLayouts.includes(projectInfo.topic) ? (
     <main className="h-screen flex pt-6 justify-center font-sans bg-slate-100 md:pt-0 md:items-center">

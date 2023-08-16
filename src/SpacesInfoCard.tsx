@@ -11,18 +11,24 @@ import {
 } from "@heroicons/react/solid";
 import debounce from "lodash.debounce";
 
-const handleCopyClick = async () => {
-  const currentURL = window.location.href;
-  try {
-    await navigator.clipboard.writeText(currentURL);
-  } catch (err) {
-    console.error("Failed to copy URL: ", err);
-  }
-};
-
 const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   projectInfo,
 }) => {
+  const [isCopied, setIsCopied] = useState(false);
+  const handleCopyClick = async () => {
+    const currentURL = window.location.href;
+    try {
+      await navigator.clipboard.writeText(currentURL);
+      setIsCopied(true);
+
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1000);
+    } catch (err) {
+      console.error("Failed to copy URL: ", err);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="text-slate-200 text-sm pb-2">
@@ -53,7 +59,7 @@ const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
             onClick={handleCopyClick}
           >
             <DocumentDuplicateIcon className="h-4 w-4 mx-2 text-slate-300" />
-            Copy Link
+            {isCopied ? "Copied!" : "Copy Link"}
           </button>
           <a
             className="flex justify-center items-center bg-slate-700 hover:bg-slate-600 active:bg-slate-500  focus:border-blue-500 focus:border-2 rounded py-3 flex-grow text-white"
