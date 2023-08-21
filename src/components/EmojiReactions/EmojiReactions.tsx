@@ -194,6 +194,8 @@ const EmojiReactions = () => {
       repoNameAndPath:
         "realtime-examples/tree/main/src/components/EmojiReactions",
       topic: "emoji-reactions",
+      description:
+        "Open this page in multiple windows or share the URL with your team to experience the demo.",
     });
   }, []);
 

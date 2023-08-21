@@ -32,8 +32,7 @@ const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   return (
     <div className="space-y-4">
       <div className="text-slate-200 text-sm pb-2">
-        Open this page in multiple windows or share the URL with your team to
-        experience the demo.
+        {projectInfo.description}
         <div>
           <a
             className="text-slate-200 text-sm hover:underline"

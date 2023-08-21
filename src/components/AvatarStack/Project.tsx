@@ -17,6 +17,8 @@ const Project = () => {
       name: "Avatar Stack",
       repoNameAndPath: "realtime-examples/tree/main/src/components/AvatarStack",
       topic: "avatar-stack",
+      description:
+        "See your online presence in a space displayed as an Avatar. Open in a new widow or share the link to see multiple users.",
     });
   }, []);
 
