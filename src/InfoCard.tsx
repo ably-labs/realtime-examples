@@ -29,17 +29,18 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
         </div>
         {expanded ? (
           <div className="space-y-4">
-            <p className="text-slate-300 text-sm">
-              Open this page in multiple windows or share the URL with your team
-              to experience the demo.{" "}
-              <a
-                className="text-slate-300 text-sm hover:underline"
-                href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
-                target="_blank"
-              >
-                Learn more.
-              </a>
-            </p>
+            <div className="text-slate-300 text-sm">
+              {projectInfo.description}
+              <div>
+                <a
+                  className="text-slate-200 text-sm hover:underline"
+                  href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
+                  target="_blank"
+                >
+                  Learn more.
+                </a>
+              </div>
+            </div>
             <div className="flex flex-col text-center space-y-4 text-sm">
               <a
                 className="flex justify-center bg-white rounded py-3"
