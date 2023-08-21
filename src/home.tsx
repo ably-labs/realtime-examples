@@ -2,6 +2,9 @@ const Home = () => {
   return (
     <ul>
       <li>
+        <a href="/member-location">Member Location</a>
+      </li>
+      <li>
         <a href="/live-cursors">Live Cursors</a>
       </li>
       <li>

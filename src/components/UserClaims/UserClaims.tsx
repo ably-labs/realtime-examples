@@ -43,6 +43,8 @@ const UserClaims = () => {
       name: "User Claims",
       repoNameAndPath: "realtime-examples/tree/main/src/components/UserClaims",
       topic: "user-claims",
+      description:
+        "Open this page in multiple windows or share the URL with your team to experience the demo.",
     });
   }, []);
 

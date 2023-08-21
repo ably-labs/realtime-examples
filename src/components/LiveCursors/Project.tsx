@@ -17,6 +17,8 @@ const Project = () => {
       name: "Live Cursors",
       repoNameAndPath: "realtime-examples/tree/main/src/components/LiveCursors",
       topic: "live-cursors",
+      description:
+        "Move your cursor to see it animated in a collaborative space. Open in a new widow or share the link to see multiple users.",
     });
   }, []);
 

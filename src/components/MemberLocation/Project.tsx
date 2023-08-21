@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
-
 import type { ProjectInfo } from "../../commonUtils/types";
-import AvatarStack from "./AvatarStack";
+import MemberLocation from "./MemberLocation";
 
 const Project = () => {
   const { setProjectInfo, channelName } = useOutletContext<{
@@ -14,15 +13,16 @@ const Project = () => {
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
-      name: "Avatar Stack",
-      repoNameAndPath: "realtime-examples/tree/main/src/components/AvatarStack",
-      topic: "avatar-stack",
+      name: "Member Location",
+      repoNameAndPath:
+        "realtime-examples/tree/main/src/components/MemberLocation",
+      topic: "member-location",
       description:
-        "See your online presence in a space displayed as an Avatar. Open in a new widow or share the link to see multiple users.",
+        "Click on a field to see how your location is displayed. Open in a new widow or share the link to see multiple users.",
     });
   }, []);
 
-  return <AvatarStack spaceName={channelName} />;
+  return <MemberLocation spaceName={channelName} />;
 };
 
 export default Project;

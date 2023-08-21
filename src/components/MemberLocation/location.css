@@ -1,0 +1,19 @@
+.member-name-tab::after {
+  content: attr(data-name-content);
+  position: absolute;
+  top: -25px;
+  right: -2px;
+  width: auto;
+  height: 24px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  background-color: var(--info-bg-color);
+  color: white;
+}
+
+.member-name-tab {
+  position: relative;
+}
