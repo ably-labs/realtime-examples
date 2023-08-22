@@ -8,11 +8,14 @@ const Cell: React.FC<CellProps> = ({
   rowIndex,
   colIndex,
   cellMembers,
+  isSelf,
   handleClick,
 }) => {
   // 💡 Get the member color and name for the cell from the `cellMembers` prop.
   const memberColor = getMemberProperty(cellMembers, "memberColor");
-  const memberName = getMemberProperty(cellMembers, "memberName");
+  const memberName = isSelf
+    ? "You"
+    : getMemberProperty(cellMembers, "memberName");
   const additionalCellMembers = cellMembers.length - 1;
   const cellLabel =
     additionalCellMembers > 0
