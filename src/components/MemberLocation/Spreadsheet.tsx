@@ -4,9 +4,11 @@ import { cellData } from "./utils/cellData";
 
 const Spreadsheet = ({
   users,
+  self,
   space,
 }: {
   users: SpaceMember[];
+  self: SpaceMember.location;
   space?: Space;
 }) => {
   const handleClick = (row: number, col: number) => {
@@ -34,6 +36,8 @@ const Spreadsheet = ({
                   user.location.col === colIndex
                 );
               });
+              const isSelf =
+                self && self.row === rowIndex && self.col === colIndex;
 
               return (
                 <Cell
@@ -42,6 +46,7 @@ const Spreadsheet = ({
                   rowIndex={rowIndex}
                   colIndex={colIndex}
                   cellMembers={cellMembers}
+                  isSelf={isSelf}
                   handleClick={handleClick}
                 />
               );
