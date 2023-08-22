@@ -24,18 +24,17 @@ const LiveCursors = ({ spaceName }: { spaceName: string }) => {
   useEffect(() => {
     if (!space) return;
     /** 💡 Listen to space members entering and leaving 💡 */
-    space.on("membersUpdate", (members: SpaceMember[]) => {
-      const self = space.getSelf();
-      setSelf(self);
-
-      const others = members.filter(
-        (member) => member.connectionId !== self?.connectionId,
-      );
-      setMembers(others);
-    });
+    space.members.subscribe("update", () =>
+      (async (memberUpdate) => {
+        const self = await space.members.getSelf();
+        setSelf(self);
+        const others = await space.members.getOthers();
+        setMembers(others);
+      })(),
+    );
     return () => {
       /** 💡 Remove any listeners on unmount 💡 */
-      space?.off();
+      space?.unsubscribe();
     };
   }, [space]);
   const liveCursors = useRef(null);

@@ -58,10 +58,8 @@ const MemberCursors = ({
   useEffect(() => {
     if (!space) return;
 
-    const pointer = space.cursors.get("space-pointer");
-
-    pointer.on(
-      "cursorUpdate",
+    space.cursors.subscribe(
+      "cursorsUpdate",
       (event: { connectionId: string; position: { x: number; y: number } }) => {
         // 💡 Ignore our own cursor
         if (event.connectionId === selfConnectionId) return;
@@ -73,7 +71,7 @@ const MemberCursors = ({
       },
     );
     return () => {
-      pointer.off();
+      space.cursors.unsubscribe();
     };
   }, [space]);
 

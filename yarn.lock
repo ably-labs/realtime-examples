@@ -9,12 +9,9 @@
   dependencies:
     ably "^1.2.27"
 
-"@ably-labs/spaces@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@ably-labs/spaces/-/spaces-0.0.7.tgz#28b0c12fc1a06a6400972621e09fe6e4f314254a"
-  integrity sha512-/1fjzA8iDa7iXjmXzLZWFixcLxEmSnfd9dOMDciH9mHqSLaGsXdu9w7BC3zG7IyqAHcEaPaM5fbMsse/2sET7g==
-  dependencies:
-    ably "^1.2.39"
+"@ably-labs/spaces@link:../spaces":
+  version "0.0.0"
+  uid ""
 
 "@ably/msgpack-js@^0.4.0":
   version "0.4.0"
@@ -460,10 +457,10 @@ ably@^1.2.27:
     got "^11.8.2"
     ws "^5.1"
 
-ably@^1.2.39:
-  version "1.2.40"
-  resolved "https://registry.yarnpkg.com/ably/-/ably-1.2.40.tgz#8e52d28f1f11a3eef3456b247398d50a4be9b864"
-  integrity sha512-Rmc/IBW9BQeDqaVZdeYD2HMakfzoumHw8Ag3JtqxdC8xcc50k69FDY3Y1t9Mp7nrDQDjDYXvHgiOkVp99jNjHA==
+ably@^1.2.43:
+  version "1.2.43"
+  resolved "https://registry.yarnpkg.com/ably/-/ably-1.2.43.tgz#60b4048132ff2ccddb88fc5f79029c8c6704db12"
+  integrity sha512-HZ99Nd98KzYToNUD4+ysHp4+vMp1NmYTi59yqGpejHo/VffTgg0pereoib0nRRAHYUhGUGys5HGwR5yHYESWDA==
   dependencies:
     "@ably/msgpack-js" "^0.4.0"
     got "^11.8.5"
@@ -1476,6 +1473,11 @@ nanoid@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-4.0.0.tgz"
   integrity sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==
+
+nanoid@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
+  integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
 
 node-releases@^2.0.5:
   version "2.0.6"
