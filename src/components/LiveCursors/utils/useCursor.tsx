@@ -14,9 +14,6 @@ const useCursor = (
   useEffect(() => {
     if (!space) return;
 
-    // 💡 The pointer gets all the cursors in the space
-    const pointer = space.cursors.get("space-pointer");
-
     // 💡 This function is used to update the cursor position in the space
     const handleSelfCursorMove = (e: MouseEvent) => {
       const liveCursorsDiv = parentRef.current;
@@ -33,8 +30,10 @@ const useCursor = (
         left: relativeLeftPosition,
         top: relativeTopPosition,
       });
-      pointer.set({
+
+      space.cursors.set({
         position: { x: relativeLeftPosition, y: relativeTopPosition },
+        data: { color: "red" },
       });
     };
     window.addEventListener("mousemove", handleSelfCursorMove);
