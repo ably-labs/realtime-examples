@@ -14,42 +14,65 @@ const MemberLocation = ({ spaceName }: { spaceName: string }) => {
   const [memberName, setMemberName] = useState(getMemberName);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces(spaceName, {
+  const space = useSpaces({
     memberName,
     memberColor,
   });
+
+  /** 💡 Get a list of everyone already in the space. 
+      The locationUpdate will then be used to update the members list 
+      as shown in the useEffect after this one.
+      You could just use space.members.subscribe to do this as well.💡 */
+  useEffect(() => {
+    if (space && members.length === 0) {
+      space.members.subscribe(() =>
+        (async () => {
+          const others = await space.members.getOthers();
+          setMembers(others);
+        })(),
+      );
+
+      return () => {
+        /** 💡 Remove any listeners on unmount 💡 */
+        space?.off();
+      };
+    }
+  }, [space, members]); // Now the effect will react to changes in space and members
 
   useEffect(() => {
     if (!space) return;
 
     /** 💡 "locationUpdate" is triggered every time
      * - a member changes the cell they have clicked
-     * - or if a member leaves the space. 💡 */
-    space.locations.subscribe("update", (locationUpdate) => {
-      space.locations.getSelf().then((self) => {
-        setSelf(self);
-        const updatedMember = locationUpdate.member;
-
-        if (updatedMember.isConnected) {
-          // Add to the members array if the member is connected
-          setMembers((prevMembers) => {
-            return [
-              ...prevMembers.filter(
+     * - or if a member leaves the space.💡 */
+    space.locations.subscribe(
+      "update",
+      (locationUpdate: { member: SpaceMember }) => {
+        space.locations.getSelf().then((self: any) => {
+          setSelf(self);
+          const updatedMember = locationUpdate.member;
+          if (updatedMember.isConnected) {
+            // Add to the members array if the member is connected
+            setMembers((prevMembers) => {
+              return [
+                ...prevMembers.filter(
+                  (member) =>
+                    member.connectionId !== updatedMember.connectionId,
+                ),
+                updatedMember,
+              ];
+            });
+          } else if (!updatedMember.isConnected) {
+            // Remove from the members array if the member is not connected
+            setMembers((prevMembers) =>
+              prevMembers.filter(
                 (member) => member.connectionId !== updatedMember.connectionId,
               ),
-              updatedMember,
-            ];
-          });
-        } else if (!updatedMember.isConnected) {
-          // Remove from the members array if the member is not connected
-          setMembers((prevMembers) =>
-            prevMembers.filter(
-              (member) => member.connectionId !== updatedMember.connectionId,
-            ),
-          );
-        }
-      });
-    });
+            );
+          }
+        });
+      },
+    );
 
     return () => {
       /** 💡 Remove any listeners on unmount 💡 */

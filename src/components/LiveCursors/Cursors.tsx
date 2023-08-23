@@ -59,7 +59,7 @@ const MemberCursors = ({
     if (!space) return;
 
     space.cursors.subscribe(
-      "cursorsUpdate",
+      "update",
       (event: { connectionId: string; position: { x: number; y: number } }) => {
         // 💡 Ignore our own cursor
         if (event.connectionId === selfConnectionId) return;
