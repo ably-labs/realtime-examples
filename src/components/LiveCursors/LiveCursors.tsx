@@ -1,42 +1,25 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { mockNames } from "../../commonUtils/mockNames";
 import { colours } from "./utils/mockData";
 import useSpaces from "../../commonUtils/useSpaces";
+import useSpaceMembers from "../../commonUtils/useSpaceMembers";
 import { MemberCursors, YourCursor } from "./Cursors";
-import { SpaceMember } from "@ably-labs/spaces";
 
 /** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
 const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
 
 const LiveCursors = ({ spaceName }: { spaceName: string }) => {
-  const [members, setMembers] = useState<SpaceMember[]>([]);
   const name = useMemo(mockName, []);
   /** 💡 Select a color to assign randomly to a new user that enters the space💡 */
   const userColors = useMemo(
     () => colours[Math.floor(Math.random() * colours.length)],
     [],
   );
-  const [self, setSelf] = useState<SpaceMember | undefined>(undefined);
 
   /** 💡 Get a handle on a space instance 💡 */
   const space = useSpaces({ name, userColors });
+  const { self, members } = useSpaceMembers(space);
 
-  useEffect(() => {
-    if (!space) return;
-    /** 💡 Listen to space members entering and leaving 💡 */
-    space.members.subscribe(() =>
-      (async () => {
-        const self = await space.members.getSelf();
-        setSelf(self);
-        const others = await space.members.getOthers();
-        setMembers(others);
-      })(),
-    );
-    return () => {
-      /** 💡 Remove any listeners on unmount 💡 */
-      space?.unsubscribe();
-    };
-  }, [space]);
   const liveCursors = useRef(null);
   return (
     <div
