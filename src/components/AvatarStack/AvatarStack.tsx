@@ -15,14 +15,15 @@ const AvatarStack = ({ spaceName }: { spaceName: string }) => {
   const [memberColor, setMemberColor] = useState(getMemberColor);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces(spaceName, { name, memberColor });
+  const space = useSpaces({ name, memberColor });
 
   useEffect(() => {
     if (!space) return;
 
     /** 💡 Listen to space members entering and leaving 💡 */
-    space.members.subscribe("update", () =>
-      (async (memberUpdate) => {
+    space.members.subscribe(() =>
+      (async () => {
+        console.log(members);
         const others = await space.members.getOthers();
         setMembers(others);
       })(),

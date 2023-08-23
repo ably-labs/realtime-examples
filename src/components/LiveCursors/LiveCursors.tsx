@@ -19,13 +19,13 @@ const LiveCursors = ({ spaceName }: { spaceName: string }) => {
   const [self, setSelf] = useState<SpaceMember | undefined>(undefined);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces(spaceName, { name, userColors });
+  const space = useSpaces({ name, userColors });
 
   useEffect(() => {
     if (!space) return;
     /** 💡 Listen to space members entering and leaving 💡 */
-    space.members.subscribe("update", () =>
-      (async (memberUpdate) => {
+    space.members.subscribe(() =>
+      (async () => {
         const self = await space.members.getSelf();
         setSelf(self);
         const others = await space.members.getOthers();
