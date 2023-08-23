@@ -28,6 +28,7 @@
     "nanoid": "^4.0.0",
     "random-words": "^1.2.0",
     "react": "^18.0.0",
+    "react-contenteditable": "^3.3.7",
     "react-dom": "^18.0.0",
     "react-router-dom": "6"
   },
