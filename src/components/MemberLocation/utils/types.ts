@@ -5,5 +5,6 @@ export interface CellProps {
   rowIndex: number;
   colIndex: number;
   cellMembers: SpaceMember[];
+  isSelf: boolean;
   handleClick: (row: number, col: number) => void;
 }

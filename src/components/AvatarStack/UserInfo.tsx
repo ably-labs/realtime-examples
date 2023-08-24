@@ -2,10 +2,6 @@ import { FunctionComponent } from "react";
 import dayjs from "dayjs";
 import { SpaceMember } from "@ably-labs/spaces";
 
-function getRandomColor(arr: string[]) {
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex];
-}
 const UserInfo: FunctionComponent<{ user: SpaceMember }> = ({ user }) => {
   return (
     <div className="flex justify-start items-center">

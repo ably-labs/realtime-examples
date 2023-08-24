@@ -1,39 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatars from "./Avatars";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { getMemberName } from "../../commonUtils/mockNames";
 import { getMemberColor } from "../../commonUtils/mockColors";
 import useSpaces from "../../commonUtils/useSpaces";
-import { SpaceMember } from "@ably-labs/spaces";
+import useSpaceMembers from "../../commonUtils/useSpaceMembers";
 
 dayjs.extend(relativeTime);
 
 const AvatarStack = ({ spaceName }: { spaceName: string }) => {
-  const [members, setMembers] = useState<SpaceMember[]>([]);
   const [name, setName] = useState(getMemberName);
   const [memberColor, setMemberColor] = useState(getMemberColor);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces(spaceName, { name, memberColor });
+  const space = useSpaces({ name, memberColor });
 
-  useEffect(() => {
-    if (!space) return;
-
-    /** 💡 Listen to space members entering and leaving 💡 */
-    space.on("membersUpdate", (members: SpaceMember[]) => {
-      const self = space.getSelf();
-      const others = members.filter(
-        (member) => member.connectionId !== self?.connectionId,
-      );
-      setMembers(others);
-    });
-
-    return () => {
-      /** 💡 Remove any listeners on unmount 💡 */
-      space?.off();
-    };
-  }, [space]);
+  /** 💡 Get all members in the space 💡 */
+  const { members } = useSpaceMembers(space);
 
   return (
     <div

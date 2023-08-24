@@ -1,27 +1,12 @@
-import { useState } from "react";
-import Spaces, { Space } from "@ably-labs/spaces";
-import { assertConfiguration } from "@ably-labs/react-hooks";
-import { useEffect } from "react";
+import { useContext } from "react";
 
-const useSpaces = (spaceName: string, userData: {}) => {
-  const [space, setSpace] = useState<Space | undefined>(undefined);
+import { useEffect } from "react";
+import { SpacesContext } from "../components/SpacesContext";
+
+const useSpaces = (userData: {}) => {
+  const space = useContext(SpacesContext);
 
   useEffect(() => {
-    const init = async () => {
-      /** 💡 Use react-hooks to get a handle on the client created in Layout.tsx 💡 */
-      const client = assertConfiguration();
-
-      /** 💡 Instantiate the Collaborative Spaces SDK: https://github.com/ably-labs/spaces 💡 */
-      const spaces = new Spaces(client);
-      const space = await spaces.get(spaceName);
-
-      setSpace(space);
-    };
-
-    if (!space) {
-      init();
-    }
-
     space?.enter({ ...userData });
 
     return () => {
