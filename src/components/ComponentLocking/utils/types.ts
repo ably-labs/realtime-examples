@@ -4,9 +4,8 @@ export interface InputCellProps {
   label: string;
   name: string;
   type: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  cellMembers: SpaceMember[];
+  handleFocus: (inputId: string) => void;
+  cellMember: SpaceMember;
   isSelf: boolean;
 }
 
@@ -15,7 +14,6 @@ export interface FormComponentProps {
   self: SpaceMember.location;
   space?: Space;
 }
-
 export interface FormData {
   entry1: string;
   entry2: string;

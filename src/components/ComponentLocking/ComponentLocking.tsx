@@ -1,43 +1,43 @@
 import { useEffect, useState } from "react";
+import { useChannel } from "@ably-labs/react-hooks";
 import { getLocationColors } from "../../commonUtils/mockColors";
 import { getMemberName } from "../../commonUtils/mockNames";
 import useSpaces from "../../commonUtils/useSpaces";
-import { SpaceMember } from "@ably-labs/spaces";
 import Form from "./Form";
 
+import { SpaceMember } from "@ably-labs/spaces";
+
 const ComponentLocking = ({ spaceName }: { spaceName: string }) => {
-  const [members, setMembers] = useState<SpaceMember[]>([]);
-  const [self, setSelf] = useState<SpaceMember["location"] | undefined>(
-    undefined,
-  );
+  const [allMembers, setAllMembers] = useState<SpaceMember[]>([]);
+  const [self, setSelf] = useState<SpaceMember[]>([]);
   const [memberColor, setMemberColor] = useState(getLocationColors);
   const [memberName, setMemberName] = useState(getMemberName);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useSpaces(spaceName, {
+  const space = useSpaces({
     memberName,
     memberColor,
   });
 
-  /** 💡 Get a list of everyone already in the space. 
-			The locationUpdate will then be used to update the members list 
-			as shown in the useEffect after this one.
-			You could just use space.members.subscribe to do this as well.💡 */
   useEffect(() => {
-    if (space && members.length === 0) {
-      space.members.subscribe(() =>
-        (async () => {
-          const others = await space.members.getOthers();
-          setMembers(others);
-        })(),
-      );
+    if (space && allMembers.length === 0) {
+      const getAllMembersAndSelf = async () => {
+        const all = await space.members.getAll();
+        setAllMembers(all);
+        const self = await space.members.getSelf();
+        setSelf(self);
+      };
+      space.members.subscribe(() => getAllMembersAndSelf());
+      space.locations.subscribe("update", () => {
+        getAllMembersAndSelf();
+      });
 
       return () => {
         /** 💡 Remove any listeners on unmount 💡 */
         space?.off();
       };
     }
-  }, [space, members]); // Now the effect will react to changes in space and members
+  }, [space]); // Now the effect will react to changes in space
 
   return (
     <div
@@ -45,9 +45,13 @@ const ComponentLocking = ({ spaceName }: { spaceName: string }) => {
       id="member-location"
     >
       <div>
-        <Form users={members} space={space} self={self} />
+        <Form users={allMembers} space={space} self={self} />
       </div>
     </div>
   );
 };
 export default ComponentLocking;
+
+// Lock cell if someone else is editing it
+// Transmit the cell data to all members in the space
+// Unlock the cell when the member leaves the space (but maintain the data)
