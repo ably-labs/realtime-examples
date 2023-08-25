@@ -8,34 +8,34 @@ const FormComponent: React.FC<FormComponentProps> = ({
   self,
   space,
 }) => {
-  const [formData, setFormData] = useState({
-    entry1: "",
-    entry2: "",
-    entry3: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value } as Pick<
-      FormData,
-      keyof FormData
-    >);
+  const handleFocus = (name: string) => {
+    if (!space) return;
+    space.locations.set({ name });
   };
 
   return (
     <div>
-      {entries.map((entry) => (
-        <InputCell
-          key={entry.name}
-          label={entry.label}
-          name={entry.name}
-          type={entry.type}
-          value={formData[entry.name as keyof FormData]}
-          onChange={handleChange}
-          cellMembers={[]}
-          isSelf={false}
-        />
-      ))}
+      {entries.map((entry) => {
+        // Determine cellMember as the first person who entered the cell
+        const cellMember = users.find(
+          (user) => user.location && user.location.name === entry.name,
+        );
+
+        // Check if the cellMember is the same as yourself
+        const isSelf = cellMember === self;
+
+        return (
+          <InputCell
+            key={entry.name}
+            label={entry.label}
+            name={entry.name}
+            type={entry.type}
+            handleFocus={() => handleFocus(entry.name)}
+            cellMember={cellMember}
+            isSelf={isSelf}
+          />
+        );
+      })}
     </div>
   );
 };
