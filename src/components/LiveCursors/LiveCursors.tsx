@@ -18,7 +18,7 @@ const LiveCursors = ({ spaceName }: { spaceName: string }) => {
 
   /** 💡 Get a handle on a space instance 💡 */
   const space = useSpaces({ name, userColors });
-  const { self, members } = useSpaceMembers(space);
+  const { self, otherMembers } = useSpaceMembers(space);
 
   const liveCursors = useRef(null);
   return (
@@ -29,7 +29,7 @@ const LiveCursors = ({ spaceName }: { spaceName: string }) => {
     >
       <YourCursor user={self} space={space} parentRef={liveCursors} />
       <MemberCursors
-        otherUsers={members}
+        otherUsers={otherMembers}
         space={space}
         selfConnectionId={self?.connectionId}
       />

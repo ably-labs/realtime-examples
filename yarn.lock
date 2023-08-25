@@ -9,9 +9,13 @@
   dependencies:
     ably "^1.2.27"
 
-"@ably-labs/spaces@link:../spaces":
-  version "0.0.0"
-  uid ""
+"@ably-labs/spaces@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@ably-labs/spaces/-/spaces-0.0.13.tgz#d802afaf3042bc56927e6617c84f013dad1d5d91"
+  integrity sha512-/q4wYw3VhO07SwWo6Hrs1PP0E+9zDb/DjrTKVFrXcxZhd5onBkxQ2t2fJfAEapEnRQPNhMHIpLZXugZ9qJVD1Q==
+  dependencies:
+    ably "^1.2.43"
+    nanoid "^4.0.2"
 
 "@ably/msgpack-js@^0.4.0":
   version "0.4.0"
