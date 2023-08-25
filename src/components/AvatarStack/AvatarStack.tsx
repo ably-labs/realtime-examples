@@ -17,7 +17,7 @@ const AvatarStack = ({ spaceName }: { spaceName: string }) => {
   const space = useSpaces({ name, memberColor });
 
   /** 💡 Get all members in the space 💡 */
-  const { members } = useSpaceMembers(space);
+  const { otherMembers } = useSpaceMembers(space);
 
   return (
     <div
@@ -26,7 +26,7 @@ const AvatarStack = ({ spaceName }: { spaceName: string }) => {
     >
       <div className="flex items-center">
         {/** 💡 Stack of first 5 user avatars including yourself.💡 */}
-        <Avatars otherUsers={members} />
+        <Avatars otherUsers={otherMembers} />
       </div>
     </div>
   );
