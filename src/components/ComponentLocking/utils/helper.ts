@@ -19,3 +19,12 @@ export const getCellStylesForMember = (cellMember: SpaceMember): string => {
   }
   return "bg-white border-[0.25px] border-gray-350 hover:border-gray-325";
 };
+
+export const getActiveMember = (
+  cellMembers: SpaceMember[],
+): SpaceMember | null => {
+  if (cellMembers.length > 0) {
+    return cellMembers[0];
+  }
+  return null;
+};
