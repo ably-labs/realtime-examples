@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputCell from "./InputCell";
 import { entries } from "./utils/data";
-import { FormComponentProps, FormData } from "./utils/types";
+import { FormComponentProps } from "./utils/types";
 
 const FormComponent: React.FC<FormComponentProps> = ({
   users,
@@ -16,13 +16,10 @@ const FormComponent: React.FC<FormComponentProps> = ({
   return (
     <div>
       {entries.map((entry) => {
-        // Determine cellMember as the first person who entered the cell
-        const cellMember = users.find(
-          (user) => user.location && user.location.name === entry.name,
-        );
-
-        // Check if the cellMember is the same as yourself
-        const isSelf = cellMember === self;
+        const cellMembers = users.filter((user) => {
+          return user.location !== null && user.location.name === entry.name;
+        });
+        const isSelf = self && self?.location?.name === entry.name;
 
         return (
           <InputCell
@@ -31,7 +28,8 @@ const FormComponent: React.FC<FormComponentProps> = ({
             name={entry.name}
             type={entry.type}
             handleFocus={() => handleFocus(entry.name)}
-            cellMember={cellMember}
+            cellMembers={cellMembers}
+            self={self}
             isSelf={isSelf}
           />
         );

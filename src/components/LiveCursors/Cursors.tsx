@@ -75,6 +75,7 @@ const MemberCursors = ({
     };
   }, [space]);
 
+
   return (
     <>
       {otherUsers.map(({ connectionId, profileData }) => {
