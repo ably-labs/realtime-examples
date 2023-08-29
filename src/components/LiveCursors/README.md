@@ -1,8 +1,8 @@
 ## Overview
 
-![Live Cursors Start screen](./Ably_Live_Cursors.webp)
+![Live Cursors Start screen](./Ably_Live_Cursors.png)
 
-This folder contains the code for the Live Cursors - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show names of other members in a space along with their current location.
+This folder contains the code for the Live Cursors - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show names of other members in a space along with their current cursor location.
 
 Try out the [live demo](https://examples.ably.dev/live-cursors) of the live cursors.
 
