@@ -1,8 +1,8 @@
 ## Overview
 
-![Member Location Start screen](./Ably-Avatar-Stack.png)
+![Member Location Start screen](./MemberLocation.png)
 
-This folder contains the code for the Member Location - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show a list of currently online users.
+This folder contains the code for the Member Location - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show the current location of all users in a space.
 
 Try out the [live demo](https://examples.ably.dev/member-location) of the Member Location.
 
@@ -31,6 +31,7 @@ _Requirements (if any)_
 ## Support, feedback and troubleshooting
 
 - [Create a GitHub Issue](https://github.com/ably-labs/realtime-examples/issues)
+- [Ably Spaces On Github](https://github.com/ably-labs/spaces)
 - [Join our Discord server](https://discord.gg/q89gDHZcBK)
 - [Follow us on Twitter](https://twitter.com/ablyrealtime)
 - [Use our SDKs](https://github.com/ably/)
