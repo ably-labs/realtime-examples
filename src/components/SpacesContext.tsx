@@ -37,7 +37,7 @@ const SpaceContextProvider: React.FC<{
     return () => {
       ignore = true;
     };
-  });
+  }, [spaceName, spaces]);
 
   return (
     <AblyProvider client={ably}>

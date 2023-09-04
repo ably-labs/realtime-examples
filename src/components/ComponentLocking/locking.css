@@ -14,6 +14,7 @@
   border: #c6ced9;
   border-radius: 4px 4px 0px 0px;
   z-index: 1;
+  gap: 4px;
 }
 
 .input-wrapper .member-name-tab {

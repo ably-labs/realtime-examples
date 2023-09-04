@@ -15,10 +15,13 @@ export const useLiveValue = (
     setValue(message.data);
   });
 
-  const handleChange = useCallback((nextValue: string) => {
-    setValue(nextValue);
-    channel.publish("update", nextValue);
-  }, []);
+  const handleChange = useCallback(
+    (nextValue: string) => {
+      setValue(nextValue);
+      channel.publish("update", nextValue);
+    },
+    [channel],
+  );
 
   return [value, handleChange] as const;
 };
