@@ -10,26 +10,7 @@ export const useLock = (space: Space, lockId: string) => {
   useEffect(() => {
     const handler = (lock: Lock) => {
       if (lock.id !== lockId) return;
-      if (status === "unlocked") {
-        setStatus(null);
-        setLockHolder(null);
-      } else {
-        setStatus(lock.status);
-        setLockHolder(lock.member);
-      }
-    };
-
-    space.locks.subscribe("update", handler);
-
-    return () => {
-      space.locks.unsubscribe("update", handler);
-    };
-  }, [space, lockId]);
-
-  useEffect(() => {
-    const handler = (lock: Lock) => {
-      if (lock.id !== lockId) return;
-      if (status === "unlocked") {
+      if (lock.status === "unlocked") {
         setStatus(null);
         setLockHolder(null);
       } else {

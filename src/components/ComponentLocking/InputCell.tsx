@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import type { SpaceMember } from "@ably/spaces";
 import cn from "classnames";
 import { getCellStylesForMember } from "./utils/helper";
+import { LockFilledSvg } from "./LockedFilled";
 import "./locking.css";
 
 interface InputCellProps {
@@ -28,7 +29,7 @@ const InputCell: React.FC<InputCellProps> = ({
   const memberColor = lockHolder?.profileData?.memberColor;
   const memberName = lockedByYou
     ? "You"
-    : (lockHolder?.profileData?.memberName as string);
+    : `${lockHolder?.profileData?.memberName}`;
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +50,12 @@ const InputCell: React.FC<InputCellProps> = ({
         className="relative"
         style={{ "--member-bg-color": memberColor } as React.CSSProperties}
       >
-        {memberName && <div className="member-name-lock">{memberName}</div>}
+        {memberName && (
+          <div className="member-name-lock">
+            {memberName}
+            {!lockedByYou && <LockFilledSvg className="text-base" />}
+          </div>
+        )}
         <input
           id={name}
           name={name}
