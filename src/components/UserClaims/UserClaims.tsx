@@ -1,4 +1,4 @@
-import { useChannel } from "@ably-labs/react-hooks";
+import { useChannel } from "ably/react";
 import { SVGProps, useEffect, useReducer, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Types } from "ably";
@@ -114,7 +114,7 @@ const UserClaims = () => {
   const [moderator, setModerator] = useState(false);
   const [loading, setLoading] = useState(false);
   const [messages, dispatchMessage] = useReducer(messageReducer, []);
-  const [channel, ably] = useChannel(channelName, handleMessage);
+  const { channel, ably } = useChannel(channelName, handleMessage);
 
   // 💡 Effect to replay the message history, and add an initial message to new sessions
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { SpaceMember } from "@ably-labs/spaces";
+import { SpaceMember } from "@ably/spaces";
 
 export interface CellProps {
   value: string | number;

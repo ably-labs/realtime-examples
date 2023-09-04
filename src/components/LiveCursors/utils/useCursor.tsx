@@ -1,4 +1,4 @@
-import { Space } from "@ably-labs/spaces";
+import { Space } from "@ably/spaces";
 import { useEffect } from "react";
 
 // 💡 This hook is used to get the cursor position of the user and update the cursor position in the space

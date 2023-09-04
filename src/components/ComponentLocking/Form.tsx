@@ -1,36 +1,25 @@
-import React, { useState } from "react";
-import InputCell from "./InputCell";
+import React from "react";
+import type { Space } from "@ably/spaces";
 import { entries } from "./utils/data";
-import { FormComponentProps } from "./utils/types";
+import { AblyPoweredInput } from "./AblyPoweredInput";
 
-const FormComponent: React.FC<FormComponentProps> = ({
-  users,
-  self,
-  space,
-}) => {
-  const handleFocus = (name: string) => {
-    if (!space) return;
-    space.locations.set({ name });
-  };
+interface FormComponentProps {
+  space?: Space;
+  spaceName: string;
+}
+const FormComponent: React.FC<FormComponentProps> = ({ space, spaceName }) => {
+  if (!space) return null;
 
   return (
     <div>
       {entries.map((entry) => {
-        const cellMembers = users.filter((user) => {
-          return user.location !== null && user.location.name === entry.name;
-        });
-        const isSelf = self && self?.location?.name === entry.name;
-
         return (
-          <InputCell
+          <AblyPoweredInput
             key={entry.name}
             label={entry.label}
             name={entry.name}
-            type={entry.type}
-            handleFocus={() => handleFocus(entry.name)}
-            cellMembers={cellMembers}
-            self={self}
-            isSelf={isSelf}
+            space={space}
+            spaceName={spaceName}
           />
         );
       })}

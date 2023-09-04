@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SpaceMember, Space } from "@ably-labs/spaces";
+import { SpaceMember, Space } from "@ably/spaces";
 
 const useSpaceMembers = (space: Space) => {
   const [otherMembers, setOtherMembers] = useState<SpaceMember[]>([]);

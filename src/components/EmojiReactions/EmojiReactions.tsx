@@ -1,4 +1,4 @@
-import { useChannel } from "@ably-labs/react-hooks";
+import { useChannel } from "ably/react";
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import defaultMessages, { EmojiUsage, Message } from "./utils/messageData";
@@ -28,7 +28,7 @@ const EmojiReactions = () => {
   const [showEmojiList, setShowEmojiList] = useState(false);
 
   // Access and subscribe to your channel using "useChannel" from "ably-react-hooks"
-  const [channel, ably] = useChannel(channelName, (msg) => {
+  const { channel, ably } = useChannel(channelName, (msg) => {
     switch (msg.name) {
       case SEND_EVENT:
         // Reset emoji reactions when a new message is received

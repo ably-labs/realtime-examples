@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import dayjs from "dayjs";
-import { SpaceMember } from "@ably-labs/spaces";
+import { SpaceMember } from "@ably/spaces";
 
 const UserInfo: FunctionComponent<{ user: SpaceMember }> = ({ user }) => {
   return (
