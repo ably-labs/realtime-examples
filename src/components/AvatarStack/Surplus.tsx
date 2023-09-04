@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SpaceMember } from "@ably-labs/spaces";
+import { SpaceMember } from "@ably/spaces";
 import useClickOutsideList from "./useClickOutsideList";
 import { MAX_USERS_BEFORE_LIST } from "./utils/helpers";
 import UserInfo from "./UserInfo";

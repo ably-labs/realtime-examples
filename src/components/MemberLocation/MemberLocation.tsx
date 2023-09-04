@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useSpaces from "../../commonUtils/useSpaces";
-import { SpaceMember } from "@ably-labs/spaces";
+import { SpaceMember } from "@ably/spaces";
 import { getMemberName } from "../../commonUtils/mockNames";
 import { getLocationColors } from "../../commonUtils/mockColors";
 import Spreadsheet from "./Spreadsheet";

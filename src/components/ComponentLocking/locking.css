@@ -1,5 +1,4 @@
-.input-wrapper .member-name-tab::after {
-  content: attr(data-name-content);
+.input-wrapper .member-name-lock {
   position: absolute;
   top: -24px;
   right: 6px;

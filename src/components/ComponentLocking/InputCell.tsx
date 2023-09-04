@@ -1,52 +1,44 @@
-import React from "react";
-import { useChannel } from "@ably-labs/react-hooks";
-import { InputCellProps } from "./utils/types";
+import React, { useCallback, useEffect } from "react";
+import type { SpaceMember } from "@ably/spaces";
+import cn from "classnames";
+import { getCellStylesForMember } from "./utils/helper";
 import "./locking.css";
-import {
-  getActiveMember,
-  getCellStylesForMember,
-  getMemberProperty,
-} from "./utils/helper";
 
+interface InputCellProps {
+  value: string;
+  label: string;
+  name: string;
+  onFocus: () => void;
+  onChange: (nextValue: string) => void;
+  onBlur: () => void;
+  lockHolder: SpaceMember | null;
+  lockedByYou: boolean;
+}
 const InputCell: React.FC<InputCellProps> = ({
+  value,
   label,
   name,
-  type,
-  handleFocus,
-  cellMembers,
-  self,
-  isSelf,
+  onFocus,
+  onBlur,
+  onChange,
+  lockHolder,
+  lockedByYou,
 }) => {
-
-  const [content, setContent] = React.useState("");
   // 💡 Get the member color and name for the cell from the `cellMembers` prop.
-  const memberColor = getMemberProperty(cellMembers, "memberColor");
-  const activeMember = getActiveMember(cellMembers);
-  const memberName = (isSelf && activeMember.connectionId === self.connectionId)
+  const memberColor = lockHolder?.profileData?.memberColor;
+  const memberName = lockedByYou
     ? "You"
-    : getMemberProperty(cellMembers, "memberName");
+    : (lockHolder?.profileData?.memberName as string);
 
-  const channelName = `input-${name}`;
-
-  const [channel, _message] = useChannel(
-    channelName,
-    (message: { connectionId: any; data: any }) => {
-      if (message.connectionId === activeMember?.connectionId) return;
-      setContent(message.data);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(e.target.value);
     },
+    [onChange],
   );
 
-  const handleCellFocus = () => {
-    handleFocus(name);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setContent(e.target.value);
-    channel.publish({ data: e.target.value });
-  };
-
   // Determine if the input cell should be read-only
-  const readOnly = activeMember && !isSelf;
+  const readOnly = Boolean(lockHolder && !lockedByYou);
 
   return (
     <div className="input-wrapper flex flex-col mb-4">
@@ -54,22 +46,28 @@ const InputCell: React.FC<InputCellProps> = ({
         {label}
       </label>
       <div
-        className="member-name-tab"
-        data-name-content={memberName ? memberName : ""}
+        className="relative"
         style={{ "--member-bg-color": memberColor } as React.CSSProperties}
       >
+        {memberName && <div className="member-name-lock">{memberName}</div>}
         <input
           id={name}
           name={name}
-          type={type}
-          value={content}
+          value={value}
           onChange={handleChange}
-          onFocus={handleCellFocus}
-          readOnly={readOnly}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          disabled={readOnly}
           placeholder="Edit to lock me"
-          className={`p-2 w-96 h-10 text-sm bg-slate-50 rounded-lg outline-none focus:bg-white relative ${getCellStylesForMember(
-            activeMember,
-          )}`}
+          className={cn(
+            `p-2 w-96 h-10 text-sm rounded-lg outline-none focus:bg-white ${getCellStylesForMember(
+              lockHolder,
+            )}`,
+            {
+              "bg-slate-50": !readOnly,
+              "bg-slate-250 cursor-not-allowed": readOnly,
+            },
+          )}
         />
       </div>
     </div>

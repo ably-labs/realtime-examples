@@ -6,11 +6,9 @@ import SpacesInfoCard from "./SpacesInfoCard";
 import type { ProjectInfo } from "./commonUtils/types";
 import createApiConfig from "./commonUtils/apiConfig";
 import { SpaceContextProvider } from "./components/SpacesContext";
-import { configureAbly } from "@ably-labs/react-hooks";
 
 const example: string = window.location.pathname;
 const API_CONFIG = createApiConfig(example);
-configureAbly(API_CONFIG);
 const clientId = API_CONFIG.clientId || "";
 
 const Layout = () => {

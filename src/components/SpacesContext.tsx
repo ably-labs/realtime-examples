@@ -1,6 +1,7 @@
 import * as React from "react";
-import Spaces, { type Space } from "@ably-labs/spaces";
+import Spaces, { type Space } from "@ably/spaces";
 import { Realtime } from "ably";
+import { AblyProvider } from "ably/react";
 import createApiConfig from "../commonUtils/apiConfig";
 
 export const SpacesContext = React.createContext<Space | undefined>(undefined);
@@ -12,25 +13,21 @@ const SpaceContextProvider: React.FC<{
 }> = ({ example, spaceName, children }) => {
   const [space, setSpace] = React.useState<Space | undefined>(undefined);
 
-  const spaces = React.useMemo(() => {
+  const [spaces, ably] = React.useMemo(() => {
     const ably = new Realtime.Promise(createApiConfig(example));
     // @ts-ignore
-    return new Spaces(ably);
+    return [new Spaces(ably), ably];
   }, [example]);
 
   React.useEffect(() => {
     let ignore: boolean = false;
 
     const init = async () => {
-      if (ignore) {
-        return;
-      }
-
       const spaceInstance = await spaces.get(spaceName, {
         offlineTimeout: 10_000,
       });
 
-      if (spaceInstance && !space) {
+      if (spaceInstance && !space && !ignore) {
         setSpace(spaceInstance);
       }
     };
@@ -43,7 +40,9 @@ const SpaceContextProvider: React.FC<{
   });
 
   return (
-    <SpacesContext.Provider value={space}>{children}</SpacesContext.Provider>
+    <AblyProvider client={ably}>
+      <SpacesContext.Provider value={space}>{children}</SpacesContext.Provider>
+    </AblyProvider>
   );
 };
 

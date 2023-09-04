@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Space, SpaceMember } from "@ably-labs/spaces";
+import type { Space, SpaceMember } from "@ably/spaces";
 import CursorSvg from "./CursorSvg";
 import useCursor from "./utils/useCursor";
 
@@ -74,7 +74,6 @@ const MemberCursors = ({
       space.cursors.unsubscribe();
     };
   }, [space]);
-
 
   return (
     <>

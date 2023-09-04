@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
 import type { ProjectInfo } from "../../commonUtils/types";
 import ComponentLocking from "./ComponentLocking";
-import { useChannel } from "@ably-labs/react-hooks";
 
 const Project = () => {
   const { setProjectInfo, channelName } = useOutletContext<{
