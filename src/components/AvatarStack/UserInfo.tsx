@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import dayjs from "dayjs";
-import { SpaceMember } from "@ably/spaces";
+import { Member } from "./utils/helpers";
 
-const UserInfo: FunctionComponent<{ user: SpaceMember }> = ({ user }) => {
+const UserInfo: FunctionComponent<{ user: Member }> = ({ user }) => {
   return (
     <div className="flex justify-start items-center">
       <div

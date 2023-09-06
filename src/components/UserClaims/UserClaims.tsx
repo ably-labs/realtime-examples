@@ -118,7 +118,7 @@ const UserClaims = () => {
 
   // 💡 Effect to replay the message history, and add an initial message to new sessions
   useEffect(() => {
-    channel.history((err, result) => {
+    channel.history((err: any, result: { items: Types.Message[] }) => {
       if (err || !result) return;
       if (result.items.length === 0) {
         channel.publish("send", {

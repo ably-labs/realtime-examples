@@ -4,7 +4,7 @@ import type { ProjectInfo } from "../../commonUtils/types";
 import MemberLocation from "./MemberLocation";
 
 const Project = () => {
-  const { setProjectInfo, channelName } = useOutletContext<{
+  const { setProjectInfo } = useOutletContext<{
     channelName: string;
     clientId: string;
     setProjectInfo: (projectInfo: ProjectInfo) => void;
@@ -22,7 +22,7 @@ const Project = () => {
     });
   }, []);
 
-  return <MemberLocation spaceName={channelName} />;
+  return <MemberLocation />;
 };
 
 export default Project;

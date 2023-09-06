@@ -8,6 +8,8 @@ import Surplus from "./Surplus";
 import { useState } from "react";
 import UserInfo from "./UserInfo";
 
+import type { Member } from "./utils/helpers";
+
 const SelfAvatar = () => (
   <div className="bg-orange-600 h-12 w-12 rounded-full flex items-center justify-center relative border-2 border-gray-200">
     <p className="text-xs text-white">You</p>
@@ -18,12 +20,13 @@ const SelfAvatar = () => (
   </div>
 );
 
-const OtherAvatars = ({ users }: { users: SpaceMember[] }) => {
+const OtherAvatars = ({ users }: { users: Member[] }) => {
   const [hoveredClientId, setHoveredClientId] = useState<string | null>(null);
   return (
     <>
       {users.map((user, index) => {
         const rightOffset = calculateRightOffset({ users, index });
+
         return (
           <div
             className="right-0 flex flex-col items-center absolute"
@@ -71,7 +74,7 @@ const OtherAvatars = ({ users }: { users: SpaceMember[] }) => {
   );
 };
 
-const Avatars = ({ otherUsers }: { otherUsers: SpaceMember[] }) => {
+const Avatars = ({ otherUsers }: { otherUsers: Member[] }) => {
   const totalWidth = calculateTotalWidth({ users: otherUsers });
 
   return (

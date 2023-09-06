@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { SpaceMember, Space } from "@ably/spaces";
 
-const useSpaceMembers = (space: Space) => {
+const useSpaceMembers = (space?: Space) => {
   const [otherMembers, setOtherMembers] = useState<SpaceMember[]>([]);
   const [allMembers, setAllMembers] = useState<SpaceMember[]>([]);
-  const [self, setSelf] = useState<SpaceMember | undefined>(undefined);
+  const [self, setSelf] = useState<SpaceMember | null>(null);
 
   useEffect(() => {
     if (!space) return;

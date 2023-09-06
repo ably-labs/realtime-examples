@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Space, SpaceMember } from "@ably/spaces";
+import type { Space } from "@ably/spaces";
 import CursorSvg from "./CursorSvg";
 import useCursor from "./utils/useCursor";
+import { Member } from "./utils/types";
 
 // 💡 This component is used to render the cursor of the user
 const YourCursor = ({
@@ -9,7 +10,7 @@ const YourCursor = ({
   space,
   parentRef,
 }: {
-  user?: SpaceMember;
+  user: Member | null;
   space?: Space;
   parentRef: React.RefObject<HTMLDivElement>;
 }) => {
@@ -47,7 +48,7 @@ const MemberCursors = ({
   space,
   selfConnectionId,
 }: {
-  otherUsers: SpaceMember[];
+  otherUsers: Member[];
   space?: Space;
   selfConnectionId?: string;
 }) => {

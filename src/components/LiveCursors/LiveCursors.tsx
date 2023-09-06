@@ -5,6 +5,8 @@ import useSpaces from "../../commonUtils/useSpaces";
 import useSpaceMembers from "../../commonUtils/useSpaceMembers";
 import { MemberCursors, YourCursor } from "./Cursors";
 
+import type { Member } from "./utils/types";
+
 /** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
 const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
 
@@ -27,9 +29,13 @@ const LiveCursors = ({ spaceName }: { spaceName: string }) => {
       ref={liveCursors}
       className="w-full flex relative cursor-none overflow-hidden rounded-2xl bg-white"
     >
-      <YourCursor user={self} space={space} parentRef={liveCursors} />
+      <YourCursor
+        user={self as Member | null}
+        space={space}
+        parentRef={liveCursors}
+      />
       <MemberCursors
-        otherUsers={otherMembers}
+        otherUsers={otherMembers as Member[]}
         space={space}
         selfConnectionId={self?.connectionId}
       />

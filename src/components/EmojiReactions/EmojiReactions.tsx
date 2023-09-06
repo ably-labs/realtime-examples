@@ -28,32 +28,41 @@ const EmojiReactions = () => {
   const [showEmojiList, setShowEmojiList] = useState(false);
 
   // Access and subscribe to your channel using "useChannel" from "ably-react-hooks"
-  const { channel, ably } = useChannel(channelName, (msg) => {
-    switch (msg.name) {
-      case SEND_EVENT:
-        // Reset emoji reactions when a new message is received
-        usedEmojiCollection = [];
-        setChatMessage({
-          author: msg.data.author,
-          content: msg.data.content,
-          timeserial: msg.id,
-          timeStamp: new Date(msg.timestamp),
-        });
-        break;
-      case REMOVE_REACTION_EVENT:
-        // Remove emoji reaction from chat message
-        const msgReactions = updateEmojiCollection(
-          msg.data.body,
-          msg.clientId,
-          msg.name,
-        );
-        setChatMessage((chatMessage) => ({
-          ...chatMessage,
-          reactions: msgReactions,
-        }));
-        break;
-    }
-  });
+  const { channel, ably } = useChannel(
+    channelName,
+    (msg: {
+      name: string;
+      data: { author: any; content: any; body: string };
+      id: any;
+      timestamp: string | number | Date;
+      clientId: string;
+    }) => {
+      switch (msg.name) {
+        case SEND_EVENT:
+          // Reset emoji reactions when a new message is received
+          usedEmojiCollection = [];
+          setChatMessage({
+            author: msg.data.author,
+            content: msg.data.content,
+            timeserial: msg.id,
+            timeStamp: new Date(msg.timestamp),
+          });
+          break;
+        case REMOVE_REACTION_EVENT:
+          // Remove emoji reaction from chat message
+          const msgReactions = updateEmojiCollection(
+            msg.data.body,
+            msg.clientId,
+            msg.name,
+          );
+          setChatMessage((chatMessage) => ({
+            ...chatMessage,
+            reactions: msgReactions,
+          }));
+          break;
+      }
+    },
+  );
 
   // Publish new chat message to channel
   const sendMessage = () => {
@@ -87,7 +96,11 @@ const EmojiReactions = () => {
         name: ADD_REACTION_EVENT,
         refTimeserial: chatMessage.timeserial,
       },
-      (reaction) => {
+      (reaction: {
+        data: { body: string };
+        clientId: string;
+        name: string;
+      }) => {
         // Update current chat message with its reaction(s)
         const msgReactions = updateEmojiCollection(
           reaction.data.body,
@@ -204,19 +217,21 @@ const EmojiReactions = () => {
     getMessageReactions();
 
     // Keep last published message and reactions using Ably channel history
-    channel.history((err, result) => {
-      // Get index of last sent message from history
-      const lastPublishedMessageIndex: any = result?.items.findIndex(
-        (message) => message.name == SEND_EVENT,
-      );
+    channel.history(
+      (err: any, result: Types.PaginatedResult<Types.Message>) => {
+        // Get index of last sent message from history
+        const lastPublishedMessageIndex: any = result?.items.findIndex(
+          (message) => message.name == SEND_EVENT,
+        );
 
-      if (lastPublishedMessageIndex >= 0) {
-        updateMessageFromHistory(lastPublishedMessageIndex, result!);
-      } else {
-        // Load new random message when channel has no history
-        sendMessage();
-      }
-    });
+        if (lastPublishedMessageIndex >= 0) {
+          updateMessageFromHistory(lastPublishedMessageIndex, result!);
+        } else {
+          // Load new random message when channel has no history
+          sendMessage();
+        }
+      },
+    );
   }, []);
 
   return (

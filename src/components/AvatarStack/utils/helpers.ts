@@ -10,6 +10,10 @@ interface CalculateRightOffsetArgs {
   index?: number;
 }
 
+export type Member = Omit<SpaceMember, "profileData"> & {
+  profileData: { memberColor: string; name: string };
+};
+
 export function calculateRightOffset({
   users,
   index = 0,

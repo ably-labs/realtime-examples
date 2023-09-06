@@ -1,7 +1,7 @@
 import React from "react";
 import "./location.css";
 import { getMemberProperty, getCellStyles } from "./utils/helper";
-import { CellProps } from "./utils/types";
+import { type CellProps } from "./utils/types";
 
 const Cell: React.FC<CellProps> = ({
   value,

@@ -1,11 +1,14 @@
 import { useState } from "react";
-import Avatars from "./Avatars";
 import dayjs from "dayjs";
+import type { SpaceMember } from "@ably/spaces";
+
+import Avatars from "./Avatars";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { getMemberName } from "../../commonUtils/mockNames";
 import { getMemberColor } from "../../commonUtils/mockColors";
 import useSpaces from "../../commonUtils/useSpaces";
 import useSpaceMembers from "../../commonUtils/useSpaceMembers";
+import type { Member } from "./utils/helpers";
 
 dayjs.extend(relativeTime);
 
@@ -26,7 +29,7 @@ const AvatarStack = ({ spaceName }: { spaceName: string }) => {
     >
       <div className="flex items-center">
         {/** 💡 Stack of first 5 user avatars including yourself.💡 */}
-        <Avatars otherUsers={otherMembers} />
+        <Avatars otherUsers={otherMembers as Member[]} />
       </div>
     </div>
   );

@@ -1,14 +1,15 @@
-import { Space, SpaceMember } from "@ably/spaces";
+import { type Space } from "@ably/spaces";
 import Cell from "./Cell";
 import { cellData } from "./utils/cellData";
+import { type Member } from "./utils/types";
 
 const Spreadsheet = ({
   users,
-  self,
+  selfLocation,
   space,
 }: {
-  users: SpaceMember[];
-  self: SpaceMember.location;
+  users: Member[];
+  selfLocation?: Member["location"];
   space?: Space;
 }) => {
   const handleClick = (row: number, col: number) => {
@@ -37,7 +38,9 @@ const Spreadsheet = ({
                 );
               });
               const isSelf =
-                self && self.row === rowIndex && self.col === colIndex;
+                selfLocation &&
+                selfLocation.row === rowIndex &&
+                selfLocation.col === colIndex;
 
               return (
                 <Cell

@@ -1,9 +1,10 @@
 import { SpaceMember } from "@ably/spaces";
+import { type Member } from "./types";
 
 type MemberProperty = "memberColor" | "memberName";
 
 export const getMemberProperty = (
-  cellMembers: SpaceMember[],
+  cellMembers: Member[],
   property: MemberProperty,
 ): string | null => {
   if (cellMembers.length > 0 && property in cellMembers[0].profileData) {
@@ -12,7 +13,7 @@ export const getMemberProperty = (
   return null;
 };
 
-export const getCellStyles = (cellMembers: SpaceMember[]): string => {
+export const getCellStyles = (cellMembers: Member[]): string => {
   if (cellMembers.length > 0) {
     const memberColor = `${cellMembers[0].profileData.memberColor}`;
     return `border-[${memberColor}] border-2`;
