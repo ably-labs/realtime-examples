@@ -19,7 +19,7 @@ Try out the [live demo](https://examples.ably.dev/component-locking) of the Comp
 
 - [Node.js](https://nodejs.org/en/)
 - Ably API Key
-- [Yarn](https://yarnpkg.com/) (optional)
+- [Yarn](https://yarnpkg.com/)
 
 ## Resources
 
