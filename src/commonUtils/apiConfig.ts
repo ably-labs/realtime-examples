@@ -13,6 +13,12 @@ export default function createApiConfig(example: string) {
         import.meta.env.VITE_ABLY_KEY;
       break;
 
+    case "/component-locking":
+      API_CONFIG.key =
+        import.meta.env.VITE_ABLY_KEY_COMPONENT_LOCKING ||
+        import.meta.env.VITE_ABLY_KEY;
+      break;
+
     case "/member-location":
       API_CONFIG.key =
         import.meta.env.VITE_ABLY_KEY_MEMBER_LOCATION ||

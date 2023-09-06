@@ -1,6 +1,5 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
-import { useEffect } from "react";
 import { SpacesContext } from "../components/SpacesContext";
 
 const useSpaces = (userData: {}) => {

@@ -8,6 +8,7 @@ import AvatarStack from "./components/AvatarStack";
 import EmojiReactions from "./components/EmojiReactions/EmojiReactions";
 import UserClaims from "./components/UserClaims/UserClaims";
 import MemberLocation from "./components/MemberLocation";
+import ComponentLocking from "./components/ComponentLocking";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/live-cursors" element={<LiveCursors />} />
+        <Route path="/component-locking" element={<ComponentLocking />} />
         <Route path="/member-location" element={<MemberLocation />} />
         <Route path="/avatar-stack" element={<AvatarStack />} />
         <Route path="/emoji-reactions" element={<EmojiReactions />} />

@@ -1,4 +1,4 @@
-import { Space, SpaceMember } from "@ably-labs/spaces";
+import { Space, SpaceMember } from "@ably/spaces";
 import Cell from "./Cell";
 import { cellData } from "./utils/cellData";
 

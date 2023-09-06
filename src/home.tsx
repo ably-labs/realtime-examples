@@ -2,6 +2,9 @@ const Home = () => {
   return (
     <ul>
       <li>
+        <a href="/component-locking">Component Locking</a>
+      </li>
+      <li>
         <a href="/member-location">Member Location</a>
       </li>
       <li>

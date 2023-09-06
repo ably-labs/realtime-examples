@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { SpaceMember, Space } from "@ably-labs/spaces";
+import { SpaceMember, Space } from "@ably/spaces";
 
 const useSpaceMembers = (space: Space) => {
-  const [members, setMembers] = useState<SpaceMember[]>([]);
+  const [otherMembers, setOtherMembers] = useState<SpaceMember[]>([]);
+  const [allMembers, setAllMembers] = useState<SpaceMember[]>([]);
   const [self, setSelf] = useState<SpaceMember | undefined>(undefined);
 
   useEffect(() => {
@@ -11,10 +12,12 @@ const useSpaceMembers = (space: Space) => {
     /** 💡 Listen to space members entering and leaving 💡 */
     space.members.subscribe(() =>
       (async () => {
+        const others = await space.members.getOthers();
+        setOtherMembers(others);
+        const all = await space.members.getAll();
+        setAllMembers(all);
         const self = await space.members.getSelf();
         setSelf(self);
-        const others = await space.members.getOthers();
-        setMembers(others);
       })(),
     );
 
@@ -24,7 +27,7 @@ const useSpaceMembers = (space: Space) => {
     };
   }, [space]);
 
-  return { members, self };
+  return { self, otherMembers, allMembers };
 };
 
 export default useSpaceMembers;

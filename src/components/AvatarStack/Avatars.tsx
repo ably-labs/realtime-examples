@@ -1,4 +1,4 @@
-import { SpaceMember } from "@ably-labs/spaces";
+import { SpaceMember } from "@ably/spaces";
 import {
   MAX_USERS_BEFORE_LIST,
   calculateRightOffset,
