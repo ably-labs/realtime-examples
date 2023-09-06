@@ -47,7 +47,7 @@ const InputCell: React.FC<InputCellProps> = ({
   const readOnly = Boolean(lockHolder && !lockedByYou);
 
   return (
-    <div ref={ref} className="input-wrapper flex flex-col mb-4">
+    <div ref={ref} className="flex flex-col mb-4">
       <label htmlFor={name} className="mb-2 text-sm">
         {label}
       </label>
