@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import type { Space } from "@ably/spaces";
 import { useLock } from "./useLock";
 import { useLiveValue } from "./useLiveValue";
@@ -11,6 +11,7 @@ interface AblyPoweredInputProps {
   space: Space;
   spaceName: string;
 }
+
 export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
   name,
   label,
@@ -21,11 +22,22 @@ export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
   const self = useSelf(space);
   const [value, setValue] = useLiveValue(spaceName, name, self);
 
-  const locked = Boolean(lockHolder);
+  // region Workaround to react on local lock release
+  const [unlocked, setUnlocked] = useState(false);
+  const unlockedLocally =
+    lockHolder && lockHolder?.connectionId === self?.connectionId && unlocked;
+  // endregion
+
+  const locked = Boolean(lockHolder) && !unlockedLocally;
   const lockedByYou = locked && lockHolder?.connectionId === self?.connectionId;
 
   const handleFocus = useCallback(async () => {
     if (locked) return;
+
+    // region Workaround to react on local lock release
+    setUnlocked(false);
+    // endregion
+
     try {
       await space.locks.acquire(name);
     } catch {
@@ -33,8 +45,11 @@ export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
     }
   }, [locked, space, name]);
 
-  const handleBlur = useCallback(() => {
+  const handleClickOutside = useCallback(() => {
     space.locks.release(name);
+    // region Workaround to react on local lock release
+    setUnlocked(true);
+    // endregion
   }, [space, name]);
 
   return (
@@ -43,10 +58,12 @@ export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
       label={label}
       name={name}
       onFocus={handleFocus}
-      onBlur={handleBlur}
+      onClickOutside={handleClickOutside}
       onChange={setValue}
       lockedByYou={lockedByYou}
-      lockHolder={lockHolder}
+      // region Workaround to react on local lock release
+      lockHolder={unlockedLocally ? null : lockHolder}
+      // endregion
     />
   );
 };
