@@ -1,9 +1,11 @@
-import type { LockStatus, Space, SpaceMember, Lock } from "@ably/spaces";
+import type { LockStatus, Space, Lock } from "@ably/spaces";
 import { useEffect, useState } from "react";
+
+import { type Member } from "./utils/helper";
 
 export const useLock = (space: Space, lockId: string) => {
   const [status, setStatus] = useState<LockStatus | null>(null);
-  const [lockHolder, setLockHolder] = useState<SpaceMember | null>(null);
+  const [lockHolder, setLockHolder] = useState<Member | null>(null);
 
   const initialized = status !== null;
 
@@ -15,7 +17,7 @@ export const useLock = (space: Space, lockId: string) => {
         setLockHolder(null);
       } else {
         setStatus(lock.status);
-        setLockHolder(lock.member);
+        setLockHolder(lock.member as Member);
       }
     };
 
@@ -30,7 +32,7 @@ export const useLock = (space: Space, lockId: string) => {
     if (initialized) return;
     const lock = space.locks.get(lockId);
     if (lock) {
-      setLockHolder(lock.member);
+      setLockHolder(lock.member as Member);
       setStatus(lock.status);
     }
   }, [initialized, space]);

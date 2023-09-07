@@ -1,13 +1,15 @@
-import type { Space, SpaceMember } from "@ably/spaces";
+import { type Space } from "@ably/spaces";
 import { useEffect, useState } from "react";
 
+import { type Member } from "./utils/helper";
+
 export const useSelf = (space: Space) => {
-  const [self, setSelf] = useState<SpaceMember | null>(null);
+  const [self, setSelf] = useState<Member | null>(null);
 
   useEffect(() => {
     const handler = async () => {
       const self = await space.members.getSelf();
-      setSelf(self);
+      setSelf(self as Member);
     };
 
     space.subscribe("update", handler);
@@ -19,7 +21,7 @@ export const useSelf = (space: Space) => {
   useEffect(() => {
     const init = async () => {
       const initSelf = await space.members.getSelf();
-      setSelf(initSelf);
+      setSelf(initSelf as Member);
     };
 
     init();

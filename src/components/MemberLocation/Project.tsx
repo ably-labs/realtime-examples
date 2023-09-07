@@ -13,12 +13,13 @@ const Project = () => {
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
-      name: "Member Location",
+      name: "Member location",
+      docsLink: "https://ably.com/docs/spaces/locations",
       repoNameAndPath:
         "realtime-examples/tree/main/src/components/MemberLocation",
       topic: "member-location",
       description:
-        "Click on a field to see how your location is displayed. Open in a new widow or share the link to see multiple users.",
+        "Click on a field to see how your location is displayed. Open in a new window or share the link to see multiple users.",
     });
   }, []);
 

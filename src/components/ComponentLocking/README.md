@@ -1,10 +1,10 @@
 ## Overview
 
-![Component Locking Start screen](./Ably-Avatar-Stack.png)
+![Component locking Start screen](./Ably-Avatar-Stack.png)
 
-This folder contains the code for the Component Locking - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show a list of currently online users.
+This folder contains the code for the Component locking - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show a list of currently online users.
 
-Try out the [live demo](https://examples.ably.dev/component-locking) of the Component Locking.
+Try out the [live demo](https://examples.ably.dev/component-locking) of the Component locking.
 
 ## Running locally
 
@@ -23,7 +23,7 @@ Try out the [live demo](https://examples.ably.dev/component-locking) of the Comp
 
 ## Resources
 
-- Learn more about how to build your own [Component Locking](https://ably.com/examples/component-locking?utm_source=ably-labs&utm_medium=github&utm_campaign=component-locking).
+- Learn more about how to build your own [Component locking](https://ably.com/examples/component-locking?utm_source=ably-labs&utm_medium=github&utm_campaign=component-locking).
 - To see what else is possible with Ably check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=component-locking).
 
 _Requirements (if any)_

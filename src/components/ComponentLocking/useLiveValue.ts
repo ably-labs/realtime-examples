@@ -1,12 +1,12 @@
 import type { Types } from "ably";
 import { useChannel } from "ably/react";
-import type { SpaceMember } from "@ably/spaces";
 import { useCallback, useState } from "react";
+import { type Member } from "./utils/helper";
 
 export const useLiveValue = (
   spaceName: string,
   componentName: string,
-  self: SpaceMember | null,
+  self: Member | null,
 ) => {
   const [value, setValue] = useState("");
   const channelName = `[?rewind=1]${spaceName}-${componentName}`;

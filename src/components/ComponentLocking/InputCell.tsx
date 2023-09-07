@@ -1,10 +1,11 @@
 import React, { useCallback, useRef } from "react";
-import type { SpaceMember } from "@ably/spaces";
 import cn from "classnames";
 import { useOnClickOutside } from "usehooks-ts";
 import { getCellStylesForMember } from "./utils/helper";
 import { LockFilledSvg } from "./LockedFilled";
 import "./locking.css";
+
+import { type Member } from "./utils/helper";
 
 interface InputCellProps {
   value: string;
@@ -13,9 +14,10 @@ interface InputCellProps {
   onFocus: () => void;
   onChange: (nextValue: string) => void;
   onClickOutside: () => void;
-  lockHolder: SpaceMember | null;
+  lockHolder: Member | null;
   lockedByYou: boolean;
 }
+
 const InputCell: React.FC<InputCellProps> = ({
   value,
   label,
@@ -28,10 +30,8 @@ const InputCell: React.FC<InputCellProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   // 💡 Get the member color and name for the cell from the `cellMembers` prop.
-  const memberColor = lockHolder?.profileData?.memberColor;
-  const memberName = lockedByYou
-    ? "You"
-    : `${lockHolder?.profileData?.memberName}`;
+  const memberColor = lockHolder?.profileData.memberColor;
+  const memberName = lockedByYou ? "You" : lockHolder?.profileData.memberName;
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +47,7 @@ const InputCell: React.FC<InputCellProps> = ({
   const readOnly = Boolean(lockHolder && !lockedByYou);
 
   return (
-    <div ref={ref} className="flex flex-col mb-4">
+    <div ref={ref} className="flex flex-col mb-4 w-full">
       <label htmlFor={name} className="mb-2 text-sm">
         {label}
       </label>
@@ -55,12 +55,12 @@ const InputCell: React.FC<InputCellProps> = ({
         className="relative"
         style={{ "--member-bg-color": memberColor } as React.CSSProperties}
       >
-        {memberName && (
+        {memberName ? (
           <div className="member-name-lock">
             {memberName}
             {!lockedByYou && <LockFilledSvg className="text-base" />}
           </div>
-        )}
+        ) : null}
         <input
           id={name}
           name={name}
@@ -68,14 +68,14 @@ const InputCell: React.FC<InputCellProps> = ({
           onChange={handleChange}
           onFocus={onFocus}
           disabled={readOnly}
-          placeholder="Edit to lock me"
+          placeholder="Click to lock and edit me"
           className={cn(
-            `p-2 w-96 h-10 text-sm rounded-lg outline-none focus:bg-white ${getCellStylesForMember(
+            `p-2 w-full h-10 text-sm rounded-lg outline-none transition-colors hover:bg-white focus:bg-white ${getCellStylesForMember(
               lockHolder,
             )}`,
             {
-              "bg-slate-50": !readOnly,
-              "bg-slate-250 cursor-not-allowed": readOnly,
+              "bg-[#EDF1F6]": !readOnly,
+              "bg-slate-250 hover:bg-slate-250 cursor-not-allowed": readOnly,
             },
           )}
         />

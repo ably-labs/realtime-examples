@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import type { Space } from "@ably/spaces";
+
 import { useLock } from "./useLock";
 import { useLiveValue } from "./useLiveValue";
 import InputCell from "./InputCell";

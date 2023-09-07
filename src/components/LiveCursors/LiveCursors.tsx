@@ -2,7 +2,7 @@ import { useMemo, useRef } from "react";
 import { mockNames } from "../../commonUtils/mockNames";
 import { colours } from "./utils/mockData";
 import useSpaces from "../../commonUtils/useSpaces";
-import useSpaceMembers from "../../commonUtils/useSpaceMembers";
+import useSpaceMembers from "./utils/useSpaceMembers";
 import { MemberCursors, YourCursor } from "./Cursors";
 
 import type { Member } from "./utils/types";
@@ -27,7 +27,7 @@ const LiveCursors = ({ spaceName }: { spaceName: string }) => {
     <div
       id="live-cursors"
       ref={liveCursors}
-      className="w-full flex relative cursor-none overflow-hidden rounded-2xl bg-white"
+      className="w-full flex relative cursor-none overflow-hidden rounded-2xl bg-[#F4F8FB]"
     >
       <YourCursor
         user={self as Member | null}

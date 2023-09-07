@@ -13,12 +13,13 @@ const Project = () => {
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
-      name: "Component Locking",
+      name: "Component locking",
+      docsLink: "https://ably.com/docs/spaces/locking",
       repoNameAndPath:
         "realtime-examples/tree/main/src/components/ComponentLocking",
       topic: "component-locking",
       description:
-        "Click on a field to lock and edit the copy. Open in a new widow or share the link to see multiple users.",
+        "Click on a UI component to lock and edit the copy. Open the demo in a new window or share the link to see multiple users.",
     });
   }, []);
 

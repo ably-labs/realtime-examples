@@ -10,16 +10,14 @@ const useSpaceMembers = (space?: Space) => {
     if (!space) return;
 
     /** 💡 Listen to space members entering and leaving 💡 */
-    space.members.subscribe(() =>
-      (async () => {
-        const others = await space.members.getOthers();
-        setOtherMembers(others);
-        const all = await space.members.getAll();
-        setAllMembers(all);
-        const self = await space.members.getSelf();
-        setSelf(self);
-      })(),
-    );
+    space.members.subscribe(async () => {
+      const others = await space.members.getOthers();
+      setOtherMembers(others);
+      const all = await space.members.getAll();
+      setAllMembers(all);
+      const self = await space.members.getSelf();
+      setSelf(self);
+    });
 
     return () => {
       /** 💡 Remove any listeners on unmount 💡 */

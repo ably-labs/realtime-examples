@@ -11,7 +11,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ space, spaceName }) => {
   if (!space) return null;
 
   return (
-    <div>
+    <>
       {entries.map((entry) => {
         return (
           <AblyPoweredInput
@@ -23,7 +23,7 @@ const FormComponent: React.FC<FormComponentProps> = ({ space, spaceName }) => {
           />
         );
       })}
-    </div>
+    </>
   );
 };
 

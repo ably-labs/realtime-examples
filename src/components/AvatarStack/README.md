@@ -1,10 +1,10 @@
 ## Overview
 
-![Avatar Stack Start screen](./Ably-Avatar-Stack.png)
+![Avatar stack Start screen](./Ably-Avatar-Stack.png)
 
-This folder contains the code for the Avatar Stack - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show a list of currently online users.
+This folder contains the code for the Avatar stack - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show a list of currently online users.
 
-Try out the [live demo](https://examples.ably.dev/avatar-stack) of the avatar stack.
+Try out the [live demo](https://examples.ably.dev/avatar-stack) of the Avatar stack.
 
 ## Running locally
 
@@ -23,7 +23,7 @@ Try out the [live demo](https://examples.ably.dev/avatar-stack) of the avatar st
 
 ## Resources
 
-- Learn more about how to build your own [avatar stack](https://ably.com/examples/avatar-stack?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
+- Learn more about how to build your own [Avatar stack](https://ably.com/examples/avatar-stack?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
 - To see what else is possible with Ably check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=avatar-stack).
 
 _Requirements (if any)_
@@ -31,7 +31,7 @@ _Requirements (if any)_
 ## Support, feedback and troubleshooting
 
 - [Create a GitHub Issue](https://github.com/ably-labs/realtime-examples/issues)
-- [Ably Spaces On Github](https://github.com/ably-labs/spaces)
+- [Ably Spaces On GitHub](https://github.com/ably-labs/spaces)
 - [Join our Discord server](https://discord.gg/q89gDHZcBK)
 - [Follow us on Twitter](https://twitter.com/ablyrealtime)
 - [Use our SDKs](https://github.com/ably/)

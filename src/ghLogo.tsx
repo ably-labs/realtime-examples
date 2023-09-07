@@ -1,4 +1,4 @@
-const GithubLogo = () => (
+const GitHubLogo = () => (
   <svg
     width="16"
     height="16"
@@ -13,4 +13,4 @@ const GithubLogo = () => (
   </svg>
 );
 
-export default GithubLogo;
+export default GitHubLogo;

@@ -14,11 +14,12 @@ const Project = () => {
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
-      name: "Live Cursors",
+      name: "Live cursors",
       repoNameAndPath: "realtime-examples/tree/main/src/components/LiveCursors",
+      docsLink: "https://ably.com/docs/spaces/cursors",
       topic: "live-cursors",
       description:
-        "Move your cursor to see it animated in a collaborative space. Open in a new widow or share the link to see multiple users.",
+        "Move your cursor to see it animated in a collaborative space. To see multiple users share the link with colleagues.",
     });
   }, []);
 

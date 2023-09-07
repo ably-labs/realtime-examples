@@ -14,15 +14,16 @@ const Project = () => {
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
-      name: "Avatar Stack",
+      name: "Avatar stack",
+      docsLink: "https://ably.com/docs/spaces/avatar",
       repoNameAndPath: "realtime-examples/tree/main/src/components/AvatarStack",
       topic: "avatar-stack",
       description:
-        "See your online presence in a space displayed as an Avatar. Open in a new widow or share the link to see multiple users.",
+        "See your online presence in a space displayed as an Avatar. Open in a new window or share the link to see multiple users.",
     });
   }, []);
 
-  return <AvatarStack spaceName={channelName} />;
+  return <AvatarStack />;
 };
 
 export default Project;

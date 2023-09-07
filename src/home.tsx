@@ -2,16 +2,16 @@ const Home = () => {
   return (
     <ul>
       <li>
-        <a href="/component-locking">Component Locking</a>
+        <a href="/component-locking">Component locking</a>
       </li>
       <li>
-        <a href="/member-location">Member Location</a>
+        <a href="/member-location">Member location</a>
       </li>
       <li>
-        <a href="/live-cursors">Live Cursors</a>
+        <a href="/live-cursors">Live cursors</a>
       </li>
       <li>
-        <a href="/avatar-stack">Avatar Stack</a>
+        <a href="/avatar-stack">Avatar stack</a>
       </li>
       <li>
         <a href="/emoji-reactions">Emoji Reactions</a>

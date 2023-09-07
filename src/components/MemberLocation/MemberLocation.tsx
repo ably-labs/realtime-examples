@@ -1,41 +1,51 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import useSpaces from "../../commonUtils/useSpaces";
 import { getMemberName } from "../../commonUtils/mockNames";
 import { getLocationColors } from "../../commonUtils/mockColors";
 import Spreadsheet from "./Spreadsheet";
 import { type Member } from "./utils/types";
+import { type SpaceMember } from "@ably/spaces";
 
 const MemberLocation = () => {
-  const [members, setMembers] = useState<Member[]>([]);
-  const [selfLocation, setSelfLocation] = useState<
-    Member["location"] | undefined
-  >(undefined);
+  const [others, setOthers] = useState<Member[]>([]);
+  const [self, setSelf] = useState<Member | null>(null);
+
+  const memberName = useMemo(getMemberName, []);
+  const memberColor = useMemo(getLocationColors, []);
 
   /** 💡 Get a handle on a space instance 💡 */
   const space = useSpaces({
-    memberName: getMemberName(),
-    memberColor: getLocationColors(),
+    memberName,
+    memberColor,
   });
+
+  const setConnectedMembers = (members: SpaceMember[]) => {
+    setOthers(members.filter((member) => member.isConnected) as Member[]);
+  };
 
   /** 💡 Get a list of everyone already in the space. 
       The locationUpdate will then be used to update the members list 
       as shown in the useEffect after this one.
       You could just use space.members.subscribe to do this as well.💡 */
   useEffect(() => {
-    if (space && members.length === 0) {
-      space.members.subscribe(() =>
-        (async () => {
-          const others = await space.members.getOthers();
-          setMembers(others as Member[]);
-        })(),
-      );
+    if (!space) return;
 
-      return () => {
-        /** 💡 Remove any listeners on unmount 💡 */
-        space?.off();
-      };
-    }
-  }, [space, members]); // Now the effect will react to changes in space and members
+    (async () => {
+      setConnectedMembers(await space.members.getOthers());
+      setSelf((await space.members.getSelf()) as Member);
+    })();
+
+    const handler = async () => {
+      setConnectedMembers(await space.members.getOthers());
+      setSelf((await space.members.getSelf()) as Member);
+    };
+
+    space.members.subscribe(["enter", "leave", "remove"], handler);
+
+    return () => {
+      space.members.unsubscribe(["enter", "leave", "remove"], handler);
+    };
+  }, [space]);
 
   useEffect(() => {
     if (!space) return;
@@ -43,43 +53,34 @@ const MemberLocation = () => {
     /** 💡 "locationUpdate" is triggered every time
      * - a member changes the cell they have clicked
      * - or if a member leaves the space.💡 */
-    space.locations.subscribe("update", (locationUpdate) => {
-      space.locations.getSelf().then((member) => {
-        setSelfLocation(member as Member["location"]);
-        const updatedMember = locationUpdate.member;
-        if (updatedMember.isConnected) {
-          // Add to the members array if the member is connected
-          setMembers((prevMembers) => {
-            return [
-              ...prevMembers.filter(
-                (member) => member.connectionId !== updatedMember.connectionId,
-              ),
-              updatedMember as Member,
-            ];
-          });
-        } else if (!updatedMember.isConnected) {
-          // Remove from the members array if the member is not connected
-          setMembers((prevMembers) =>
-            prevMembers.filter(
-              (member) => member.connectionId !== updatedMember.connectionId,
-            ),
-          );
-        }
-      });
-    });
+    const handler = async (locationUpdate: { member: SpaceMember }) => {
+      if (self?.connectionId === locationUpdate.member.connectionId) {
+        const updatedSelf = await space.members.getSelf();
+        setSelf(updatedSelf as Member);
+      } else {
+        const others = await space.members.getOthers();
+        setConnectedMembers(others);
+      }
+    };
+
+    space.locations.subscribe("update", handler);
 
     return () => {
-      /** 💡 Remove any listeners on unmount 💡 */
-      space?.off();
+      /** 💡 Remove listener on unmount 💡 */
+      space.locations.unsubscribe("update", handler);
     };
-  }, [space]);
+  }, [space, self?.connectionId]);
+
+  const setLocation = (location: Member["location"]) => {
+    space?.locations.set(location);
+  };
 
   return (
     <div
-      className="w-full flex justify-center items-center rounded-2xl bg-white"
+      className="w-full flex justify-center items-center rounded-2xl bg-[#F4F8FB]"
       id="member-location"
     >
-      <Spreadsheet users={members} space={space} selfLocation={selfLocation} />
+      <Spreadsheet self={self} others={others} setLocation={setLocation} />
     </div>
   );
 };

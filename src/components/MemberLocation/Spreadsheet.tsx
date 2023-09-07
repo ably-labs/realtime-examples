@@ -1,20 +1,18 @@
-import { type Space } from "@ably/spaces";
 import Cell from "./Cell";
 import { cellData } from "./utils/cellData";
 import { type Member } from "./utils/types";
 
 const Spreadsheet = ({
-  users,
-  selfLocation,
-  space,
+  self,
+  others,
+  setLocation,
 }: {
-  users: Member[];
-  selfLocation?: Member["location"];
-  space?: Space;
+  self: Member | null;
+  others: Member[];
+  setLocation: (location: Member["location"]) => void;
 }) => {
   const handleClick = (row: number, col: number) => {
-    if (!space) return;
-    space.locations.set({ row, col });
+    setLocation({ row, col });
   };
 
   return (
@@ -30,17 +28,12 @@ const Spreadsheet = ({
             </td>
 
             {row.map((col, colIndex) => {
-              const cellMembers = users.filter((user) => {
+              const cellMembers = others.filter((user) => {
                 return (
-                  user.location !== null &&
-                  user.location.row === rowIndex &&
-                  user.location.col === colIndex
+                  user.location?.row === rowIndex &&
+                  user.location?.col === colIndex
                 );
               });
-              const isSelf =
-                selfLocation &&
-                selfLocation.row === rowIndex &&
-                selfLocation.col === colIndex;
 
               return (
                 <Cell
@@ -49,7 +42,7 @@ const Spreadsheet = ({
                   rowIndex={rowIndex}
                   colIndex={colIndex}
                   cellMembers={cellMembers}
-                  isSelf={isSelf}
+                  self={self}
                   handleClick={handleClick}
                 />
               );

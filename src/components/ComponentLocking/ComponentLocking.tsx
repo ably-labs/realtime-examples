@@ -12,15 +12,16 @@ const ComponentLocking = ({ spaceName }: { spaceName: string }) => {
 
   return (
     <div
-      className="w-full flex justify-center items-center rounded-2xl bg-white"
+      className="w-full flex justify-center items-center rounded-2xl bg-[#F4F8FB]"
       id="member-location"
     >
-      <div>
+      <div className="w-full max-w-[320px] p-2 py-4">
         <Form space={space} spaceName={spaceName} />
       </div>
     </div>
   );
 };
+
 export default ComponentLocking;
 
 // Lock cell if someone else is editing it

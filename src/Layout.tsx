@@ -45,7 +45,7 @@ const Layout = () => {
     </SpaceContextProvider>
   ) : (
     <SpaceContextProvider example={example} spaceName={channelId}>
-      <main className="flex w-screen h-screen justify-between font-sans bg-slate-900 flex-col-reverse md:flex-row md:p-12">
+      <main className="antialiased overflow-scroll flex w-screen h-screen justify-between font-sans bg-slate-900 flex-col-reverse md:flex-row md:p-12">
         <div className="w-full flex justify-center max-h-[calc(100vh)] md:min-w-[268px] md:max-w-[328px] md:mr-6">
           <SpacesInfoCard projectInfo={projectInfo} />
         </div>

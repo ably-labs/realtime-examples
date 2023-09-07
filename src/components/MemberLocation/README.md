@@ -1,10 +1,10 @@
 ## Overview
 
-![Member Location Start screen](./MemberLocation.png)
+![Member location Start screen](./MemberLocation.png)
 
-This folder contains the code for the Member Location - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show the current location of all users in a space.
+This folder contains the code for the Member location - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show the current location of all users in a space.
 
-Try out the [live demo](https://examples.ably.dev/member-location) of the Member Location.
+Try out the [live demo](https://examples.ably.dev/member-location) of the Member location.
 
 ## Running locally
 
@@ -23,7 +23,7 @@ Try out the [live demo](https://examples.ably.dev/member-location) of the Member
 
 ## Resources
 
-- Learn more about how to build your own [Member Location](https://ably.com/examples/member-location?utm_source=ably-labs&utm_medium=github&utm_campaign=member-location).
+- Learn more about how to build your own [Member location](https://ably.com/examples/member-location?utm_source=ably-labs&utm_medium=github&utm_campaign=member-location).
 - To see what else is possible with Ably check out our other [realtime examples](https://ably.com/examples?utm_source=ably-labs&utm_medium=github&utm_campaign=member-location).
 
 _Requirements (if any)_
@@ -31,7 +31,7 @@ _Requirements (if any)_
 ## Support, feedback and troubleshooting
 
 - [Create a GitHub Issue](https://github.com/ably-labs/realtime-examples/issues)
-- [Ably Spaces On Github](https://github.com/ably-labs/spaces)
+- [Ably Spaces On GitHub](https://github.com/ably-labs/spaces)
 - [Join our Discord server](https://discord.gg/q89gDHZcBK)
 - [Follow us on Twitter](https://twitter.com/ablyrealtime)
 - [Use our SDKs](https://github.com/ably/)

@@ -1,37 +1,39 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import dayjs from "dayjs";
-import type { SpaceMember } from "@ably/spaces";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 import Avatars from "./Avatars";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { getMemberName } from "../../commonUtils/mockNames";
 import { getMemberColor } from "../../commonUtils/mockColors";
 import useSpaces from "../../commonUtils/useSpaces";
-import useSpaceMembers from "../../commonUtils/useSpaceMembers";
+
+import useSpaceMembers from "./utils/useSpaceMembers";
 import type { Member } from "./utils/helpers";
 
 dayjs.extend(relativeTime);
 
-const AvatarStack = ({ spaceName }: { spaceName: string }) => {
-  const [name, setName] = useState(getMemberName);
-  const [memberColor, setMemberColor] = useState(getMemberColor);
+const AvatarStack = () => {
+  const name = useMemo(getMemberName, []);
+  const memberColor = useMemo(getMemberColor, []);
 
   /** 💡 Get a handle on a space instance 💡 */
   const space = useSpaces({ name, memberColor });
 
-  /** 💡 Get all members in the space 💡 */
-  const { otherMembers } = useSpaceMembers(space);
+  /** 💡 Get everybody except the local member in the space 💡 */
+  const { otherMembers, self } = useSpaceMembers(space);
 
   return (
     <div
-      className="w-full flex justify-center relative rounded-2xl bg-white"
+      className="w-full flex justify-center items-center relative rounded-2xl bg-[#F4F8FB]"
       id="avatar-stack"
     >
-      <div className="flex items-center">
-        {/** 💡 Stack of first 5 user avatars including yourself.💡 */}
-        <Avatars otherUsers={otherMembers as Member[]} />
-      </div>
+      {/** 💡 Stack of first 5 user avatars including yourself.💡 */}
+      <Avatars
+        self={self as Member | null}
+        otherUsers={otherMembers as Member[]}
+      />
     </div>
   );
 };
+
 export default AvatarStack;

@@ -1,5 +1,9 @@
 import { SpaceMember } from "@ably/spaces";
 
+export type Member = Omit<SpaceMember, "profileData"> & {
+  profileData: { memberColor: string; memberName: string };
+};
+
 export const getCellStylesForMember = (
   cellMember: SpaceMember | null,
 ): string => {

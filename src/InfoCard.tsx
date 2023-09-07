@@ -33,7 +33,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
               {projectInfo.description}
               <div>
                 <a
-                  className="text-slate-200 text-sm hover:underline"
+                  className="text-slate-200 text-sm underline"
                   href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
                   target="_blank"
                 >
@@ -54,7 +54,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
                 className="flex justify-center bg-slate-700 text-white rounded py-3"
                 href={`https://github.com/ably-labs/${projectInfo.repoNameAndPath}`}
               >
-                View source on Github
+                View source on GitHub
                 <ExternalLinkIcon className="h-5 w-5 ml-2 text-slate-300" />
               </a>
             </div>

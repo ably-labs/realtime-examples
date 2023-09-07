@@ -13,7 +13,15 @@ export const getMemberProperty = (
   return null;
 };
 
-export const getCellStyles = (cellMembers: Member[]): string => {
+export const getCellStyles = (
+  self: Member | null,
+  selfInCell: boolean,
+  cellMembers: Member[],
+): string => {
+  if (selfInCell) {
+    return `border-[${self?.profileData.memberColor}] border-2`;
+  }
+
   if (cellMembers.length > 0) {
     const memberColor = `${cellMembers[0].profileData.memberColor}`;
     return `border-[${memberColor}] border-2`;
