@@ -1,27 +1,28 @@
-import { useState } from 'react'
-import { Types } from 'ably'
+import { useState, FunctionComponent } from "react";
 
-import useClickOutsideList from './useClickOutsideList'
-import { MAX_USERS_BEFORE_LIST } from './utils/constants'
-import UserInfo from './UserInfo'
+import useClickOutsideList from "./useClickOutsideList";
+import { MAX_USERS_BEFORE_LIST, type Member } from "./utils/helpers";
+import UserInfo from "./UserInfo";
 
-const Surplus = ({ otherUsers }: { otherUsers: Types.PresenceMessage[] }) => {
-  const [showList, setShowList] = useState(false)
+const Surplus: FunctionComponent<{ otherUsers: Member[] }> = ({
+  otherUsers,
+}) => {
+  const [showList, setShowList] = useState(false);
   const { listRef, plusButtonRef } = useClickOutsideList(() =>
-    setShowList(false)
-  )
+    setShowList(false),
+  );
 
   return otherUsers.length > MAX_USERS_BEFORE_LIST ? (
-    <div className="absolute right-0">
+    <div className="right-0 flex flex-col items-center absolute">
       <div
-        className="flex justify-center items-center absolute right-0 text-white text-sm bg-gradient-to-r from-gray-500 to-slate-500
-		    h-12 w-12 rounded-full mb-2 select-none shadow-[0_0_0_4px_rgba(255,255,255,1)]"
+        className="flex justify-center items-center absolute right-0 text-white text-sm bg-gray-500 border-gray-300 border-2
+		    h-12 w-12 rounded-full mb-2 select-none"
         style={{
           zIndex: otherUsers.length + 50,
         }}
         ref={plusButtonRef}
         onClick={() => {
-          setShowList(!showList)
+          setShowList(!showList);
         }}
       >
         +{otherUsers.slice(MAX_USERS_BEFORE_LIST).length}
@@ -29,12 +30,12 @@ const Surplus = ({ otherUsers }: { otherUsers: Types.PresenceMessage[] }) => {
 
       {showList ? (
         <div
-          className="min-w-[225px] max-h-[250px] overflow-y-auto p-2 relative top-14 bg-slate-800 rounded-lg text-white"
+          className="max-h-[70px] overflow-y-auto p-2 relative top-14 left-6 md:max-h-[250px] lg:left-24 bg-slate-800 rounded-lg text-white min-w-[280px]"
           ref={listRef}
         >
           {otherUsers.slice(MAX_USERS_BEFORE_LIST).map((user) => (
             <div
-              className="hover:bg-slate-700 hover:rounded-lg px-7 py-2"
+              className="hover:bg-slate-700 hover:rounded-lg px-2 py-2 md:px-3"
               key={user.clientId}
             >
               <UserInfo user={user} />
@@ -43,7 +44,7 @@ const Surplus = ({ otherUsers }: { otherUsers: Types.PresenceMessage[] }) => {
         </div>
       ) : null}
     </div>
-  ) : null
-}
+  ) : null;
+};
 
-export default Surplus
+export default Surplus;

@@ -1,16 +1,16 @@
-import { useState, FunctionComponent } from 'react'
-import type { ProjectInfo } from './Layout'
-import AblyLogo from './AblyLogo'
+import { useState, FunctionComponent } from "react";
+import type { ProjectInfo } from "./commonUtils/types";
+import AblyLogo from "./AblyLogo";
 import {
   ExternalLinkIcon,
   ArrowRightIcon,
   ChevronUpIcon,
-} from '@heroicons/react/solid'
+} from "@heroicons/react/solid";
 
 const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   projectInfo,
 }) => {
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(true);
   return (
     <div className="bg-slate-800 shadow-xl w-screen md:w-[360px] rounded-t-lg md:rounded-lg">
       <div className="p-6 space-y-4">
@@ -18,10 +18,10 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
           <div className="flex justify-between text-white">
             <h2>{projectInfo.name}</h2>
             <button className="text-sm" onClick={() => setExpanded(!expanded)}>
-              {expanded ? 'Less' : 'More'} info
+              {expanded ? "Less" : "More"} info
               <ChevronUpIcon
                 className={`inline-block ml-2 h-5 w-5 text-slate-500 ${
-                  expanded ? 'rotate-180' : ''
+                  expanded ? "rotate-180" : ""
                 }`}
               />
             </button>
@@ -29,17 +29,18 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
         </div>
         {expanded ? (
           <div className="space-y-4">
-            <p className="text-slate-300 text-sm">
-              Open this page in multiple windows or share the URL with your team
-              to experience the demo.{' '}
-              <a
-                className="text-slate-300 text-sm hover:underline"
-                href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
-                target="_blank"
-              >
-                Learn more.
-              </a>
-            </p>
+            <div className="text-slate-300 text-sm">
+              {projectInfo.description}
+              <div>
+                <a
+                  className="text-slate-200 text-sm underline"
+                  href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
+                  target="_blank"
+                >
+                  Learn more.
+                </a>
+              </div>
+            </div>
             <div className="flex flex-col text-center space-y-4 text-sm">
               <a
                 className="flex justify-center bg-white rounded py-3"
@@ -53,7 +54,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
                 className="flex justify-center bg-slate-700 text-white rounded py-3"
                 href={`https://github.com/ably-labs/${projectInfo.repoNameAndPath}`}
               >
-                View source on Github
+                View source on GitHub
                 <ExternalLinkIcon className="h-5 w-5 ml-2 text-slate-300" />
               </a>
             </div>
@@ -72,7 +73,7 @@ const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
         </a>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InfoCard
+export default InfoCard;

@@ -1,26 +1,29 @@
-import { useEffect } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 
-import type { ProjectInfo } from '../../Layout'
-import AvatarStack from './AvatarStack'
+import type { ProjectInfo } from "../../commonUtils/types";
+import AvatarStack from "./AvatarStack";
 
 const Project = () => {
-  const { channelName, clientId, setProjectInfo } = useOutletContext<{
-    channelName: string
-    clientId: string
-    setProjectInfo: (projectInfo: ProjectInfo) => void
-  }>()
+  const { setProjectInfo, channelName } = useOutletContext<{
+    channelName: string;
+    clientId: string;
+    setProjectInfo: (projectInfo: ProjectInfo) => void;
+  }>();
 
   // 💡 Project specific wiring for showing this example.
   useEffect(() => {
     setProjectInfo({
-      name: 'Avatar Stack',
-      repoNameAndPath: 'realtime-examples/tree/main/src/components/AvatarStack',
-      topic: 'avatar-stack',
-    })
-  }, [])
+      name: "Avatar stack",
+      docsLink: "https://ably.com/docs/spaces/avatar",
+      repoNameAndPath: "realtime-examples/tree/main/src/components/AvatarStack",
+      topic: "avatar-stack",
+      description:
+        "See your online presence in a space displayed as an Avatar. Open in a new window or share the link to see multiple users.",
+    });
+  }, []);
 
-  return <AvatarStack channelName={channelName} clientId={clientId} />
-}
+  return <AvatarStack />;
+};
 
-export default Project
+export default Project;

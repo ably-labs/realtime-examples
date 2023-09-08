@@ -1,22 +1,27 @@
-import ReactDOM from 'react-dom/client'
-import './index.css'
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./Layout";
+import Home from "./home";
+import LiveCursors from "./components/LiveCursors";
+import AvatarStack from "./components/AvatarStack";
+import EmojiReactions from "./components/EmojiReactions/EmojiReactions";
+import UserClaims from "./components/UserClaims/UserClaims";
+import MemberLocation from "./components/MemberLocation";
+import ComponentLocking from "./components/ComponentLocking";
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Layout from './Layout'
-import AvatarStack from './components/AvatarStack'
-import Home from './home'
-import EmojiReactions from './components/EmojiReactions/EmojiReactions'
-import UserClaims from './components/UserClaims/UserClaims'
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Home />} />
       <Route element={<Layout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/live-cursors" element={<LiveCursors />} />
+        <Route path="/component-locking" element={<ComponentLocking />} />
+        <Route path="/member-location" element={<MemberLocation />} />
         <Route path="/avatar-stack" element={<AvatarStack />} />
         <Route path="/emoji-reactions" element={<EmojiReactions />} />
         <Route path="/user-claims" element={<UserClaims />} />
       </Route>
     </Routes>
-  </BrowserRouter>
-)
+  </BrowserRouter>,
+);

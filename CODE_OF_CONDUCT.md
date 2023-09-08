@@ -26,7 +26,6 @@ Examples of unacceptable behaviour include:
 - Publishing other's private information, such as a physical or email address or other identifying information, without their explicit permission
 - Other conduct which could reasonably be considered inappropriate in a professional setting, this isn’t an exhaustive list
 
- 
 ## Enforcement
 
 Community leaders are responsible for clarifying and enforcing our standards of acceptable behaviour and will take appropriate and fair corrective action in response to any behaviour that they deem inappropriate, threatening, offensive, or harmful.
@@ -53,10 +52,9 @@ Unprofessional or unwelcome behaviour in the community including the use of inap
 
 **Consequence:**
 
-A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour is inappropriate and consequences of continued behaviour.  Additionally:
+A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour is inappropriate and consequences of continued behaviour. Additionally:
 
 Any member who is asked to stop such behaviour is expected to comply immediately.
-
 
 ### 2. Warning
 
@@ -66,7 +64,7 @@ A violation through a single incident or series of actions.
 
 **Consequence:**
 
-A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour is inappropriate and consequences of continued behaviour.  Additionally:
+A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour is inappropriate and consequences of continued behaviour. Additionally:
 
 A specified time period of strictly no unsolicited interaction with those involved in the report - including community leaders handling the enforcement of the code of conduct - across platforms and spaces, publicly or privately.
 
@@ -80,11 +78,9 @@ A serious violation of community standards, including sustained inappropriate be
 
 **Consequence:**
 
-A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour is inappropriate and consequences of continued behaviour.  Additionally:
+A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour is inappropriate and consequences of continued behaviour. Additionally:
 
 A temporary ban for an appropriate and specified period of time from any interaction, unsolicited or otherwise with the community - including community leaders handling the enforcement of the code of conduct - across platforms and spaces during this period.
-
- 
 
 ### 4. Permanent Ban
 
@@ -94,7 +90,7 @@ A pattern of violations of community standards, including sustained inappropriat
 
 **Consequence:**
 
-A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour was inappropriate and consequences of continued behaviour.  Additionally:
+A private, written warning from community leaders, with clarity of violation, explanation of why the behaviour was inappropriate and consequences of continued behaviour. Additionally:
 
 A permanent ban from any sort of public interaction within the community.
 

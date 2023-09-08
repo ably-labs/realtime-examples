@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef } from "react";
 
 const useClickOutsideList = (callback: () => void) => {
-  const listRef = useRef<HTMLDivElement>(null)
-  const plusButtonRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLDivElement>(null);
+  const plusButtonRef = useRef<HTMLDivElement>(null);
 
   // 💡 Handler to click outside user list
   useEffect(() => {
@@ -13,21 +13,22 @@ const useClickOutsideList = (callback: () => void) => {
         !plusButtonRef.current ||
         plusButtonRef.current.contains(event.target as Node)
       ) {
-        return
+        return;
       }
 
-      callback()
-    }
+      callback();
+    };
 
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+
     return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
-    }
-  }, [listRef, plusButtonRef])
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [listRef, plusButtonRef]);
 
-  return { listRef, plusButtonRef }
-}
+  return { listRef, plusButtonRef };
+};
 
-export default useClickOutsideList
+export default useClickOutsideList;
