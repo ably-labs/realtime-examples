@@ -18,6 +18,7 @@ const Project = () => {
       docsLink: "https://ably.com/docs/spaces/avatar",
       repoNameAndPath: "realtime-examples/tree/main/src/components/AvatarStack",
       topic: "avatar-stack",
+      learnMore: true,
       description:
         "See your online presence in a space displayed as an Avatar. Open in a new window or share the link to see multiple users.",
     });

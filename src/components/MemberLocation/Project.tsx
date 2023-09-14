@@ -18,6 +18,7 @@ const Project = () => {
       repoNameAndPath:
         "realtime-examples/tree/main/src/components/MemberLocation",
       topic: "member-location",
+      learnMore: false,
       description:
         "Click on a field to see how your location is displayed. Open in a new window or share the link to see multiple users.",
     });

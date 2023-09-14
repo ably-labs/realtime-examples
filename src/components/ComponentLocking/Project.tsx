@@ -18,6 +18,7 @@ const Project = () => {
       repoNameAndPath:
         "realtime-examples/tree/main/src/components/ComponentLocking",
       topic: "component-locking",
+      learnMore: false,
       description:
         "Click on a UI component to lock and edit the copy. Open the demo in a new window or share the link to see multiple users.",
     });
