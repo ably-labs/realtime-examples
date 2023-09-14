@@ -17,6 +17,7 @@ const Layout = () => {
     name: "Realtime Examples",
     repoNameAndPath: "realtime-examples",
     topic: "realtime-examples",
+    learnMore: true,
     description:
       "Open this page in multiple windows or share the URL with your team to experience the demo.",
   });
