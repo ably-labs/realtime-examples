@@ -18,6 +18,7 @@ const Project = () => {
       repoNameAndPath: "realtime-examples/tree/main/src/components/LiveCursors",
       docsLink: "https://ably.com/docs/spaces/cursors",
       topic: "live-cursors",
+      learnMore: true,
       description:
         "Move your cursor to see it animated in a collaborative space. To see multiple users share the link with colleagues.",
     });

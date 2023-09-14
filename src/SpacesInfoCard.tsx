@@ -34,15 +34,17 @@ const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
     <div className="space-y-4">
       <div className="text-slate-200 text-sm pb-2">
         {projectInfo.description}
-        <div>
-          <a
-            className="text-slate-200 text-sm underline"
-            href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
-            target="_blank"
-          >
-            Learn more.
-          </a>
-        </div>
+        {projectInfo.learnMore ? (
+          <div>
+            <a
+              className="text-slate-200 text-sm underline"
+              href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
+              target="_blank"
+            >
+              Learn more.
+            </a>
+          </div>
+        ) : null}
       </div>
       <div className="space-y-4 text-sm">
         <a

@@ -4,4 +4,5 @@ export type ProjectInfo = {
   docsLink?: string;
   topic: string;
   description: string;
+  learnMore: boolean;
 };
