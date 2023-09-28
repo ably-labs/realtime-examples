@@ -1,0 +1,6 @@
+.avatar-stack-container {
+  @apply w-full flex justify-center items-center relative;
+
+  background-color: #f4f8fb;
+  height: 100vh;
+}
