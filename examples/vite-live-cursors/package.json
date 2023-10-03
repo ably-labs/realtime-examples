@@ -13,6 +13,7 @@
     "@ably/spaces": "0.1.3",
     "ably": "^1.2.44",
     "nanoid": "^5.0.1",
+    "random-words": "^2.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },

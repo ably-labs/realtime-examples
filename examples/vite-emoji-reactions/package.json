@@ -10,8 +10,10 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "ably": "^1.2.44",
     "nanoid": "^5.0.1",
+    "random-words": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
