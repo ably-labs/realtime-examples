@@ -9,7 +9,7 @@ To see what else is possible with Ably, check out our other [realtime examples](
 ## 🏃 Requirements
 
 - [Node.js](https://nodejs.org/en/)
-- [Ably API Key]((https://ably.com/sign-up?utm_source=ably-labs&utm_medium=github&utm_campaign=realtime-examples))
+- [Ably API Key](https://ably.com/sign-up?utm_source=ably-labs&utm_medium=github&utm_campaign=realtime-examples)
 - [Yarn](https://yarnpkg.com/)
 
 ## ⚙️ Running all examples
