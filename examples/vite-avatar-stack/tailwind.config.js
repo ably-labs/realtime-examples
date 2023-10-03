@@ -1,12 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
-  content: [
-    "./index.html",
-    "index.tsx",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "examples/**/*.{vue,js,ts,jsx,tsx}",
-    "!./**/node_modules/**",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 
   safelist: [
     "border-[#9951F5]",

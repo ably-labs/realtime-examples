@@ -1,48 +1,30 @@
 {
-  "name": "realtime-examples",
+  "name": "@ably-labs/vite-emoji-reactions",
+  "license": "Apache-2.0",
   "private": true,
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prepare": "husky install",
     "format": "prettier --write ."
   },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "prettier --check"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run lint-staged"
-    }
-  },
   "dependencies": {
-    "@ably/spaces": "0.1.3",
     "@heroicons/react": "^2.0.18",
     "ably": "^1.2.44",
-    "lodash.debounce": "^4.0.8",
+    "nanoid": "^5.0.1",
     "random-words": "^2.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.16.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/lodash.debounce": "^4.0.7",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.1.0",
     "autoprefixer": "^10.4.7",
-    "eslint-plugin-prettier": "5.0.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^14.0.1",
     "postcss": "^8.4.14",
-    "prettier": "3.0.1",
     "tailwindcss": "^3.1.5",
     "typescript": "5.2.2",
     "vite": "^4.4.9"
-  },
-  "workspaces": [
-    "./examples/*"
-  ]
+  }
 }

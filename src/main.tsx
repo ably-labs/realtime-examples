@@ -1,27 +1,43 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./Layout";
-import Home from "./home";
-import LiveCursors from "./components/LiveCursors";
-import AvatarStack from "./components/AvatarStack";
-import EmojiReactions from "./components/EmojiReactions/EmojiReactions";
-import UserClaims from "./components/UserClaims/UserClaims";
-import MemberLocation from "./components/MemberLocation";
-import ComponentLocking from "./components/ComponentLocking";
+import { AblyProvider } from "ably/react";
+import { nanoid } from "nanoid";
+import { Realtime } from "ably";
+
+import Layout from "./components/Layout";
+import Home from "./routes/Home";
+import LiveCursors from "./routes/LiveCursors";
+import AvatarStack from "./routes/AvatarStack";
+import EmojiReactions from "./routes/EmojiReactions";
+import UserClaims from "./routes/UserClaims";
+import MemberLocation from "./routes/MemberLocation";
+import ComponentLocking from "./routes/ComponentLocking";
+
+import "./styles/tailwind.css";
+import "./styles/container.css";
+
+const client = new Realtime.Promise({
+  clientId: nanoid(),
+  key: import.meta.env.VITE_ABLY_KEY,
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/live-cursors" element={<LiveCursors />} />
-        <Route path="/component-locking" element={<ComponentLocking />} />
-        <Route path="/member-location" element={<MemberLocation />} />
-        <Route path="/avatar-stack" element={<AvatarStack />} />
-        <Route path="/emoji-reactions" element={<EmojiReactions />} />
-        <Route path="/user-claims" element={<UserClaims />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>,
+  // Mismatch between react-router-dom and latest react
+  // See https://github.com/remix-run/remix/issues/7514
+  // @ts-ignore
+  <AblyProvider client={client}>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/live-cursors" element={<LiveCursors />} />
+          <Route path="/component-locking" element={<ComponentLocking />} />
+          <Route path="/member-location" element={<MemberLocation />} />
+          <Route path="/avatar-stack" element={<AvatarStack />} />
+          <Route path="/emoji-reactions" element={<EmojiReactions />} />
+          <Route path="/user-claims" element={<UserClaims />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </AblyProvider>,
 );
