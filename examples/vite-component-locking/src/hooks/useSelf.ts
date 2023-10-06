@@ -13,9 +13,9 @@ export const useSelf = (space: Space) => {
       const self = await space.members.getSelf();
       setSelf(self as Member);
     };
-     /** 💡 Set initial data */
+    /** 💡 Set initial data */
     handler();
-    
+
     /** 💡 Listen to all events emitted in the space 💡 */
     space.subscribe("update", handler);
 
@@ -24,7 +24,6 @@ export const useSelf = (space: Space) => {
       space?.unsubscribe("update", handler);
     };
   }, [space]);
-
 
   return self;
 };

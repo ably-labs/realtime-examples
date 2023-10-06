@@ -1,7 +1,7 @@
 import type { Types } from "ably";
 import { useChannel } from "ably/react";
 import { useCallback, useState } from "react";
-import { type Member } from "../utils/types"
+import { type Member } from "../utils/types";
 
 import { getSpaceNameFromUrl } from "../utils/helpers";
 

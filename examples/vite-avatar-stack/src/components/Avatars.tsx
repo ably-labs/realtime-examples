@@ -115,7 +115,7 @@ const Avatars = ({
 
   return (
     <div className="relative flex" style={{ width: `${totalWidth}px` }}>
-      <SelfAvatar self={self} />      
+      <SelfAvatar self={self} />
       <OtherAvatars
         usersCount={otherUsers.length}
         users={otherUsers.slice(0, MAX_USERS_BEFORE_LIST).reverse()}
