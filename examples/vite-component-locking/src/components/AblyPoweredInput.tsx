@@ -22,7 +22,7 @@ export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
   const self = useSelf(space);
   const [value, setValue] = useLiveValue(name, self);
 
-  const locked = status === 'locked';
+  const locked = status === "locked";
   const lockedByYou = locked && lockHolder?.connectionId === self?.connectionId;
 
   const handleFocus = async () => {

@@ -31,7 +31,7 @@ const InputCell: React.FC<InputCellProps> = ({
   lockedByYou,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  // 💡 Get the member color and name for the cell from the `cellMembers` prop. 💡 
+  // 💡 Get the member color and name for the cell from the `cellMembers` prop. 💡
   const memberColor = lockHolder?.profileData.memberColor;
   const memberName = lockedByYou ? "You" : lockHolder?.profileData.memberName;
 
@@ -42,10 +42,10 @@ const InputCell: React.FC<InputCellProps> = ({
     [onChange],
   );
 
-  // 💡  Unlock the component on click outside 💡 
+  // 💡  Unlock the component on click outside 💡
   useOnClickOutside(ref, onClickOutside);
 
-  // 💡  Determine if the input cell should be read-only 💡 
+  // 💡  Determine if the input cell should be read-only 💡
   const readOnly = Boolean(lockHolder && !lockedByYou);
 
   return (

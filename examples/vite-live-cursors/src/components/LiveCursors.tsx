@@ -42,7 +42,9 @@ const LiveCursors = () => {
         parentRef={liveCursors}
       />
       <MemberCursors
-        otherUsers={otherMembers.filter((m: SpaceMember) => m.isConnected) as Member[]}
+        otherUsers={
+          otherMembers.filter((m: SpaceMember) => m.isConnected) as Member[]
+        }
         space={space}
         selfConnectionId={self?.connectionId}
       />
