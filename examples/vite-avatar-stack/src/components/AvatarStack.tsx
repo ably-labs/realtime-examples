@@ -8,6 +8,8 @@ import { getMemberColor } from "../utils/mockColors";
 
 import type { Member } from "../utils/helpers";
 
+import styles from "./AvatarStack.module.css";
+
 const AvatarStack = () => {
   const name = useMemo(getMemberName, []);
   const memberColor = useMemo(getMemberColor, []);
@@ -24,7 +26,7 @@ const AvatarStack = () => {
   const { others, self } = useMembers();
 
   return (
-    <div className="avatar-stack-container example-container" id="avatar-stack">
+    <div id="avatar-stack" className={`example-container ${styles.container}`}>
       {/** 💡 Stack of first 5 user avatars including yourself.💡 */}
       <Avatars self={self as Member | null} otherUsers={others as Member[]} />
     </div>

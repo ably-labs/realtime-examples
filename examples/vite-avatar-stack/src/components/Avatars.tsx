@@ -11,23 +11,22 @@ import UserInfo from "./UserInfo";
 
 import type { Member } from "../utils/helpers";
 
+import styles from "./Avatars.module.css";
+
 const SelfAvatar = ({ self }: { self: Member | null }) => {
   const [hover, setHover] = useState(false);
 
   return (
     <div
-      className="bg-orange-600 h-12 w-12 rounded-full flex items-center justify-center relative border-2 border-gray-200"
+      className={styles.avatar}
       onMouseOver={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
-      <p className="text-xs text-white">You</p>
-      <div
-        className="bg-green-500 w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2"
-        id="status-indicator"
-      />
+      <p className={styles.name}>You</p>
+      <div className={styles.statusIndicatorOnline} id="status-indicator" />
 
       {hover && self ? (
-        <div className="absolute -top-16 px-2 py-2 bg-black rounded-lg text-white min-w-[240px]">
+        <div className={styles.popup}>
           <UserInfo user={self} isSelf={true} />
         </div>
       ) : null}
@@ -51,31 +50,26 @@ const OtherAvatars = ({
           .split(" ")
           .map((word: string) => word.charAt(0))
           .join("");
-        const avatarCSS = classNames(
-          {
-            [user.profileData.memberColor]: user.isConnected,
-            "bg-gray-200": !user.isConnected,
-          },
-          "h-12 w-12 rounded-full flex items-center justify-center relative border-2 border-gray-200",
-        );
+
         const initialsCSS = classNames(
           {
-            "text-white": user.isConnected,
-            "text-gray-400": !user.isConnected,
+            [styles.textWhite]: user.isConnected,
+            [styles.inactiveColor]: !user.isConnected,
           },
-          "relative z-20 text-xs",
+          styles.nameOthers,
         );
+
         const statusIndicatorCSS = classNames(
           {
-            "bg-green-500": user.isConnected,
-            "bg-gray-400": !user.isConnected,
+            [styles.statusIndicatorOnline]: user.isConnected,
+            [styles.inactiveBackground]: !user.isConnected,
           },
-          "w-[10px] h-[10px] rounded-full absolute bottom-1 left-0 transform translate-y-1/2 translate-x-1/2 z-10",
+          styles.statusIndicator,
         );
 
         return (
           <div
-            className="right-0 flex flex-col items-center absolute"
+            className={styles.avatarContainer}
             key={user.clientId}
             style={{
               right: rightOffset,
@@ -83,7 +77,12 @@ const OtherAvatars = ({
             }}
           >
             <div
-              className={avatarCSS}
+              className={styles.avatar}
+              style={{
+                backgroundColor: user.isConnected
+                  ? user.profileData.memberColor
+                  : "rgb(229 231 235)",
+              }}
               onMouseOver={() => setHoveredClientId(user.clientId)}
               onMouseLeave={() => setHoveredClientId(null)}
               id="avatar"
@@ -93,7 +92,7 @@ const OtherAvatars = ({
             </div>
 
             {hoveredClientId === user.clientId ? (
-              <div className="absolute -top-16 px-2 py-2 bg-black rounded-lg text-white min-w-[240px]">
+              <div className={styles.popup}>
                 <UserInfo user={user} />
               </div>
             ) : null}
@@ -114,7 +113,7 @@ const Avatars = ({
   const totalWidth = calculateTotalWidth({ users: otherUsers });
 
   return (
-    <div className="relative flex" style={{ width: `${totalWidth}px` }}>
+    <div className={styles.container} style={{ width: `${totalWidth}px` }}>
       <SelfAvatar self={self} />
       <OtherAvatars
         usersCount={otherUsers.length}
