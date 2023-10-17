@@ -1,0 +1,13 @@
+.cursor {
+  position: absolute;
+}
+
+.cursorName {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #fff;
+  white-space: nowrap;
+}

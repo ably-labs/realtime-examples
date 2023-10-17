@@ -542,16 +542,7 @@
     "@types/babel__core" "^7.20.2"
     react-refresh "^0.14.0"
 
-ably@1.2.44:
-  version "1.2.44"
-  resolved "https://registry.npmjs.org/ably/-/ably-1.2.44.tgz"
-  integrity sha512-HNRQLmQc08uyGh83ufohmocqcWNTOXf4YzsRkP3jrILvB/diqS0LE5/8QhXZDYBt+Hj5fB+3kfXe/ZnROmHvjw==
-  dependencies:
-    "@ably/msgpack-js" "^0.4.0"
-    got "^11.8.5"
-    ws "^5.1"
-
-ably@^1.2.44, ably@^1.2.45:
+ably@1.2.45, ably@^1.2.44, ably@^1.2.45:
   version "1.2.45"
   resolved "https://registry.npmjs.org/ably/-/ably-1.2.45.tgz"
   integrity sha512-8Jk8XT0dSPcLcZ8zSAF+mRtwMzaQR5dWHqGdx9Y859ZLhXiqf4gQb7P+4Elqy1l1IIRoDWgyt0fkyfo7ngUdMA==

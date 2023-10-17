@@ -5,7 +5,6 @@ export type Member = Omit<SpaceMember, "profileData"> & {
     name: string;
     userColors: {
       cursorColor: string;
-      nameColor: string;
     };
   };
 };
