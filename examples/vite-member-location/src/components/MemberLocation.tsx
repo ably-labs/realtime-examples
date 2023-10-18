@@ -9,12 +9,14 @@ import { type Member } from "../utils/types";
 
 type UpdateLocationCallback = (location: Member["location"]) => void;
 
+import styles from "./MemberLocation.module.css";
+
 const MemberLocation = () => {
   const memberName = useMemo(getMemberName, []);
   const memberColor = useMemo(getLocationColors, []);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const { space, enter } = useSpace();
+  const { enter } = useSpace();
 
   const { self, others } = useMembers();
 
@@ -22,13 +24,13 @@ const MemberLocation = () => {
 
   /** 💡 Enter the space as soon as it's available 💡 */
   useEffect(() => {
-    space?.enter({ memberName, memberColor });
-  }, [space]);
+    enter?.({ memberName, memberColor });
+  }, [enter]);
 
   return (
     <div
-      className="member-location-container example-container"
       id="member-location"
+      className={`example-container ${styles.container}`}
     >
       <Spreadsheet
         self={self as Member}

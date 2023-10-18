@@ -1,6 +1,9 @@
 import React from "react";
-import { getMemberProperty, getCellStyles } from "../utils/helpers";
+import { getMemberProperty } from "../utils/helpers";
 import { type Member } from "../utils/types";
+
+import styles from "./Cell.module.css";
+import classNames from "classnames";
 
 interface CellProps {
   value: string | number;
@@ -26,7 +29,6 @@ const Cell: React.FC<CellProps> = ({
   const labelColor = selfInCell
     ? self.profileData.memberColor
     : getMemberProperty(cellMembers, "memberColor");
-  const borderClasses = getCellStyles(self, selfInCell, cellMembers);
   const memberName = selfInCell
     ? "You"
     : getMemberProperty(cellMembers, "memberName");
@@ -41,12 +43,21 @@ const Cell: React.FC<CellProps> = ({
   return (
     <td
       key={`${rowIndex}-${colIndex}`}
-      className={`w-[45%] px-2 py-2 h-10 relative cursor-pointer hover:bg-slate-50 member-name-tab ${borderClasses} ${
-        selfInCell ? "bg-white" : "bg-[#EDF1F6]"
-      }`}
+      style={
+        {
+          "--info-bg-color": labelColor,
+          "--member-color": self?.profileData.memberColor,
+          "--cell-member-color": cellMembers[0]?.profileData.memberColor,
+          backgroundColor: selfInCell ? "white" : "#EDF1F6",
+        } as React.CSSProperties
+      }
+      className={classNames(styles.cell, {
+        [styles.cellMembers]: cellMembers.length > 0 && !selfInCell,
+        [styles.rest]: !selfInCell && cellMembers.length === 0,
+        [styles.cellSelf]: selfInCell,
+      })}
       onClick={handleCellClick}
       data-name-content={memberName ? cellLabel : ""}
-      style={{ "--info-bg-color": labelColor } as React.CSSProperties}
     >
       {value}
     </td>
