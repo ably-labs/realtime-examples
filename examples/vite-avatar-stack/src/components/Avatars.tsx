@@ -81,7 +81,7 @@ const OtherAvatars = ({
               style={{
                 backgroundColor: user.isConnected
                   ? user.profileData.memberColor
-                  : "rgb(229 231 235)",
+                  : "#C6CED9",
               }}
               onMouseOver={() => setHoveredClientId(user.clientId)}
               onMouseLeave={() => setHoveredClientId(null)}
