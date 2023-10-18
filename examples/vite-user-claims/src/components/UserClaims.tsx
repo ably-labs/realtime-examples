@@ -9,8 +9,11 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import { generate } from "random-words";
+import classNames from "classnames";
 
 import { JWTUtil } from "../utils/helpers";
+
+import styles from "./UserClaims.module.css";
 
 type Message = {
   author: string;
@@ -127,13 +130,14 @@ const UserClaims = ({
   }, []);
 
   return (
-    <div className="user-claims-container example-container flex-col">
+    <div className={styles.container}>
       <div
-        className={`bg-white w-full lg:w-1/3 lg:min-w-[600px] rounded-lg ${
-          moderator ? "md:shadow-[0_0_0_8px_rgb(255,237,212)]" : "shadow-md"
-        } transition flex text-sm flex-col`}
+        className={classNames(styles.inner, {
+          [styles.moderator]: moderator,
+          [styles.noModerator]: !moderator,
+        })}
       >
-        <div className="border-solid h-[21rem] pb-5 overflow-auto px-5">
+        <div className={styles.messages}>
           {messages.map((m) => (
             <Message
               message={m}
@@ -144,11 +148,11 @@ const UserClaims = ({
             />
           ))}
         </div>
-        <div className="pb-3 px-5 border-b flex justify-between">
+        <div className={styles.bar}>
           <input
             type="text"
             disabled={loading}
-            className="bg-slate-100 rounded-full py-2 px-3 flex-grow mr-2 transition"
+            className={styles.input}
             placeholder="Type something..."
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
@@ -156,10 +160,10 @@ const UserClaims = ({
           />
           <button
             onClick={sendMessage}
-            className="bg-slate-800 text-white rounded-full p-2 hover:bg-slate-900 focus:bg-slate-700 border border-transparent disabled:bg-slate-200 focus:border-[rgba(14,165,233,0.3)]"
+            className={styles.button}
             disabled={loading}
           >
-            <PaperAirplaneIcon className="w-5 h-5" />
+            <PaperAirplaneIcon className={styles.icon} />
           </button>
         </div>
         <PrivilegeBar
@@ -168,9 +172,9 @@ const UserClaims = ({
           onToggle={switchMode}
         />
       </div>
-      <div className="p-6 w-full lg:w-1/3 lg:min-w-[600px] mx-auto rounded-lg bg-purple-100 p-4 mt-6 flex space-x-3">
-        <LightBulbIcon className="w-[5em] text-purple-600" />
-        <p className="text-purple-900 flex-grow text-sm">
+      <div className={styles.note}>
+        <LightBulbIcon className={styles.lightBulbIcon} />
+        <p className={styles.text}>
           Send messages from one or more windows. Toggle between roles to delete
           messages sent by you or by anyone else in the chat.
         </p>
@@ -189,14 +193,14 @@ function PrivilegeBar({
   onToggle: () => void;
 }) {
   return (
-    <div className="flex pt-3 px-3 pb-5 relative flex-wrap lg:flex-row md:flex-col">
+    <div className={styles.privilageContainer}>
       {loading ? (
         <PrivilegeBarInner
           Icon={ArrowPathIcon}
           titleText="Switching roles"
           subtitleText="Loading..."
-          iconColour="text-slate-500"
-          iconBackground="bg-slate-100"
+          iconColour={styles.textSlate500}
+          iconBackground={styles.bgSlate100}
         />
       ) : moderator ? (
         <PrivilegeBarInner
@@ -207,8 +211,8 @@ function PrivilegeBar({
             </>
           }
           subtitleText="You can delete everyone's messages"
-          iconColour="text-orange-500"
-          iconBackground="bg-orange-100"
+          iconColour={styles.textOrange500}
+          iconBackground={styles.bgOrange100}
         />
       ) : (
         <PrivilegeBarInner
@@ -219,12 +223,12 @@ function PrivilegeBar({
             </>
           }
           subtitleText="You can delete your own messages"
-          iconColour="text-slate-800"
-          iconBackground="bg-slate-200"
+          iconColour={styles.textSlate800}
+          iconBackground={styles.bgSlate200}
         />
       )}
       <button
-        className={`bg-blue-500 text-white rounded-full py-2 px-3 font-bold hover:bg-blue-600 disabled:bg-slate-200 disabled:text-slate-400 border border-transparent focus:border-[rgba(14,165,233,0.3)] lg:w-auto w-full self-center`}
+        className={styles.switchButton}
         onClick={onToggle}
         disabled={loading}
       >
@@ -248,15 +252,15 @@ function PrivilegeBarInner({
   subtitleText: string;
 }) {
   return (
-    <div className="flex flex-row flex-grow lg:pb-0 pb-3">
+    <div className={styles.privilegeBarInner}>
       <div
-        className={`rounded-full ${iconBackground} w-10 h-10 flex justify-center mr-2 transition`}
+        className={classNames(styles.privilegeBarIconContainer, iconBackground)}
       >
-        <Icon className={`w-6 ${iconColour} transition`} />
+        <Icon className={classNames(styles.privilegeIcon, iconColour)} />
       </div>
       <div>
         <div>{titleText}</div>
-        <div className="text-slate-500">{subtitleText}</div>
+        <div className={styles.textSlate500}>{subtitleText}</div>
       </div>
     </div>
   );
@@ -275,36 +279,39 @@ function Message({
 }) {
   return (
     <div
-      className={`mb-12 mt-5  items-baseline relative ${
-        local ? "flex justify-end" : "flex-row"
-      }`}
+      className={classNames(styles.messageContainer, {
+        [styles.end]: local,
+        [styles.row]: !local,
+      })}
     >
       <div
-        className={`${
-          local ? "bg-blue-50" : "bg-slate-100"
-        } py-1 px-2 rounded-lg w-full max-w-[350px]`}
+        className={classNames(styles.messageInner, {
+          [styles.bgBlue50]: local,
+          [styles.bgSlate100]: !local,
+        })}
       >
         <p
-          className={`${local ? "text-blue-400" : "text-slate-400"} font-bold`}
+          className={classNames(styles.author, {
+            [styles.textBlue400]: local,
+            [styles.textSlate400]: !local,
+          })}
         >
           {message.author} {local ? "(you)" : ""}
         </p>
         <p
-          className={`text-base text-slate-600 ${
-            message.deleted ? "italic" : ""
-          }`}
+          className={classNames(styles.deleted, {
+            [styles.isDeleted]: message.deleted,
+          })}
         >
           {message.deleted ? "This message has been deleted." : message.content}
         </p>
       </div>
       <button
-        className={`text-red-600 bg-red-100 rounded-bl-lg rounded-br-lg my-1 py-1 px-2 cursor-pointer disabled:cursor-default absolute -bottom-10 ${
-          local
-            ? "text-right rounded-tr-sm rounded-tl-lg right-0"
-            : "ml-1 rounded-tr-lg rounded-tl-sm"
-        } ${
-          (!moderator && !local) || message.deleted ? "opacity-0" : ""
-        } transition`}
+        className={classNames(styles.deleteButton, {
+          [styles.isLocalDelete]: local,
+          [styles.isNotLocalDelete]: !local,
+          [styles.noOpacity]: (!moderator && !local) || message.deleted,
+        })}
         disabled={!moderator && !local}
         onClick={deleteMessage(message.id)}
       >
