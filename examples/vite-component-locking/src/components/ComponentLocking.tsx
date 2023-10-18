@@ -4,6 +4,8 @@ import { getLocationColors } from "../utils/mockColors";
 import { getMemberName } from "../utils/mockNames";
 import Form from "./Form";
 
+import styles from "./ComponentLocking.module.css";
+
 const ComponentLocking = () => {
   /** 💡 Get a handle on a space instance 💡 */
   const { space } = useSpace();
@@ -18,10 +20,10 @@ const ComponentLocking = () => {
 
   return (
     <div
-      className="component-locking-container example-container"
       id="component-locking"
+      className={`example-container ${styles.container}`}
     >
-      <div className="w-full max-w-[320px] p-2 py-4">
+      <div className={styles.inner}>
         <Form />
       </div>
     </div>

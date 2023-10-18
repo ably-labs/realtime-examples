@@ -6,8 +6,7 @@ import { Realtime } from "ably";
 
 import App from "./App";
 
-import "./styles/container.css";
-import "./styles/tailwind.css";
+import "./styles/global.css";
 
 const client = new Realtime.Promise({
   clientId: nanoid(),
