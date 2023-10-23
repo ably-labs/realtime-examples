@@ -4,6 +4,8 @@ import defaultMessages, { EmojiUsage, Message } from "../utils/messageData";
 import { ArrowPathIcon, FaceSmileIcon } from "@heroicons/react/24/solid";
 import { Types } from "ably";
 
+import styles from "./EmojiReactions.module.css";
+
 const EmojiReactions = ({
   channelName,
   clientId,
@@ -219,10 +221,10 @@ const EmojiReactions = ({
   }, []);
 
   return (
-    <div className="bg-slate-100 h-screen w-screen flex items-center">
-      <div className="p-6 w-[480px] mx-auto">
-        <div className="rounded-lg bg-slate-100 p-4 mb-6">
-          <p className="text-slate-500 text-center">
+    <div className={styles.container}>
+      <div className={styles.uiWrapper}>
+        <div className={styles.instructions}>
+          <p>
             Open this page in a few windows and add a reaction to the message to
             see it update everywhere.
           </p>
@@ -230,37 +232,32 @@ const EmojiReactions = ({
 
         {/* Display default chat message */}
         {chatMessage.author ? (
-          <div className="p-5 bg-white rounded-lg shadow-lg mb-8">
-            <div className="flex flex-row mb-5">
-              <img
-                className="inline bg-gradient-to-r from-pink-500 to-purple-800 h-10 w-10 rounded-full mb-2 shrink-0 mr-3"
-                role="presentation"
-              ></img>
+          <div className={styles.author}>
+            <div className={styles.authorFlex}>
+              <img className={styles.authorAvatar} role="presentation"></img>
               <div>
-                <p className="text-base font-bold mb-2 text-slate-800">
+                <p className={styles.authorName}>
                   {chatMessage.author}
-                  <span className="text-sm ml-4 text-slate-500">
+                  <span className={styles.authorTimestamp}>
                     {formatChatMessageTime(chatMessage.timeStamp!)}
                   </span>
                 </p>
-                <p className="text-base text-slate-600">
-                  {chatMessage.content}
-                </p>
+                <p className={styles.message}>{chatMessage.content}</p>
               </div>
             </div>
 
             {/* Display chat message emoji reactions and count */}
-            <div className="ml-12 flex">
+            <div className={styles.emojiWrapper}>
               {chatMessage.reactions?.length ? (
-                <ul className="flex flex-row flex-wrap">
+                <ul className={styles.emojiList}>
                   {chatMessage.reactions?.map((reaction) =>
                     reaction.usedBy.length ? (
                       <li
                         key={reaction.emoji}
-                        className={`text-xs rounded-full p-2 m-1 space-x-2  cursor-pointer ${
+                        className={`${styles.emojiListItem} ${
                           reaction.usedBy.includes(clientId)
-                            ? "bg-blue-300 hover:bg-blue-100"
-                            : "bg-slate-200 hover:bg-slate-100"
+                            ? styles.emojiListItemBlue
+                            : styles.emojiListItemSlate
                         }`}
                         onClick={() =>
                           handleEmojiCount(
@@ -270,7 +267,9 @@ const EmojiReactions = ({
                         }
                       >
                         <EmojiDisplay emoji={reaction.emoji} />
-                        <span>{reaction.usedBy.length}</span>
+                        <span className={styles.emojiListItemSpan}>
+                          {reaction.usedBy.length}
+                        </span>
                       </li>
                     ) : null,
                   )}
@@ -278,19 +277,19 @@ const EmojiReactions = ({
               ) : null}
 
               {/* Allow user to select and add an emoji reaction */}
-              <div className="mt-1">
-                <div className="bg-gray-200 rounded-full p-1 ml-1 cursor-pointer hover:bg-slate-100">
+              <div className={styles.controls}>
+                <div className={styles.control}>
                   <FaceSmileIcon
-                    className="h-7 w-7 text-slate-500"
+                    className={styles.controlIcon}
                     onClick={() => setShowEmojiList(!showEmojiList)}
                   />
                 </div>
                 {showEmojiList ? (
-                  <ul className="bg-black rounded-full w-fit flex flex-row p-2 space-x-2 mt-2 absolute">
+                  <ul className={styles.controlEmojiList}>
                     {emojis.map((emoji) => (
                       <li
                         key={emoji}
-                        className="text-lg px-1 cursor-pointer transition delay-5 ease-in-out hover:-translate-y-1 motion-reduce:transition-none"
+                        className={styles.controlEmojiListItem}
                         onClick={() =>
                           sendMessageReaction(
                             emoji,
@@ -310,13 +309,10 @@ const EmojiReactions = ({
         ) : null}
 
         {/* Load new chat message */}
-        <div className="flex items-center justify-center">
-          <button
-            className="bg-slate-200 hover:bg-gray-400 text-black py-2 px-4 rounded-full"
-            onClick={sendMessage}
-          >
-            <ArrowPathIcon className="inline-block mr-1 h-4 w-4 text-slate-500" />
-            <span className="text-slate-800">New message</span>
+        <div className={styles.newMessage}>
+          <button className={styles.newMessageButton} onClick={sendMessage}>
+            <ArrowPathIcon className={styles.newMessageButtonIcon} />
+            <span className={styles.newMessageButtonText}>New message</span>
           </button>
         </div>
       </div>
@@ -330,7 +326,7 @@ const EmojiDisplay = ({ emoji }: { emoji: string }) => {
   return (
     <img
       alt={emoji}
-      className="h-5 w-5 pointer-events-none inline-block"
+      className={styles.emojiIcon}
       src={`https://twemoji.maxcdn.com/v/latest/svg/${codePoint}.svg`}
     />
   );

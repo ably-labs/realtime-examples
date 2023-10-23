@@ -6,7 +6,7 @@ import { Realtime } from "ably";
 import App from "./App";
 import { getSpaceNameFromUrl } from "./utils/helpers";
 
-import "./styles/tailwind.css";
+import "./styles/global.css";
 
 const clientId = nanoid();
 const channelName = getSpaceNameFromUrl();
