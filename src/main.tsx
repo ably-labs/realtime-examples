@@ -14,7 +14,7 @@ import UserClaims from "./routes/UserClaims";
 import MemberLocation from "./routes/MemberLocation";
 import ComponentLocking from "./routes/ComponentLocking";
 
-import "./styles/tailwind.css";
+import "./styles/global.css";
 import "./styles/container.css";
 
 const client = new Realtime.Promise({

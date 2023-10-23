@@ -167,6 +167,7 @@
 
 .cardTitle {
   font-weight: 600;
+  font-size: inherit;
 }
 
 @media (min-width: 768px) {
