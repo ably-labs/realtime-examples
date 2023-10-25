@@ -1,8 +1,8 @@
-import { Space } from "@ably/spaces";
 import { useEffect } from "react";
+import { useCursors } from "@ably/spaces/react";
 
 // 💡 This hook is used to get the cursor position of the user and update the cursor position in the space
-const useCursor = (
+const useTrackCursor = (
   setCursorPosition: ({
     left,
     top,
@@ -13,15 +13,14 @@ const useCursor = (
     state: string;
   }) => void,
   parentRef: React.RefObject<HTMLDivElement>,
-  space?: Space,
-  selfConnectionId?: string,
 ) => {
+  const { set } = useCursors();
   let handleSelfCursorMove: (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => void = () => {};
 
   useEffect(() => {
-    if (!space || !selfConnectionId) return;
+    if (!set) return;
     const container = document.querySelector("#live-cursors")! as HTMLElement;
 
     // 💡 This function is used to update the cursor position in the space
@@ -44,7 +43,7 @@ const useCursor = (
         state: "move",
       });
 
-      space.cursors.set({
+      set({
         position: { x: relativeLeftPosition, y: relativeTopPosition },
         data: { state: "move" },
       });
@@ -57,7 +56,7 @@ const useCursor = (
         state: "leave",
       });
 
-      space.cursors.set({
+      set({
         position: { x: 0, y: 0 },
         data: { state: "leave" },
       });
@@ -70,9 +69,9 @@ const useCursor = (
       container.removeEventListener("mousemove", handleSelfCursorMove);
       container.removeEventListener("mouseleave", handleSelfCursorLeave);
     };
-  }, [space, selfConnectionId]);
+  }, [set]);
 
   return handleSelfCursorMove;
 };
 
-export default useCursor;
+export default useTrackCursor;

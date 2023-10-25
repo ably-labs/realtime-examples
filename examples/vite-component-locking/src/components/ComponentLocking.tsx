@@ -1,21 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+import { useSpace } from "@ably/spaces/react";
 import { getLocationColors } from "../utils/mockColors";
 import { getMemberName } from "../utils/mockNames";
 import Form from "./Form";
 
-import { SpacesContext } from "./SpacesContext";
-
 const ComponentLocking = () => {
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useContext(SpacesContext);
+  const { enter } = useSpace();
 
   /** 💡 Enter the space as soon as it's available 💡 */
   useEffect(() => {
-    space?.enter({
+    enter?.({
       memberName: getMemberName(),
       memberColor: getLocationColors(),
     });
-  }, [space]);
+  }, [enter]);
 
   return (
     <div
@@ -23,7 +22,7 @@ const ComponentLocking = () => {
       id="component-locking"
     >
       <div className="w-full max-w-[320px] p-2 py-4">
-        <Form space={space} />
+        <Form />
       </div>
     </div>
   );

@@ -6,9 +6,7 @@ import { AblyPoweredInput } from "./AblyPoweredInput";
 interface FormComponentProps {
   space?: Space;
 }
-const FormComponent: React.FC<FormComponentProps> = ({ space }) => {
-  if (!space) return null;
-
+const FormComponent: React.FC<FormComponentProps> = () => {
   return (
     <>
       {entries.map((entry) => {
@@ -17,7 +15,6 @@ const FormComponent: React.FC<FormComponentProps> = ({ space }) => {
             key={entry.name}
             label={entry.label}
             name={entry.name}
-            space={space}
           />
         );
       })}

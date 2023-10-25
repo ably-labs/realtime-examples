@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useOutletContext } from "react-router-dom";
+import type Spaces from "@ably/spaces";
 
 import type { ProjectInfo } from "../utils/types";
 import MemberLocation from "../../examples/vite-member-location/src/App";

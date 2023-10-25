@@ -1,12 +1,10 @@
-import { useMemo, useRef, useEffect, useContext } from "react";
+import { useMemo, useRef, useEffect } from "react";
+import { useMembers, useSpace } from "@ably/spaces/react";
 import { mockNames } from "../utils/mockNames";
 import { colours } from "../utils/helpers";
-import useSpaceMembers from "../hooks/useMembers";
 import { MemberCursors, YourCursor } from "./Cursors";
-import { SpacesContext } from "./SpacesContext";
 
 import type { Member } from "../utils/types";
-import type { SpaceMember } from "@ably/spaces";
 
 /** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
 const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
@@ -20,13 +18,13 @@ const LiveCursors = () => {
   );
 
   /** 💡 Get a handle on a space instance 💡 */
-  const space = useContext(SpacesContext);
+  const { enter } = useSpace();
 
   useEffect(() => {
-    space?.enter({ name, userColors });
-  }, [space]);
+    enter?.({ name, userColors });
+  }, [enter]);
 
-  const { self, otherMembers } = useSpaceMembers(space);
+  const { self } = useMembers();
 
   const liveCursors = useRef(null);
 
@@ -36,18 +34,8 @@ const LiveCursors = () => {
       ref={liveCursors}
       className="live-cursors-container example-container"
     >
-      <YourCursor
-        self={self as Member | null}
-        space={space}
-        parentRef={liveCursors}
-      />
-      <MemberCursors
-        otherUsers={
-          otherMembers.filter((m: SpaceMember) => m.isConnected) as Member[]
-        }
-        space={space}
-        selfConnectionId={self?.connectionId}
-      />
+      <YourCursor self={self as Member | null} parentRef={liveCursors} />
+      <MemberCursors />
     </div>
   );
 };

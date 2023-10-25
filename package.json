@@ -18,9 +18,9 @@
     }
   },
   "dependencies": {
-    "@ably/spaces": "0.1.3",
+    "@ably/spaces": "0.2.0",
     "@heroicons/react": "^2.0.18",
-    "ably": "^1.2.44",
+    "ably": "^1.2.45",
     "lodash.debounce": "^4.0.8",
     "random-words": "^2.0.0",
     "react": "^18.2.0",
