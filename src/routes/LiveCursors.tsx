@@ -3,8 +3,9 @@ import { useOutletContext } from "react-router-dom";
 
 import type { ProjectInfo } from "../utils/types";
 import LiveCursors from "../../examples/vite-live-cursors/src/App";
+import Spaces from "@ably/spaces";
 
-const Project = () => {
+const Project = ({ spaces }: { spaces: Spaces }) => {
   const { setProjectInfo } = useOutletContext<{
     setProjectInfo: (projectInfo: ProjectInfo) => void;
   }>();
@@ -21,7 +22,7 @@ const Project = () => {
     });
   }, []);
 
-  return <LiveCursors />;
+  return <LiveCursors spaces={spaces} />;
 };
 
 export default Project;

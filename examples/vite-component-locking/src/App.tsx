@@ -1,12 +1,15 @@
-import { SpaceContextProvider } from "./components/SpacesContext";
+import Spaces from "@ably/spaces";
+import { SpaceProvider, SpacesProvider } from "@ably/spaces/react";
 import ComponentLocking from "./components/ComponentLocking";
 
 import "./styles/styles.css";
 
-const App = () => (
-  <SpaceContextProvider example="component-locking">
-    <ComponentLocking />
-  </SpaceContextProvider>
+const App = ({ spaces }: { spaces: Spaces }) => (
+  <SpacesProvider client={spaces}>
+    <SpaceProvider name="component-locking">
+      <ComponentLocking />
+    </SpaceProvider>
+  </SpacesProvider>
 );
 
 export default App;

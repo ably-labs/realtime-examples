@@ -1,26 +1,23 @@
 import React from "react";
-import type { Space } from "@ably/spaces";
+import { useLock, useMembers } from "@ably/spaces/react";
 
-import { useLock } from "../hooks/useLock";
 import { useLiveValue } from "../hooks/useLiveValue";
-import { useSelf } from "../hooks/useSelf";
-
 import InputCell from "./InputCell";
+import { Member } from "../utils/types";
 
 interface AblyPoweredInputProps {
   name: string;
   label: string;
-  space: Space;
 }
 
 export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
   name,
   label,
-  space,
 }) => {
-  const { lockHolder, status } = useLock(space, name);
-  const self = useSelf(space);
-  const [value, setValue] = useLiveValue(name, self);
+  const { member, status } = useLock(name);
+  const { space, self } = useMembers();
+  const [value, setValue] = useLiveValue(name, self as Member);
+  const lockHolder = member as Member;
 
   const locked = status === "locked";
   const lockedByYou = locked && lockHolder?.connectionId === self?.connectionId;
@@ -29,7 +26,7 @@ export const AblyPoweredInput: React.FC<AblyPoweredInputProps> = ({
     if (locked) return;
 
     try {
-      await space.locks.acquire(name);
+      await space?.locks.acquire(name);
     } catch {
       // can't acquire the lock
     }

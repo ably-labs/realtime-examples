@@ -1,10 +1,13 @@
-import { SpaceContextProvider } from "./components/SpacesContext";
+import Spaces from "@ably/spaces";
+import { SpaceProvider, SpacesProvider } from "@ably/spaces/react";
 import LiveCursors from "./components/LiveCursors";
 
-const App = () => (
-  <SpaceContextProvider example="member-location">
-    <LiveCursors />
-  </SpaceContextProvider>
+const App = ({ spaces }: { spaces: Spaces }) => (
+  <SpacesProvider client={spaces}>
+    <SpaceProvider name="live-cursors">
+      <LiveCursors />
+    </SpaceProvider>
+  </SpacesProvider>
 );
 
 export default App;

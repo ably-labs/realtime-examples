@@ -3,8 +3,9 @@ import { useOutletContext } from "react-router-dom";
 
 import type { ProjectInfo } from "../utils/types";
 import ComponentLocking from "../../examples/vite-component-locking/src/App";
+import Spaces from "@ably/spaces";
 
-const Project = () => {
+const Project = ({ spaces }: { spaces: Spaces }) => {
   const { setProjectInfo } = useOutletContext<{
     setProjectInfo: (projectInfo: ProjectInfo) => void;
   }>();
@@ -22,7 +23,7 @@ const Project = () => {
     });
   }, []);
 
-  return <ComponentLocking />;
+  return <ComponentLocking spaces={spaces} />;
 };
 
 export default Project;
