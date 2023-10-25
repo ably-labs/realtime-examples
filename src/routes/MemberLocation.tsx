@@ -5,7 +5,7 @@ import type Spaces from "@ably/spaces";
 import type { ProjectInfo } from "../utils/types";
 import MemberLocation from "../../examples/vite-member-location/src/App";
 
-const Project = () => {
+const Project = ({ spaces }: { spaces: Spaces }) => {
   const { setProjectInfo } = useOutletContext<{
     setProjectInfo: (projectInfo: ProjectInfo) => void;
   }>();
@@ -23,7 +23,7 @@ const Project = () => {
     });
   }, []);
 
-  return <MemberLocation />;
+  return <MemberLocation spaces={spaces} />;
 };
 
 export default Project;
