@@ -18,11 +18,11 @@ const LiveCursors = () => {
   );
 
   /** 💡 Get a handle on a space instance 💡 */
-  const { enter } = useSpace();
+  const { space } = useSpace();
 
   useEffect(() => {
-    enter?.({ name, userColors });
-  }, [enter]);
+    space?.enter({ name, userColors });
+  }, [space]);
 
   const { self } = useMembers();
 

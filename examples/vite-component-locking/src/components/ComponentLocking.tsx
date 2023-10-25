@@ -6,15 +6,15 @@ import Form from "./Form";
 
 const ComponentLocking = () => {
   /** 💡 Get a handle on a space instance 💡 */
-  const { enter } = useSpace();
+  const { space } = useSpace();
 
   /** 💡 Enter the space as soon as it's available 💡 */
   useEffect(() => {
-    enter?.({
+    space?.enter({
       memberName: getMemberName(),
       memberColor: getLocationColors(),
     });
-  }, [enter]);
+  }, [space]);
 
   return (
     <div

@@ -13,12 +13,12 @@ const AvatarStack = () => {
   const memberColor = useMemo(getMemberColor, []);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const { enter } = useSpace();
+  const { space } = useSpace();
 
   /** 💡 Enter the space as soon as it's available 💡 */
   useEffect(() => {
-    enter?.({ name, memberColor });
-  }, [enter]);
+    space?.enter({ name, memberColor });
+  }, [space]);
 
   /** 💡 Get everybody except the local member in the space and the local member 💡 */
   const { others, self } = useMembers();

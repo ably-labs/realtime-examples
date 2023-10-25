@@ -14,7 +14,7 @@ const MemberLocation = () => {
   const memberColor = useMemo(getLocationColors, []);
 
   /** 💡 Get a handle on a space instance 💡 */
-  const { enter } = useSpace();
+  const { space, enter } = useSpace();
 
   const { self, others } = useMembers();
 
@@ -22,8 +22,8 @@ const MemberLocation = () => {
 
   /** 💡 Enter the space as soon as it's available 💡 */
   useEffect(() => {
-    enter?.({ memberName, memberColor });
-  }, [enter]);
+    space?.enter({ memberName, memberColor });
+  }, [space]);
 
   return (
     <div
