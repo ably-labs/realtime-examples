@@ -63,7 +63,7 @@ const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
             <DocumentDuplicateIcon className={styles.infoControlDarkIcon} />
             {isCopied ? "Copied!" : "Copy Link"}
           </button>
-          <a className={styles.infoControlDark} href={projectInfo.docsLink}>
+          <a className={styles.infoControlDark} href={projectInfo.docsLink}  target="_blank">
             <CodeBracketIcon
               className={styles.infoControlDarkIconCodeBracket}
             />
@@ -74,6 +74,7 @@ const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
         <a
           className={styles.infoControlDark}
           href={`https://github.com/ably-labs/${projectInfo.repoNameAndPath}`}
+          target="_blank"
         >
           <span className={styles.infoControlGithubLogo}>
             <GitHubLogo />
