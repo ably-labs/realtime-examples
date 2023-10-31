@@ -1,8 +1,12 @@
 /* Individual examples load a similar container class, 
    but we don't include their CSS in the root app so need to define it here */
 .example-container {
-  @apply w-full rounded-2xl flex justify-center items-center relative;
-
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
   background-color: #f4f8fb;
   height: auto;
+  width: 100%;
 }

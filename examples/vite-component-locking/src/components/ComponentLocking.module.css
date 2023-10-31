@@ -1,0 +1,15 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #f4f8fb;
+  height: 100vh;
+}
+
+.inner {
+  width: 100%;
+  max-width: 320px;
+  padding: 1rem 0.5rem;
+}

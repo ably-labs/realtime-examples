@@ -1,0 +1,46 @@
+.container {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 2px solid #cbd5e0;
+}
+
+.statusIndicator {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.userList {
+  padding-left: 0.75rem;
+  width: 100%;
+}
+
+.name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin: 0 0 2px 0;
+}
+
+.statusIndicatorText {
+  font-weight: 500;
+  font-size: 0.75rem;
+  margin: 0 0 0 0.3rem;
+  color: #89929f;
+}
+
+.smallText {
+  font-size: 0.75rem;
+}

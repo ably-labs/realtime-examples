@@ -2,8 +2,6 @@ import Spaces from "@ably/spaces";
 import { SpaceProvider, SpacesProvider } from "@ably/spaces/react";
 import ComponentLocking from "./components/ComponentLocking";
 
-import "./styles/styles.css";
-
 const App = ({ spaces }: { spaces: Spaces }) => (
   <SpacesProvider client={spaces}>
     <SpaceProvider name="component-locking">

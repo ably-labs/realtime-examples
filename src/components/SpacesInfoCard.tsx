@@ -12,6 +12,8 @@ import type { ProjectInfo } from "../utils/types";
 import AblyLogo from "./AblyLogo";
 import GitHubLogo from "./GitHubLogo";
 
+import styles from "./SpacesInfoCard.module.css";
+
 const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   projectInfo,
 }) => {
@@ -31,56 +33,55 @@ const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   };
 
   return (
-    <div className="space-y-4">
-      <div className="text-slate-200 text-sm pb-2">
+    <div>
+      <div className={styles.descriptionWrapper}>
         {projectInfo.description}
         {projectInfo.learnMore ? (
           <div>
             <a
-              className="text-slate-200 text-sm underline"
+              className={styles.infoLearnMore}
               href={`https://ably.com/examples/${projectInfo.topic}?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
               target="_blank"
             >
-              Learn more.
+              Learn more
             </a>
+            .
           </div>
         ) : null}
       </div>
-      <div className="space-y-4 text-sm">
+      <div className={styles.infoControls}>
         <a
-          className="flex justify-center items-center bg-white hover:bg-slate-100 active:bg-slate-200 focus:border-blue-500 focus:border-2 rounded py-3 md:flex-grow font-medium"
+          className={styles.infoControlLight}
           href={window.location.href}
           target="_blank"
         >
           Open in new window
-          <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-2 text-orange-600" />
+          <ArrowTopRightOnSquareIcon className={styles.infoControlOrangeIcon} />
         </a>
-        <div className="flex flex-row space-x-4 md:space-y-4 md:space-x-0 md:flex-col">
-          <button
-            className="flex justify-center items-center bg-slate-700 hover:bg-slate-600 active:bg-slate-500 focus:border-blue-500 focus:border-2 rounded py-3 w-full text-white font-medium"
-            onClick={handleCopyClick}
-          >
-            <DocumentDuplicateIcon className="h-4 w-4 mr-1 text-slate-300" />
+        <div className={styles.infoControlCollapse}>
+          <button className={styles.infoControlDark} onClick={handleCopyClick}>
+            <DocumentDuplicateIcon className={styles.infoControlDarkIcon} />
             {isCopied ? "Copied!" : "Copy Link"}
           </button>
-          <a
-            className="flex justify-center items-center bg-slate-700 hover:bg-slate-600 active:bg-slate-500  focus:border-blue-500 focus:border-2 rounded py-3 w-full text-white font-medium"
-            href={projectInfo.docsLink}
-          >
-            <CodeBracketIcon className="h-4 w-4 mr-1 text-slate-300" />
+          <a className={styles.infoControlDark} href={projectInfo.docsLink}>
+            <CodeBracketIcon
+              className={styles.infoControlDarkIconCodeBracket}
+            />
             View docs
-            <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-2 text-slate-300" />
+            <ArrowTopRightOnSquareIcon className={styles.infoControlDarkIcon} />
           </a>
         </div>
         <a
-          className="flex justify-center items-center bg-slate-700 hover:bg-slate-600 active:bg-slate-500  focus:border-blue-500 focus:border-2 text-white rounded py-3 md:flex-grow font-medium"
+          className={styles.infoControlDark}
           href={`https://github.com/ably-labs/${projectInfo.repoNameAndPath}`}
         >
-          <span className="h-4 w-4 ml-2">
+          <span className={styles.infoControlGithubLogo}>
             <GitHubLogo />
           </span>
-          <span className="ml-2">View source on GitHub</span>
-          <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-2 text-slate-300" />
+          <span className={styles.infoControlViewControls}>
+            View source on GitHub
+          </span>
+          <ArrowTopRightOnSquareIcon className={styles.infoControlDarkIcon} />
         </a>
       </div>
     </div>
@@ -104,40 +105,40 @@ const SpacesInfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   }, []);
 
   return (
-    <div className="bg-slate-800 flex flex-col shadow-xl overflow-y-auto rounded-2xl w-full">
-      <div className="p-5 border-b border-b-slate-700 md:border-b-0">
+    <div className={styles.card}>
+      <div className={styles.cardTop}>
         <div>
-          <div className="flex justify-between text-white ">
-            <h2 className="md:mb-4 font-semibold">{projectInfo.name}</h2>
+          <div className={styles.cardTopWrapper}>
+            <h2 className={styles.cardTitle}>{projectInfo.name}</h2>
             {isMobile ? (
               <button
-                className="text-sm"
+                className={styles.cardTitleBtn}
                 onClick={() => setExpanded(!expanded)}
               >
                 {expanded ? "Less" : "More"} info
                 <ChevronUpIcon
-                  className={`inline-block h-4 w-4 ml-2 text-slate-500 ${
-                    expanded ? "rotate-180" : ""
+                  className={`${styles.cardTitleBtnIcon} ${
+                    expanded ? styles.cardTitleBtnIconRotate : ""
                   }`}
                 />
               </button>
             ) : null}
           </div>
         </div>
-        <div className={expanded ? "mt-4" : ""}>
+        <div className={expanded ? styles.expandedSectionWrapper : ""}>
           {expanded || !isMobile ? (
             <ExpandedInfoSection projectInfo={projectInfo} />
           ) : null}
         </div>
       </div>
-      <div className="flex justify-between items-center text-white  py-6 px-6 mt-auto">
+      <div className={styles.ably}>
         <AblyLogo />
         <a
           href={`https://ably.com/examples?utm_source=ably-labs&utm_medium=demo&utm_campaign=${projectInfo.topic}`}
-          className="group flex text-sm ml-2 items-center font-medium"
+          className={styles.viewAllExamples}
         >
           View all examples
-          <ArrowRightIcon className="h-4 w-4 ml-1 text-orange-600 transition-transform group-hover:translate-x-2" />
+          <ArrowRightIcon className={styles.viewAllExamplesIcon} />
         </a>
       </div>
     </div>

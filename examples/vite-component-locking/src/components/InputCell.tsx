@@ -1,9 +1,10 @@
 import React, { useCallback, useRef } from "react";
 import cn from "classnames";
 import { useOnClickOutside } from "usehooks-ts";
-import { getCellStylesForMember } from "../utils/helpers";
 import { LockFilledSvg } from "./LockedFilled";
 import { type Member } from "../utils/types";
+
+import styles from "./InputCell.module.css";
 
 interface InputCellProps {
   value: string;
@@ -49,18 +50,18 @@ const InputCell: React.FC<InputCellProps> = ({
   const readOnly = Boolean(lockHolder && !lockedByYou);
 
   return (
-    <div ref={ref} className="flex flex-col mb-4 w-full">
-      <label htmlFor={name} className="mb-2 text-sm">
+    <div ref={ref} className={styles.container}>
+      <label htmlFor={name} className={styles.label}>
         {label}
       </label>
       <div
-        className="relative"
+        className={styles.inputContainer}
         style={{ "--member-bg-color": memberColor } as CSSPropertiesWithVars}
       >
         {memberName ? (
-          <div className="member-name-lock">
+          <div className={styles.lock}>
             {memberName}
-            {!lockedByYou && <LockFilledSvg className="text-base" />}
+            {!lockedByYou && <LockFilledSvg className={styles.textBase} />}
           </div>
         ) : null}
         <input
@@ -71,15 +72,12 @@ const InputCell: React.FC<InputCellProps> = ({
           onFocus={onFocus}
           disabled={readOnly}
           placeholder="Click to lock and edit me"
-          className={cn(
-            `p-2 w-full h-10 text-sm rounded-lg outline-none transition-colors hover:bg-white focus:bg-white ${getCellStylesForMember(
-              lockHolder,
-            )}`,
-            {
-              "bg-[#EDF1F6]": !readOnly,
-              "bg-slate-250 hover:bg-slate-250 cursor-not-allowed": readOnly,
-            },
-          )}
+          className={cn(styles.input, {
+            [styles.regularCell]: !lockHolder,
+            [styles.activeCell]: lockHolder,
+            [styles.fullAccess]: !readOnly,
+            [styles.readOnly]: readOnly,
+          })}
         />
       </div>
     </div>

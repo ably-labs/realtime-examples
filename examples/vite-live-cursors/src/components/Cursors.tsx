@@ -6,6 +6,8 @@ import CursorSvg from "./CursorSvg";
 import useTrackCursor from "../hooks/useTrackCursor";
 import { Member } from "../utils/types";
 
+import styles from "./Cursors.module.css";
+
 // 💡 This component is used to render the cursor of the user
 const YourCursor = ({
   self,
@@ -24,11 +26,11 @@ const YourCursor = ({
     return null;
   }
   if (cursorPosition.state === "leave") return null;
-  const { cursorColor, nameColor } = self.profileData.userColors;
+  const { cursorColor } = self.profileData.userColors;
 
   return (
     <div
-      className="absolute"
+      className={styles.cursor}
       onMouseMove={(e) => handleSelfCursorMove(e)}
       style={{
         top: `${cursorPosition.top}px`,
@@ -37,7 +39,8 @@ const YourCursor = ({
     >
       <CursorSvg cursorColor={cursorColor} />
       <div
-        className={`px-4 py-2 m-2 ${nameColor} rounded-full text-sm text-white whitespace-nowrap`}
+        style={{ backgroundColor: cursorColor }}
+        className={styles.cursorName}
       >
         You
       </div>
@@ -59,12 +62,12 @@ const MemberCursors = () => {
         const cursorUpdate = data.cursorUpdate as CursorUpdate;
         const member = data.member as Member;
         if (cursorUpdate.data.state === "leave") return;
-        const { cursorColor, nameColor } = member.profileData.userColors;
+        const { cursorColor } = member.profileData.userColors;
         return (
           <div
             key={member.connectionId}
             id={`member-cursor-${member.connectionId}`}
-            className="absolute"
+            className={styles.cursor}
             style={{
               left: `${cursorUpdate.position.x}px`,
               top: `${cursorUpdate.position.y}px`,
@@ -72,7 +75,8 @@ const MemberCursors = () => {
           >
             <CursorSvg cursorColor={cursorColor} />
             <div
-              className={`px-4 py-2 m-2 ${nameColor} rounded-full text-sm text-white whitespace-nowrap member-cursor`}
+              style={{ backgroundColor: cursorColor }}
+              className={`${styles.cursorName} member-cursor`}
             >
               {member.profileData.name}
             </div>

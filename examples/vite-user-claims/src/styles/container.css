@@ -1,6 +1,0 @@
-.user-claims-container {
-  @apply w-full flex justify-center items-center relative flex-col;
-
-  background-color: #f4f8fb;
-  height: 100vh;
-}

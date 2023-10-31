@@ -6,6 +6,8 @@ import { MemberCursors, YourCursor } from "./Cursors";
 
 import type { Member } from "../utils/types";
 
+import styles from "./LiveCursors.module.css";
+
 /** 💡 Select a mock name to assign randomly to a new user that enters the space💡 */
 const mockName = () => mockNames[Math.floor(Math.random() * mockNames.length)];
 
@@ -32,7 +34,7 @@ const LiveCursors = () => {
     <div
       id="live-cursors"
       ref={liveCursors}
-      className="live-cursors-container example-container"
+      className={`example-container ${styles.liveCursorsContainer}`}
     >
       <YourCursor self={self as Member | null} parentRef={liveCursors} />
       <MemberCursors />

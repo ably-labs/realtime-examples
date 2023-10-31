@@ -2,6 +2,8 @@ import Cell from "./Cell";
 import { cellData } from "../utils/cellData";
 import { type Member } from "../utils/types";
 
+import styles from "./Spreadsheet.module.css";
+
 const Spreadsheet = ({
   self,
   others,
@@ -16,14 +18,11 @@ const Spreadsheet = ({
   };
 
   return (
-    <table className="max-w-[360px] min-w-[290px] w-1/2 border-gray-350 border-[0.25px] border-separate border-spacing-0 bg-slate-150 text-xs text-left">
+    <table className={styles.sheet}>
       <tbody>
         {cellData.map((row: string[], rowIndex: number) => (
           <tr key={rowIndex}>
-            <td
-              key={rowIndex}
-              className="w-[10%] px-2 py-2 h-10 bg-slate-250 border-gray-350 border-[0.25px] text-center"
-            >
+            <td key={rowIndex} className={styles.td}>
               {rowIndex + 1}
             </td>
 
