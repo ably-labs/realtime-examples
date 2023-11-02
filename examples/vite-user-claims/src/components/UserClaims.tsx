@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { ElementRef, useEffect, useReducer, useRef, useState } from "react";
 import { useChannel } from "ably/react";
 import { Types } from "ably";
 import {
@@ -106,6 +106,7 @@ const UserClaims = ({
   const [loading, setLoading] = useState(false);
   const [messages, dispatchMessage] = useReducer(messageReducer, []);
   const { channel, ably } = useChannel(channelName, handleMessage);
+  const scrollRef = useRef<ElementRef<"div">>(null);
 
   // 💡 Effect to replay the message history, and add an initial message to new sessions
   useEffect(() => {
@@ -129,6 +130,11 @@ const UserClaims = ({
     };
   }, []);
 
+  // call the scrollIntoView method on the element, which scrolls the element into the visible area of the browser window
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages.length]);
+
   return (
     <div className={styles.container}>
       <div
@@ -147,6 +153,7 @@ const UserClaims = ({
               key={m.id}
             />
           ))}
+           <div ref={scrollRef} />
         </div>
         <div className={styles.bar}>
           <input
