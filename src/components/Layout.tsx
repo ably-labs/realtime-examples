@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useSearchParams } from "react-router-dom";
 
 import InfoCard from "./InfoCard";
 import SpacesInfoCard from "./SpacesInfoCard";
@@ -18,6 +18,11 @@ const Layout = () => {
   });
 
   const oldLayouts = ["emoji-reactions", "user-claims", "realtime-examples"];
+  const [searchParams] = useSearchParams();
+
+  if (searchParams.get('layout') === 'false') {
+    return <Outlet context={{ setProjectInfo }} />;
+  }
 
   return oldLayouts.includes(projectInfo.topic) ? (
     <main className={styles.oldLayout}>

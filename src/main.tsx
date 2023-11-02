@@ -15,7 +15,6 @@ import MemberLocation from "./routes/MemberLocation";
 import ComponentLocking from "./routes/ComponentLocking";
 
 import "./styles/global.css";
-import "./styles/container.css";
 
 const client = new Realtime.Promise({
   clientId: nanoid(),
