@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/20/solid";
 
 import styles from "./InfoCard.module.css";
+import "../styles/container.css";
 
 const InfoCard: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   projectInfo,

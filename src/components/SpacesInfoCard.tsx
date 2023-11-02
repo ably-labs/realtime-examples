@@ -13,6 +13,7 @@ import AblyLogo from "./AblyLogo";
 import GitHubLogo from "./GitHubLogo";
 
 import styles from "./SpacesInfoCard.module.css";
+import "../styles/container.css";
 
 const ExpandedInfoSection: FunctionComponent<{ projectInfo: ProjectInfo }> = ({
   projectInfo,

@@ -20,12 +20,11 @@ const YourCursor = ({
     left: number;
     top: number;
     state: string;
-  }>({ left: 0, top: 0, state: "move" });
+  } | null>(null);
   const handleSelfCursorMove = useTrackCursor(setCursorPosition, parentRef);
-  if (!self) {
-    return null;
-  }
-  if (cursorPosition.state === "leave") return null;
+  if (!self) return null;
+  if (!cursorPosition || cursorPosition.state === "leave") return null;
+
   const { cursorColor } = self.profileData.userColors;
 
   return (
@@ -33,8 +32,8 @@ const YourCursor = ({
       className={styles.cursor}
       onMouseMove={(e) => handleSelfCursorMove(e)}
       style={{
-        top: `${cursorPosition.top}px`,
-        left: `${cursorPosition.left}px`,
+        top: `${cursorPosition?.top || 0}px`,
+        left: `${cursorPosition?.left || 0}px`,
       }}
     >
       <CursorSvg cursorColor={cursorColor} />
