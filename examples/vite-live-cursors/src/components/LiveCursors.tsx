@@ -36,6 +36,7 @@ const LiveCursors = () => {
       ref={liveCursors}
       className={`example-container ${styles.liveCursorsContainer}`}
     >
+      <p>Move your cursor over the screen to see live cursors in action</p>
       <YourCursor self={self as Member | null} parentRef={liveCursors} />
       <MemberCursors />
     </div>
