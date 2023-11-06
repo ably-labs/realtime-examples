@@ -25,14 +25,14 @@ const Layout = () => {
   }
 
   return oldLayouts.includes(projectInfo.topic) ? (
-    <main className={styles.oldLayout}>
+    <main id="full-layout" className={styles.oldLayout}>
       <Outlet context={{ setProjectInfo }} />
       <div className={styles.oldLayoutWrapper}>
         <InfoCard projectInfo={projectInfo} />
       </div>
     </main>
   ) : (
-    <main className={styles.layout}>
+    <main id="full-layout" className={styles.layout}>
       <div className={styles.cardWrapper}>
         <SpacesInfoCard projectInfo={projectInfo} />
       </div>

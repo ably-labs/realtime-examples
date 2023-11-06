@@ -1,6 +1,6 @@
 /* Individual examples load a similar container class, 
    but we don't include their CSS in the root app so need to define it here */
-div.example-container {
+#full-layout .example-container {
   display: flex;
   position: relative;
   justify-content: center;
