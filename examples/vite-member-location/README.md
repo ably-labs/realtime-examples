@@ -1,6 +1,6 @@
 ## Overview
 
-![Member location Start screen](../images/members-location.png)
+![Member location Start screen](./images/members-location.png)
 
 This folder contains the code for the Member location - a demo of how you can leverage [Ably Spaces](https://github.com/ably-labs/spaces) to show the current location of all users in a space.
 
