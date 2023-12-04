@@ -9,11 +9,14 @@ export const useLiveValue = (componentName: string, self: Member | null) => {
   const [value, setValue] = useState("");
 
   /** 💡 Use rewind to get the last message from the channel. See https://ably.com/docs/channels/options/rewind 💡 */
-  const channelName = `[?rewind=1]${getSpaceNameFromUrl()}-${componentName}`;
-  const { channel } = useChannel(channelName, (message: Types.Message) => {
-    if (message.connectionId === self?.connectionId) return;
-    setValue(message.data);
-  });
+  const channelName = `${getSpaceNameFromUrl()}-${componentName}`;
+  const { channel } = useChannel(
+    { channelName, options: { params: { rewind: "1" } } },
+    (message: Types.Message) => {
+      if (message.connectionId === self?.connectionId) return;
+      setValue(message.data);
+    },
+  );
 
   const handleChange = useCallback(
     (nextValue: string) => {
